@@ -67,7 +67,7 @@
     { keys: 's', type: 'keyToKey', toKeys: 'c', context: 'visual'},
     { keys: 'S', type: 'keyToKey', toKeys: 'cc', context: 'normal' },
     { keys: 'S', type: 'keyToKey', toKeys: 'VdO', context: 'visual' },
-    { keys: '<Home>', type: 'keyToKey', toKeys: '0' },
+    { keys: '<home>', type: 'keyToKey', toKeys: '0' },
     { keys: '<End>', type: 'keyToKey', toKeys: '$' },
     { keys: '<PageUp>', type: 'keyToKey', toKeys: '<C-b>' },
     { keys: '<PageDown>', type: 'keyToKey', toKeys: '<C-f>' },
