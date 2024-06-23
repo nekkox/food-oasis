@@ -116,14 +116,28 @@
 <!--main/custom js-->
 <script src="{{asset('frontend/js/main.js')}}"></script>
 
+<!--show dynamic validation message-->
 <script>
-    toastr.options.positionClass="toast-bottom-right"
+
+    toastr.options.positionClass = "toast-bottom-right"
     @if($errors->any())
     @foreach($errors->all() as $error)
 
     toastr.error("{{$error}}")
 
     @endforeach
+    @endif
+
+    @php
+        $currentRoute = Route::currentRouteName();
+    @endphp
+
+    @if($currentRoute === 'register')
+    console.log('hello from register page!!');
+    @elseif($currentRoute === 'login')
+    console.log('hello from login page!!');
+    @else
+    console.log('default')
     @endif
 </script>
 

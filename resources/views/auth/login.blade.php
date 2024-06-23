@@ -51,7 +51,7 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{asset('frontend/images/counter_bg.jpg')}});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -72,7 +72,7 @@
     <!--=========================
         SIGNIN START
     ==========================-->
-    <section class="fp__signin" style="background: url(images/login_bg.jpg);">
+    <section class="fp__signin" style="background: url({{asset('frontend/images/login_bg.jpg')}});">
         <div class="fp__signin_overlay pt_125 xs_pt_95 pb_100 xs_pb_70">
             <div class="container">
                 <div class="row wow fadeInUp" data-wow-duration="1s">
@@ -131,7 +131,7 @@
                                 <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
                             </ul>
-                            <p class="create_account">Dont’t have an aceount ? <a href="sign_up.html">Create Account</a>
+                            <p class="create_account">Dont’t have an account ? <a href="{{route('register')}}">Create Account</a>
                             </p>
                         </div>
                     </div>
