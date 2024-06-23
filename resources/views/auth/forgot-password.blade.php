@@ -59,6 +59,7 @@
                     <div class="fp__login_area">
                         <h2>Welcome back!</h2>
                         <p>forgot password</p>
+
                         <form method="POST" action="{{ route('password.email') }}">
                             @csrf
                             <div class="row">
