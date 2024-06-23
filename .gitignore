@@ -20,3 +20,4 @@ yarn-error.log
 /.vscode
 /resources/views/admin-template
 /resources/views/frontend-template
+/public/vendor/flasher

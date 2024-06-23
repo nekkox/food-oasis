@@ -104,7 +104,6 @@
                                         </div>
                                     </div>
 
-
                                     <!-- Remember Me -->
                                     <div class="col-xl-12">
                                         <div class="fp__login_imput fp__login_check_area">
