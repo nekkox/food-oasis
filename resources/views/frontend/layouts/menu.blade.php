@@ -33,9 +33,9 @@
                         <li><a href="search_menu.html">search result</a></li>
                         <li><a href="404.html">404/Error</a></li>
                         <li><a href="faq.html">FAQs</a></li>
-                        <li><a href="sign_in.html">sign in</a></li>
-                        <li><a href="sign_up.html">sign up</a></li>
-                        <li><a href="forgot_password.html">forgot password</a></li>
+                        <li><a href="{{route('login')}}">sign in</a></li>
+                        <li><a href="{{route('register')}}">sign up</a></li>
+                        <li><a href="{{route('password.request')}}">forgot password</a></li>
                         <li><a href="privacy_policy.html">privacy policy</a></li>
                         <li><a href="terms_condition.html">terms and condition</a></li>
                     </ul>

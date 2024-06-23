@@ -57,8 +57,8 @@
                 <div class="fp__breadcrumb_text">
                     <h1>sign in</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="#">sign in</a></li>
+                        <li><a href="{{route('home')}}">home</a></li>
+                        <li><a href="{{route('login')}}">sign in</a></li>
                     </ul>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                                                            id="remember_me" name="remember" value="" style="margin-left: 10px"> Remember Me
                                                 </label>
                                             </div>
-                                            <a href="forgot_password.html">Forgot Password ?</a>
+                                            <a href="{{route('password.request')}}">Forgot Password ?</a>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
