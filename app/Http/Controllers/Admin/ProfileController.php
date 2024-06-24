@@ -20,6 +20,7 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileUpdateRequest $request): RedirectResponse
     {
+        dd($request->all());
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;
