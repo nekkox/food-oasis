@@ -66,17 +66,30 @@
 <script src={{asset("admin/assets/js/scripts.js")}}></script>
 <script src={{asset("admin/assets/js/custom.js")}}></script>
 
+<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}}></script>
 <!--show dynamic validation message-->
 <script>
-
     toastr.options.positionClass = "toast-bottom-right"
     @if($errors->any())
-    @foreach($errors->all() as $error)
-
-    toastr.error("{{$error}}")
-
-    @endforeach
+        @foreach($errors->all() as $error)
+            toastr.error("{{$error}}")
+        @endforeach
     @endif
+</script>
+
+<script>
+
+    //jquery plugin implemented to the backend
+    $.uploadPreview({
+        input_field: "#image-upload",   // Default: .image-upload
+        preview_box: "#image-preview",  // Default: .image-preview
+        label_field: "#image-label",    // Default: .image-label
+        label_default: "Choose File",   // Default: Choose File
+        label_selected: "Change File",  // Default: Change File
+        no_label: false,                // Default: false
+        success_callback: null          // Default: null
+    });
+
 
 </script>
 </body>
