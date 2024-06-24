@@ -13,10 +13,47 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h4>Update User Settings</h4>
-
                     </div>
                     <div class="card-body">
-                        <p>Write something here</p>
+                       <form action="{{route('admin.profile.update')}}" method="POST">
+                           @csrf
+                           @method('PUT')
+                           <div class="form-group">
+                               <label>Name</label>
+                               <input type="text" name="name" class="form-control" value="{{auth()->user()->name}}">
+                           </div>
+                           <div class="form-group">
+                               <label>Email</label>
+                               <input type="text" name="email" class="form-control" value="{{auth()->user()->email}}">
+                           </div>
+                           <button class="btn btn-primary" type="submit">Save</button>
+
+                       </form>
+                    </div>
+                </div>
+
+
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4>Update Password</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="">
+                            <div class="form-group">
+                                <label for="password_current">Current Password</label>
+                                <input id="password_current" type="text" name="password_current" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password_new">New Password</label>
+                                <input id="password_new" type="text" name="password_new" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirm Password</label>
+                                <input type="text" id="password_confirmation" name="password_confirmation" class="form-control">
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
                     </div>
                 </div>
 
