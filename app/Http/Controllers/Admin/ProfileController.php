@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProfilePasswordUpdateRequest;
 use App\Http\Requests\Admin\ProfileUpdateRequest;
 use App\Models\User;
+use App\Traits\FileUploadTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    use FileUploadTrait;
+
     public function index(): View
     {
         return view('admin.profile.index');
@@ -20,12 +23,15 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileUpdateRequest $request): RedirectResponse
     {
-        dd($request->all());
+
         $user = Auth::user();
+        $imagePath = $this->uploadImage($request, 'image');
+
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->avatar = isset($imagePath) ? $imagePath : $user->avatar;
         $user->save();
-        toastr('Updated Successfully', 'success',[ "positionClass"=> "toast-bottom-center"]);
+        toastr('Updated Successfully', 'success', ["positionClass" => "toast-bottom-center"]);
         return redirect()->back();
     }
 
@@ -34,7 +40,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->password = bcrypt($request->password);
         $user->save();
-        toastr('Password Updated Successfully', 'success',[ "positionClass"=> "toast-bottom-center"]);
+        toastr('Password Updated Successfully', 'success', ["positionClass" => "toast-bottom-center"]);
         return redirect()->back();
     }
 
