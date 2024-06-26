@@ -12,9 +12,9 @@
 
             <div class="card-body">
 
-                <form action="">
-
-                    <div class="form-group">
+                <form action="{{route('admin.slider.store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group" >
                         <label>Image</label>
                         <div id="image-preview" class="image-preview">
                             <label for="image-upload" id="image-label">Choose File</label>
@@ -65,3 +65,24 @@
     </section>
 @endsection
 
+@push('scripts')
+
+
+
+        <script>
+            //jquery plugin implemented to the backend
+            $.uploadPreview({
+                input_field: "#image-upload",   // Default: .image-upload
+                preview_box: "#image-preview",  // Default: .image-preview
+                label_field: "#image-label",    // Default: .image-label
+                label_default: "Choose File",   // Default: Choose File
+                label_selected: "Change File",  // Default: Change File
+                no_label: false,                // Default: false
+                success_callback: null          // Default: null
+            });
+        </script>
+
+
+
+
+@endpush
