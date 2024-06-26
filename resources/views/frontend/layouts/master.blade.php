@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi"/>
+    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
     <title>FoodPark || Restaurant Template</title>
     <link rel="icon" type="image/png" href="{{asset('frontend/images/favicon.png')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/all.min.css')}}">
@@ -120,6 +121,7 @@
 <!--show dynamic validation message-->
 <script>
 
+
     toastr.options.positionClass = "toast-bottom-right"
     @if($errors->any())
     @foreach($errors->all() as $error)
@@ -129,17 +131,11 @@
     @endforeach
     @endif
 
-    @php
-        $currentRoute = Route::currentRouteName();
-    @endphp
-
-    @if($currentRoute === 'register')
-    console.log('hello from register page!!');
-    @elseif($currentRoute === 'login')
-    console.log('hello from login page!!');
-    @else
-    console.log('default')
-    @endif
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 </script>
 @stack('scripts')
 </body>
