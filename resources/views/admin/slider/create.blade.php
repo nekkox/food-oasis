@@ -67,8 +67,6 @@
 
 @push('scripts')
 
-
-
         <script>
             //jquery plugin implemented to the backend
             $.uploadPreview({
@@ -81,8 +79,5 @@
                 success_callback: null          // Default: null
             });
         </script>
-
-
-
 
 @endpush

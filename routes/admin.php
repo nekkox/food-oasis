@@ -18,10 +18,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     /*Slider Routes*/
-    Route::get('slider',[SliderController::class, 'index'])->name('slider.index');
+    Route::resources([
+        'slider' => SliderController::class,
+    ]);
+
+    /*Route::get('slider',[SliderController::class, 'index'])->name('slider.index');
     Route::get('slider/create',[SliderController::class, 'create'])->name('slider.create');
     Route::post('slider',[SliderController::class, 'store'])->name('slider.store');
     Route::get('slider/edit/{id}',[SliderController::class, 'edit'])->name('slider.edit');
+    Route::put('slider/update/{id}',[SliderController::class, 'update'])->name('slider.update');*/
 
 });
 
