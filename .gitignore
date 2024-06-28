@@ -21,3 +21,4 @@ yarn-error.log
 /resources/views/admin-template
 /resources/views/frontend-template
 /public/vendor/flasher
+/public/uploads

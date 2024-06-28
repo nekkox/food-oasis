@@ -3,21 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>General Dashboard &mdash; Stisla</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>{{ config('settings.site_name') }} | Dashboard</title>
+
 
     <!-- General CSS Files -->
-    <link rel="stylesheet" href={{asset("admin/assets/modules/bootstrap/css/bootstrap.min.css")}}>
-    <link rel="stylesheet" href={{asset("admin/assets/modules/fontawesome/css/all.min.css")}}>
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/fontawesome/css/all.min.css') }}">
+
+
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
 
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href={{asset("admin/assets/css/style.css")}}>
-    <link rel="stylesheet" href={{asset("admin/assets/css/components.css")}}>
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
 
-    <link rel="stylesheet" href="{{asset('admin/assets/css/toastr.min.css')}}">
-    <link rel="stylesheet" href="//cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    {{--
+        <!-- General CSS Files -->
+        <link rel="stylesheet" href={{asset("admin/assets/modules/bootstrap/css/bootstrap.min.css")}}>
+        <link rel="stylesheet" href={{asset("admin/assets/modules/fontawesome/css/all.min.css")}}>
+
+
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="{{asset('admin/assets/css/toastr.min.css')}}">
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" defer>
+
+        <link rel="stylesheet" href={{asset("admin/assets/css/style.css")}}>
+        <link rel="stylesheet" href={{asset("admin/assets/css/components.css")}}>
+
+
+
+        <!-- Start GA -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>--}}
+
+
+
+
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -29,7 +52,9 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
-    <!-- /END GA --></head>
+    <!-- /END GA -->
+    @stack('beginScript')
+</head>
 
 <body>
 <div id="app">
@@ -56,20 +81,33 @@
 </div>
 
 <!-- General JS Scripts -->
-<script src={{asset("admin/assets/modules/jquery.min.js")}}></script>
+
+
+<script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
 <script src={{asset("admin/assets/modules/popper.js")}}></script>
 <script src={{asset("admin/assets/modules/tooltip.js")}}></script>
 <script src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>
 <script src={{asset("admin/assets/modules/nicescroll/jquery.nicescroll.min.js")}}></script>
 <script src={{asset("admin/assets/js/stisla.js")}}></script>
 
-<script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
-<script src="//cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+
+
+<script src="{{asset('admin/assets/js/toastr.min.js')}}" ></script>
+<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Template JS File -->
+
 <script src={{asset("admin/assets/js/scripts.js")}}></script>
 <script src={{asset("admin/assets/js/custom.js")}}></script>
 
-<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}}></script>
+
+{{--<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>--}}
+
+
+
 <!--show dynamic validation message-->
 <script>
     toastr.options.positionClass = "toast-bottom-right"
@@ -78,6 +116,47 @@
             toastr.error("{{$error}}")
         @endforeach
     @endif
+</script>
+
+<script>
+    $.uploadPreview({
+        input_field: "#image-upload", // Default: .image-upload
+        preview_box: "#image-preview", // Default: .image-preview
+        label_field: "#image-label", // Default: .image-label
+        label_default: "Choose File", // Default: Choose File
+        label_selected: "Change File", // Default: Change File
+        no_label: false, // Default: false
+        success_callback: null // Default: null
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        $('body').on('click', '.delete-item', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }
+            });
+        })
+    });
+
+
+
 </script>
 
 

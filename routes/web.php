@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Slider;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/profile', [\App\Http\Controllers\Frontend\ProfileController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [\App\Http\Controllers\Frontend\ProfileController::class, 'updatePassword'])->name('profile.password.update');
     Route::post('/profile/avatar', [\App\Http\Controllers\Frontend\ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+
 });
 
 
@@ -41,4 +43,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 //require __DIR__ . '/admin.php';
 
+Route::get('/admin/slider/abc', function () {
+    $slider = Slider::all();
 
+     return response()->json($slider);
+});
