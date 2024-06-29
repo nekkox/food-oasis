@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\WhyChooseUsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,7 +23,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         'slider' => SliderController::class,
     ]);
 
-    Route::get('/slider/all', [SliderController::class, 'allItems']);
+    /*Why Choose Us Routes*/
+    Route::resources(['why-choose-us' => WhyChooseUsController::class]);
 
     /*Route::get('slider',[SliderController::class, 'index'])->name('slider.index');
     Route::get('slider/create',[SliderController::class, 'create'])->name('slider.create');

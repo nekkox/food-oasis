@@ -69,7 +69,7 @@
                                     <div class="img">
                                         <img src="{{asset($slider->image)}}" alt="food item" class="img-fluid w-100">
                                         @if($slider->offer)
-                                            <span style="background: url(images/offer_shapes.png);">
+                                            <span style="background: url({{asset('frontend/images/offer_shapes.png')}});">
                                                 {{$slider->offer}}
                                             </span>
                                         @endif
