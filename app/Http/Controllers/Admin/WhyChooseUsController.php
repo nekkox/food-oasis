@@ -14,13 +14,13 @@ class WhyChooseUsController extends Controller
      */
     public function index(WhyChooseUsDataTable $dataTable)
     {
-        $keys = ['why_choose_us_top_title','why_choose_us_main_title','why_choose_us_sub_title'];
+        $keys = ['why_choose_us_top_title', 'why_choose_us_main_title', 'why_choose_us_sub_title'];
         //get all items that are in $keys array
-        $sectionTitles = SectionTitle::whereIn('key',$keys)->get();
+        $sectionTitles = SectionTitle::whereIn('key', $keys)->get();
         // Create an associative array to map keys to their values
         $titles = $sectionTitles->pluck('value', 'key');
 
-       return $dataTable->render('admin.why-choose-us.index', ['titles' => $titles]);
+        return $dataTable->render('admin.why-choose-us.index', ['titles' => $titles]);
     }
 
     /**
@@ -69,5 +69,28 @@ class WhyChooseUsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function updateTitle(Request $request)
+    {
+        $request->validate([
+            'why_choose_us_top_title' => ['max:100'],
+            'why_choose_us_main_title' => ['max:200'],
+            'why_choose_us_sub_title' => ['max:500']
+        ]);
+        SectionTitle::updateOrCreate(
+            ['key' => 'why_choose_us_top_title'],
+            ['value' => $request->why_choose_us_top_title]
+        );
+        SectionTitle::updateOrCreate(
+            ['key' => 'why_choose_us_main_title'],
+            ['value' => $request->why_choose_us_main_title]
+        );
+        SectionTitle::updateOrCreate(
+            ['key' => 'why_choose_us_sub_title'],
+            ['value' => $request->why_choose_us_sub_title]
+        );
+      //  toastr()->success('Updated Successfully');
+        return redirect()->back()->with('titleUpdated', true);
     }
 }

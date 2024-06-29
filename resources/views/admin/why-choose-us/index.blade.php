@@ -23,18 +23,20 @@
                                 <h4>Why Choose Us Section Titles </h4>
                             </div>
                             <div class="accordion-body collapse show" id="panel-body-1" data-parent="#accordion">
-                               <form >
+                               <form action="{{route('admin.why-choose-us-title.update')}}" method="post">
+                                   @csrf
+                                   @method('put')
                                    <div class="form-group">
                                        <label for="">Top Title</label>
-                                       <input type="text" class="form-control" name="why_choose_us_top_title" value="{{$titles['why_choose_us_top_title']}}">
+                                       <input type="text" class="form-control" name="why_choose_us_top_title" value="{{$titles['why_choose_us_top_title'] ?? ''}}">
                                    </div>
                                    <div class="form-group">
                                        <label for="">Main Title</label>
-                                       <input type="text" class="form-control" name="why_choose_us_main_title" value="{{$titles['why_choose_us_main_title']}}">
+                                       <input type="text" class="form-control" name="why_choose_us_main_title" value="{{$titles['why_choose_us_main_title'] ?? ''}}">
                                    </div>
                                    <div class="form-group">
                                        <label for="">Sub Title</label>
-                                       <input type="text" class="form-control" name="why_choose_us_sub_title" value="{{$titles['why_choose_us_sub_title']}}">
+                                       <input type="text" class="form-control" name="why_choose_us_sub_title" value="{{@$titles['why_choose_us_sub_title']}}">
                                    </div>
                                    <button type="submit" class="btn btn-primary">Save</button>
                                </form>
@@ -66,13 +68,13 @@
     </section>
 @endsection
 
-@if(session('created'))
+@if(session('titleUpdated'))
     @push('scripts')
         <script>
             Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Created Successfully",
+                title: "Updated Successfully",
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -80,23 +82,6 @@
     @endpush
 @endif
 
-@if(session('edited'))
-    @push('scripts')
-        <script>
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Edited Successfully",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            //  $('#slider-table').DataTable().draw();
-            // toastr.success('done index');
-
-
-        </script>
-    @endpush
-@endif
 
 @push('scripts')
     {{--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
