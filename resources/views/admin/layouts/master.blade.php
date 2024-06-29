@@ -22,6 +22,7 @@
 
     <script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
     <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>
     {{--    <script defer  src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>--}}
     {{--    <script defer src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>--}}
     {{--    <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
@@ -94,6 +95,7 @@
 
 <script src={{asset("admin/assets/js/scripts.js")}}></script>
 <script src={{asset("admin/assets/js/custom.js")}}></script>--}}
+<script src={{asset("admin/assets/js/stisla.js")}}></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
@@ -107,7 +109,7 @@
 <script src={{asset("admin/assets/modules/tooltip.js")}}></script>
 
 
-<script src={{asset("admin/assets/js/stisla.js")}}></script>
+
 
 
 <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
