@@ -16,6 +16,7 @@ class SliderController extends Controller
 {
     use FileUploadTrait;
 
+
     /**
      * Display a listing of the resource.
      */
@@ -50,9 +51,9 @@ class SliderController extends Controller
         $slider->status = $request->status;
         $slider->save();
 
-        toastr()->success('Created Successfully');
+        //toastr()->success('Created Successfully');
 
-        return to_route('admin.slider.index');
+        return to_route('admin.slider.index')->with('created', true);
     }
 
     /**
@@ -90,9 +91,9 @@ class SliderController extends Controller
         $slider->status = $request->status;
         $slider->save();
 
-        toastr()->success('Updated Successfully');
+        //toastr()->success('Updated Successfully');
 
-        return to_route('admin.slider.index')->with('reload', true);
+        return to_route('admin.slider.index')->with('edited', true);
     }
 
     /**
@@ -100,8 +101,10 @@ class SliderController extends Controller
      */
     public function destroy(string $id)
     {
+
         try {
             $slider = Slider::findOrFail($id);
+            $this->removeImage($slider->image);
             $slider->delete();
             return response(['status' => 'success', 'message' => 'Slider ' . $id . ' Deleted Successfully']);
         } catch (\Exception $e) {

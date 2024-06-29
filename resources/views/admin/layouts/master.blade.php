@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <title>{{ config('settings.site_name') }} | Dashboard</title>
 
 
@@ -13,12 +13,22 @@
 
 
     <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.min.css') }}">
 
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
+
+    <script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
+    <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
+    {{--    <script defer  src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>--}}
+    {{--    <script defer src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>--}}
+    {{--    <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
+    {{--    <script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>--}}
+    {{--    <script defer src={{asset("admin/assets/modules/nicescroll/jquery.nicescroll.min.js")}}></script>--}}
+    {{--    <script defer src={{asset("admin/assets/js/dataTables.min.js")}}></script>--}}
 
     {{--
         <!-- General CSS Files -->
@@ -39,21 +49,6 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>--}}
 
 
-
-
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'UA-94034622-3');
-    </script>
-    <!-- /END GA -->
-    @stack('beginScript')
 </head>
 
 <body>
@@ -80,10 +75,8 @@
     </div>
 </div>
 
-<!-- General JS Scripts -->
 
-
-<script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
+{{--<script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
 <script src={{asset("admin/assets/modules/popper.js")}}></script>
 <script src={{asset("admin/assets/modules/tooltip.js")}}></script>
 <script src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>
@@ -93,14 +86,39 @@
 
 
 <script src="{{asset('admin/assets/js/toastr.min.js')}}" ></script>
-<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js" defer></script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Template JS File -->
 
 <script src={{asset("admin/assets/js/scripts.js")}}></script>
-<script src={{asset("admin/assets/js/custom.js")}}></script>
+<script src={{asset("admin/assets/js/custom.js")}}></script>--}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
+<script defer src={{asset("admin/assets/js/dataTables.min.js")}}></script>
+
+
+<!-- General JS Scripts -->
+
+
+{{--<script src={{asset("admin/assets/modules/popper.js")}}></script>
+<script src={{asset("admin/assets/modules/tooltip.js")}}></script>
+
+
+<script src={{asset("admin/assets/js/stisla.js")}}></script>
+
+
+<script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
+<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
+
+<!-- Template JS File -->
+
+{{--<script src={{asset("admin/assets/js/scripts.js")}}></script>
+<script src={{asset("admin/assets/js/custom.js")}}></script>--}}
 
 
 {{--<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -112,9 +130,9 @@
 <script>
     toastr.options.positionClass = "toast-bottom-right"
     @if($errors->any())
-        @foreach($errors->all() as $error)
-            toastr.error("{{$error}}")
-        @endforeach
+    @foreach($errors->all() as $error)
+    toastr.error("{{$error}}")
+    @endforeach
     @endif
 </script>
 
@@ -131,11 +149,13 @@
 </script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $('body').on('click', '.delete-item', function(e) {
+        $('body').on('click', '.delete-item', function (e) {
             e.preventDefault();
             let url = $(this).attr('href');
+            let item = $(this).closest('.item'); // Assuming each deletable item has a class 'item'
+
             console.log(url);
             Swal.fire({
                 title: "Are you sure?",
@@ -152,17 +172,22 @@
                         url: url,
                         method: 'DELETE',
                         data: {
-                            "_token": $('meta[name="csrf-token"]').attr('content')
+                            _token: "{{csrf_token()}}"
+                            // "_token": $('meta[name="csrf-token"]').attr('content')
                         },
-                        success: function(response) {
-                            if(response.status === 'success') {
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                console.log('deleted');
+                                toastr.success(response.message);
+                                item.remove(); // Remove the deleted item from the DOM
                                 $('#slider-table').DataTable().draw();
-                                toastr.success(response.message)
-                            }else if(response.status === 'error') {
+
+
+                            } else if (response.status === 'error') {
                                 toastr.error(response.message)
                             }
                         },
-                        error: function(error) {
+                        error: function (error) {
                             console.log(error);
                         }
                     });
@@ -172,14 +197,47 @@
     });
 </script>
 
+
+{{--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js" defer></script>--}}
+
+
+
+
+{{--@if(session('reload'))
+    <script>
+        $(document).ready(function () {
+          //  $('#slider-table').DataTable().draw();
+            toastr.success('done');
+        })
+
+    </script>
+
+--}}{{--
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js" defer></script>
+
+<script>
+    $('#slider-table').DataTable().draw();
+    toastr.success('done');
+</script>--}}{{--
+@endif--}}
+
+
+{{--
 <script>
     @if(session('reload'))
-    $('#slider-table').DataTable().draw();
-    @endif
-</script>
+    console.log('reloaded');
 
+
+//window.location.reload();
+ $('#slider-table').DataTable().draw();
+    toastr.success('done');
+    @endif
+</script>--}}
 
 @stack('scripts')
+
 </body>
 </html>
 
