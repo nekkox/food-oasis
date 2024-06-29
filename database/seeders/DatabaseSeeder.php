@@ -6,6 +6,7 @@ use App\Models\Slider;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\WhyChooseUs;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         //Call the UserSeeder Class
         $this->call(UserSeeder::class);
         Slider::factory(5)->create();
-        $this->call(WhyChooseUsSeeder::class);
+        WhyChooseUs::factory(3)->create();
+        $this->call(WhyChooseUsTitleSeeder::class);
     }
 }
