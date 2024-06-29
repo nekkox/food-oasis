@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\WhyChooseU;
+use App\Models\WhyChooseUs;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -29,7 +30,7 @@ class WhyChooseUsDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(WhyChooseU $model): QueryBuilder
+    public function query(WhyChooseUs $model): QueryBuilder
     {
         return $model->newQuery();
     }
