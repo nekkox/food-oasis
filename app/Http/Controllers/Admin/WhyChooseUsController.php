@@ -24,6 +24,8 @@ class WhyChooseUsController extends Controller
         // Create an associative array to map keys to their values
         $titles = $sectionTitles->pluck('value', 'key');
 
+
+
         return $dataTable->render('admin.why-choose-us.index', ['titles' => $titles]);
     }
 
