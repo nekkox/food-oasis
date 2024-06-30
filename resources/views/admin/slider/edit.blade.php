@@ -51,7 +51,7 @@
 
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select id="status" name="status" class="form-control" style="height: 100%;">
+                        <select id="status" name="status" class="form-control" style="height: 40px;">
                             <option @selected($slider->status === 1) value="1">Active</option>
                             <option @selected($slider->status === 0) value="0">Inactive</option>
 

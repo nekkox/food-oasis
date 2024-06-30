@@ -55,17 +55,21 @@ class WhyChooseUsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $WhyChooseUs = WhyChooseUs::findOrFail($id);
+
+        return view('admin.why-choose-us.edit',['WhyChooseUs' => $WhyChooseUs]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(WhyChooseUsCreateRequest $request, string $id) : RedirectResponse
     {
-        //
+        $WhyChooseUs = WhyChooseUs::findOrFail($id);
+        $WhyChooseUs->update($request->validated());
+        return to_route('admin.why-choose-us.index')->with('updated', true);
     }
 
     /**
