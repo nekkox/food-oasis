@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
@@ -26,6 +27,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /*Why Choose Us Routes*/
     Route::put('why-choose-us-title-update', [WhyChooseUsController::class, 'updateTitle'])->name('why-choose-us-title.update');
     Route::resources(['why-choose-us' => WhyChooseUsController::class]);
+
+
+    /*Product Category Routes*/
+    Route::resources(['category' => CategoryController::class]);
 
     /*Route::get('slider',[SliderController::class, 'index'])->name('slider.index');
     Route::get('slider/create',[SliderController::class, 'create'])->name('slider.create');

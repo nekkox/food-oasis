@@ -2,8 +2,6 @@
     <form class="form-inline mr-auto">
         <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
-            <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
-                        class="fas fa-search"></i></a></li>
         </ul>
 
     </form>
@@ -42,13 +40,17 @@
         </li>
     </ul>
 </nav>
+
+
+{{--LEFT SIDEBAR--}}
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Stisla</a>
+            <a href="{{route('admin.dashboard')}}">Stisla</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">St</a>
+
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
@@ -57,8 +59,18 @@
             </li>
 
             <li class="menu-header">Starter</li>
+
             <li><a class="nav-link" href="{{route('admin.slider.index')}}"><i class="far fa-square"></i> <span>Slider</span></a></li>
+
             <li><a class="nav-link" href="{{route('admin.why-choose-us.index')}}"><i class="far fa-square"></i> <span>Why Choose Us</span></a></li>
+
+            <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Manage Restaurant</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{route('admin.category.index')}}">Product Categories</a></li>
+
+                </ul>
+            </li>
 
 
 
