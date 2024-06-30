@@ -23,6 +23,33 @@ class CategoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'category.action')
+            ->addColumn('show_at_home',function ($query){
+                $active = "<span class='badge bg-info text-white'>Yes</span>";
+                $inactive = "<span class='badge bg-danger text-white'>No</span>";
+                if ($query->show_at_home === 1) {
+                    return $active;
+                } else {
+                    return $inactive;
+                }
+            })
+            ->addColumn('status',function ($query){
+                $active = "<span class='badge bg-info text-white'>Active</span>";
+                $inactive = "<span class='badge bg-danger text-white'>InActive</span>";
+                if ($query->status === 1) {
+                    return $active;
+                } else {
+                    return $inactive;
+                }
+            })
+            ->addColumn('action', function ($query) {
+
+                $edit = "<a href='" . route('admin.category.edit', $query->id) . "' class='btn btn-primary' style='margin-right:5px'><i class='fas fa-edit'></i></a>";
+
+                $delete = "<a href='" . route('admin.category.destroy', $query->id) . "' class='btn btn-danger delete-item'><i class='fas fa-trash'></i></a>";
+
+                return $edit . $delete;
+            })
+            ->rawColumns(['show_at_home','status','action'])
             ->setRowId('id');
     }
 
@@ -44,7 +71,7 @@ class CategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -62,15 +89,16 @@ class CategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name'),
+            Column::make('status'),
+            Column::make('show_at_home'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(100)
+                ->addClass('text-center'),
         ];
     }
 

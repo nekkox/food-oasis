@@ -16,12 +16,12 @@
                 </div>
             </div>
             <div class="card-body">
-{{--                {{ $dataTable->table() }}--}}
+              {{ $dataTable->table() }}
             </div>
         </div>
     </section>
 @endsection
 
 @push('scripts')
-{{--    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}--}}
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush
