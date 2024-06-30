@@ -30,7 +30,7 @@ class WhyChooseUsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create() : View
+    public function create(): View
     {
         return view('admin.why-choose-us.create');
     }
@@ -38,9 +38,9 @@ class WhyChooseUsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(WhyChooseUsCreateRequest $request) :RedirectResponse
+    public function store(WhyChooseUsCreateRequest $request): RedirectResponse
     {
-       WhyChooseUs::create($request->validated());
+        WhyChooseUs::create($request->validated());
         return to_route('admin.why-choose-us.index')->with('created', true);
     }
 
@@ -55,17 +55,17 @@ class WhyChooseUsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) : View
+    public function edit(string $id): View
     {
         $WhyChooseUs = WhyChooseUs::findOrFail($id);
 
-        return view('admin.why-choose-us.edit',['WhyChooseUs' => $WhyChooseUs]);
+        return view('admin.why-choose-us.edit', ['WhyChooseUs' => $WhyChooseUs]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(WhyChooseUsCreateRequest $request, string $id) : RedirectResponse
+    public function update(WhyChooseUsCreateRequest $request, string $id): RedirectResponse
     {
         $WhyChooseUs = WhyChooseUs::findOrFail($id);
         $WhyChooseUs->update($request->validated());
@@ -77,7 +77,14 @@ class WhyChooseUsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        try {
+            $WhyChooseUs = WhyChooseUs::findOrFail($id);
+            $WhyChooseUs->delete();
+            return response(['status' => 'success', 'message' => 'Slider ' . $id . ' Deleted Successfully']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' =>'Something went wrong!']);
+        }
     }
 
     public function updateTitle(Request $request)
@@ -99,7 +106,7 @@ class WhyChooseUsController extends Controller
             ['key' => 'why_choose_us_sub_title'],
             ['value' => $request->why_choose_us_sub_title]
         );
-      //  toastr()->success('Updated Successfully');
+        //  toastr()->success('Updated Successfully');
         return redirect()->back()->with('titleUpdated', true);
     }
 }
