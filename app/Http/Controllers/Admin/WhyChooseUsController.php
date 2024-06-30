@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\WhyChooseUsDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\WhyChooseUsCreateRequest;
 use App\Models\SectionTitle;
+use App\Models\WhyChooseUs;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class WhyChooseUsController extends Controller
@@ -26,17 +30,18 @@ class WhyChooseUsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : View
     {
-        //
+        return view('admin.why-choose-us.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(WhyChooseUsCreateRequest $request) :RedirectResponse
     {
-        //
+       WhyChooseUs::create($request->validated());
+        return to_route('admin.why-choose-us.index')->with('created', true);
     }
 
     /**

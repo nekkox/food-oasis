@@ -1,3 +1,7 @@
+DZIAŁĄ
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,48 +10,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <title>{{ config('settings.site_name') }} | Dashboard</title>
 
-
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/modules/fontawesome/css/all.min.css') }}">
 
-
     <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/dataTables.min.css') }}">
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap-iconpicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/summernote/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
-
-    <script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
-    <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
-    <script src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>
-    {{--    <script defer  src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>--}}
-    {{--    <script defer src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>--}}
-    {{--    <script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
-    {{--    <script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>--}}
-    {{--    <script defer src={{asset("admin/assets/modules/nicescroll/jquery.nicescroll.min.js")}}></script>--}}
-    {{--    <script defer src={{asset("admin/assets/js/dataTables.min.js")}}></script>--}}
-
-    {{--
-        <!-- General CSS Files -->
-        <link rel="stylesheet" href={{asset("admin/assets/modules/bootstrap/css/bootstrap.min.css")}}>
-        <link rel="stylesheet" href={{asset("admin/assets/modules/fontawesome/css/all.min.css")}}>
-
-
-        <!-- Template CSS -->
-        <link rel="stylesheet" href="{{asset('admin/assets/css/toastr.min.css')}}">
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" defer>
-
-        <link rel="stylesheet" href={{asset("admin/assets/css/style.css")}}>
-        <link rel="stylesheet" href={{asset("admin/assets/css/components.css")}}>
-
-
-
-        <!-- Start GA -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>--}}
 
 
 </head>
@@ -77,54 +55,32 @@
 </div>
 
 
-{{--<script src={{asset("admin/assets/modules/jquery.min.js" )}} ></script>
-<script src={{asset("admin/assets/modules/popper.js")}}></script>
-<script src={{asset("admin/assets/modules/tooltip.js")}}></script>
-<script src={{asset("admin/assets/modules/bootstrap/js/bootstrap.min.js")}}></script>
-<script src={{asset("admin/assets/modules/nicescroll/jquery.nicescroll.min.js")}}></script>
-<script src={{asset("admin/assets/js/stisla.js")}}></script>
-
-
-
-<script src="{{asset('admin/assets/js/toastr.min.js')}}" ></script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- Template JS File -->
-
-<script src={{asset("admin/assets/js/scripts.js")}}></script>
-<script src={{asset("admin/assets/js/custom.js")}}></script>--}}
-<script src={{asset("admin/assets/js/stisla.js")}}></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
-<script defer src={{asset("admin/assets/js/dataTables.min.js")}}></script>
-
 
 <!-- General JS Scripts -->
+<script src="{{ asset('admin/assets/modules/jquery.min.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/popper.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/tooltip.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/stisla.js') }}"></script>
 
+<script src="{{ asset('admin/assets/js/toastr.min.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js') }}"></script>
+<script src="{{ asset('admin/assets/js/bootstrap-iconpicker.bundle.min.js') }}"></script>
 
-{{--<script src={{asset("admin/assets/modules/popper.js")}}></script>
-<script src={{asset("admin/assets/modules/tooltip.js")}}></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
-
-
-
-
-<script src="{{asset('admin/assets/js/toastr.min.js')}}"></script>
-<script src={{asset("admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js")}} ></script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('admin/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/summernote/summernote-bs4.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
+<script src="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
 <!-- Template JS File -->
+<script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
+<script src="{{ asset('admin/assets/js/custom.js') }}"></script>
 
-{{--<script src={{asset("admin/assets/js/scripts.js")}}></script>
-<script src={{asset("admin/assets/js/custom.js")}}></script>--}}
-
-
-{{--<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>--}}
 
 
 
@@ -199,7 +155,34 @@
     });
 </script>
 
+<script>
+    @if(session('updated'))
 
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Updated Successfully",
+        showConfirmButton: false,
+        timer: 1500
+    });
+
+
+@endif
+</script>
+<script>
+    @if(session('created'))
+
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Created Successfully",
+        showConfirmButton: false,
+        timer: 1500
+    });
+
+
+    @endif
+</script>
 {{--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js" defer></script>--}}
 

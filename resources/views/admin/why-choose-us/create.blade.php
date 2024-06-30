@@ -3,28 +3,21 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Create Slider</h1>
+            <h1>why Choose Us Section</h1>
         </div>
         <div class="card card-primary">
             <div class="card-header">
-                <h4>Update Slider</h4>
+                <h4>Create Item</h4>
             </div>
 
             <div class="card-body">
 
-                <form action="{{route('admin.slider.store')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('admin.why-choose-us.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group" >
-                        <label>Image</label>
-                        <div id="image-preview" class="image-preview">
-                            <label for="image-upload" id="image-label">Choose File</label>
-                            <input type="file" name="image" id="image-upload">
-                        </div>
-                    </div>
 
                     <div class="form-group">
-                        <label for="offer">Offer</label>
-                        <input id="offer" name="offer" type="text" class="form-control">
+                        <label class="mr-2">Icon</label>
+                        <button name="icon" class="btn btn-primary" role="iconpicker"></button>
                     </div>
 
                     <div class="form-group">
@@ -32,10 +25,6 @@
                         <input id="title" name="title" type="text" class="form-control">
                     </div>
 
-                    <div class="form-group">
-                        <label for="sub_title">Sub Title</label>
-                        <input id="sub_title" name="sub_title" type="text" class="form-control">
-                    </div>
 
                     <div class="form-group">
                         <label for="short_description">Short Description</label>
@@ -43,10 +32,6 @@
                                   class="form-control"></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label for="button_link">Button Link</label>
-                        <input id="button_link" name="button_link" type="text" class="form-control">
-                    </div>
 
                     <div class="form-group">
                         <label for="status">Status</label>
