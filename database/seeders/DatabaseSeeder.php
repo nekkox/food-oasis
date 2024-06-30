@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         Slider::factory(5)->create();
         WhyChooseUs::factory(3)->create();
         $this->call(WhyChooseUsTitleSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }
