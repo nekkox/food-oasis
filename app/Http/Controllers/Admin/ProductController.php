@@ -6,11 +6,15 @@ use App\DataTables\ProductDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductCreateRequest;
 use App\Models\Category;
+use App\Models\Product;
+use App\Traits\FileUploadTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use FileUploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -22,11 +26,11 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create():View
+    public function create(): View
     {
         $categories = Category::all();
 
-        return view('admin.product.create', ['categories'=>$categories]);
+        return view('admin.product.create', ['categories' => $categories]);
     }
 
     /**
@@ -34,6 +38,29 @@ class ProductController extends Controller
      */
     public function store(ProductCreateRequest $request)
     {
+
+        // Handle image file */
+        $imagePath = $this->uploadImage($request, 'image');
+
+        $product = new Product();
+        
+        $product->name = $request->name;
+        $product->slug = generateUniqueSlug('Product', $request->name);
+        $product->thumb_image = $imagePath;
+        $product->category_id = $request->category;
+        $product->short_description = $request->short_description;
+        $product->long_description = $request->long_description;
+        $product->price = $request->price;
+        $product->offer_price = $request->offer_price;
+        $product->sku = $request->sku;
+        $product->seo_title = $request->seo_title;
+        $product->seo_description = $request->seo_description;
+        $product->show_at_home = $request->show_at_home;
+        $product->status = $request->status;
+        $product->save();
+
+
+        return to_route('admin.product.index')->with('created', true);
 
     }
 
