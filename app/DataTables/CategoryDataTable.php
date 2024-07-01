@@ -80,7 +80,11 @@ class CategoryDataTable extends DataTable
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
-                    ]);
+                    ])->parameters([
+                'createdRow' => 'function(row, data, dataIndex) {
+                            $(row).addClass("list-group-item-action item");
+                        }',
+            ]);
     }
 
     /**
