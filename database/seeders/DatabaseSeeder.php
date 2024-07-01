@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\Slider;
 use App\Models\User;
 
@@ -25,9 +26,10 @@ class DatabaseSeeder extends Seeder
 
         //Call the UserSeeder Class
         $this->call(UserSeeder::class);
+        $this->call(WhyChooseUsTitleSeeder::class);
         Slider::factory(5)->create();
         WhyChooseUs::factory(3)->create();
-        $this->call(WhyChooseUsTitleSeeder::class);
         $this->call(CategorySeeder::class);
+        Product::factory(10)->create();
     }
 }
