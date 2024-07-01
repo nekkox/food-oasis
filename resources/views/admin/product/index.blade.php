@@ -10,18 +10,18 @@
             <div class="card-header">
                 <h4>All Products</h4>
                 <div class="card-header-action">
-                    <a href="{{route('admin.category.create')}}" class="btn btn-primary">
+                    <a href="{{route('admin.product.create')}}" class="btn btn-primary">
                         Create New
                     </a>
                 </div>
             </div>
             <div class="card-body">
-{{--                {{ $dataTable->table() }}--}}
+               {{ $dataTable->table() }}
             </div>
         </div>
     </section>
 @endsection
 
 @push('scripts')
-{{--    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}--}}
+   {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

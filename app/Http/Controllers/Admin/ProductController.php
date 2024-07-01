@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ProductDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProductDataTable $dataTable):View
+    public function index(ProductDataTable $dataTable)
     {
         return $dataTable->render('admin.product.index');
     }
@@ -20,9 +21,11 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create():View
     {
-        //
+        $categories = Category::all();
+
+        return view('admin.product.create', ['categories'=>$categories]);
     }
 
     /**
