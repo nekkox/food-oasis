@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
@@ -32,11 +33,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /*Product Category Routes*/
     Route::resources(['category' => CategoryController::class]);
 
-    /*Route::get('slider',[SliderController::class, 'index'])->name('slider.index');
-    Route::get('slider/create',[SliderController::class, 'create'])->name('slider.create');
-    Route::post('slider',[SliderController::class, 'store'])->name('slider.store');
-    Route::get('slider/edit/{id}',[SliderController::class, 'edit'])->name('slider.edit');
-    Route::put('slider/update/{id}',[SliderController::class, 'update'])->name('slider.update');*/
+    /*Product Category Routes*/
+    Route::resources(['product' => ProductController::class]);
 
 });
 
