@@ -28,11 +28,11 @@ trait FileUploadTrait
         return null;
     }
 
-    function removeImage(string $filePath,  string $path = '/uploads'): void
+    function removeImage(string $path): void
     {
         //Delete previouss file if exist
-        if(File::exists(public_path($filePath))){
-            File::delete(public_path($filePath));
+        if(File::exists(public_path($path))){
+            File::delete(public_path($path));
         }
     }
 }
