@@ -28,7 +28,7 @@ class ProductDataTable extends DataTable
 
                 $delete = "<a href='" . route('admin.product.destroy', $query->id) . "' class='btn btn-danger delete-item' style='margin-right:5px;'><i class='fas fa-trash'></i></a>";
 
-                $more = '<div class="btn-group dropleft" style="height: 24px">
+                $more = '<div class="btn-group dropleft flex-column " style="height: 24px; ">
                       <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                       <i class="fas fa-cog fa-2xs"></i>
                       </button>
@@ -38,7 +38,7 @@ class ProductDataTable extends DataTable
                       </div>
                     </div>';
 
-                return $edit . $delete . $more;
+                return '<div  class=" ">'.$edit . $delete . $more.'</div>';
             })
             ->addColumn('price', function ($query) {
                 return '$' . $query->price;
