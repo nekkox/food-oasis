@@ -42,8 +42,10 @@ class ProductController extends Controller
         // Handle image file */
         $imagePath = $this->uploadImage($request, 'image');
 
+        $p = Product::query()->where('name','maxime')->get();
+        dd($p->first()->name);
         $product = new Product();
-        
+
         $product->name = $request->name;
         $product->slug = generateUniqueSlug('Product', $request->name);
         $product->thumb_image = $imagePath;
@@ -75,9 +77,12 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) : View
     {
-        //
+        $product = Product::findOrFail($id);
+        $category = Category::all();
+
+        return view('admin.product.edit',['product'=>$product, 'categories' => $category]);
     }
 
     /**

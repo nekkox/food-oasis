@@ -73,7 +73,8 @@ class SliderDataTable extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
-            ])->parameters([
+            ])
+            ->parameters([
                 'createdRow' => 'function(row, data, dataIndex) {
                             $(row).addClass("list-group-item-action item");
                         }',

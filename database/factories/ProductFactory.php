@@ -22,7 +22,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->word,
             'slug' => $this->faker->slug,
-            'thumb_image' => 'uploads/test.png',
+            'thumb_image' => '/uploads/test.png',
             'category_id' =>  $categoryId, // Assuming you have a CategoryFactory
             'short_description' => $this->faker->paragraph(),
             'long_description' => $this->faker->paragraph(),
