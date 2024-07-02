@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
@@ -33,8 +34,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /*Product Category Routes*/
     Route::resources(['category' => CategoryController::class]);
 
-    /*Product Category Routes*/
+    /*Product Routes*/
     Route::resources(['product' => ProductController::class]);
+
+    /*Product Gallery Routes*/
+    Route::get('product-gallery/{product}', [ProductGalleryController::class, 'index'])->name('product-gallery.show-index');
+    Route::resources(['product-gallery' => ProductGalleryController::class]);
 
 });
 
