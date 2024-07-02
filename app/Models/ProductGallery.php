@@ -4,10 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProductGallery extends Model
 {
     use HasFactory;
 
-    //protected $fillable = ['']
+    //protected $with = ['product'];
+
+    public function product(): BelongsTo
+    {
+        return $this->BelongsTo(Product::class,);
+    }
 }

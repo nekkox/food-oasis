@@ -25,6 +25,7 @@ class ProductController extends Controller
      */
     public function index(ProductDataTable $dataTable) : JsonResponse | View
     {
+
         return $dataTable->render('admin.product.index');
     }
 
