@@ -36,7 +36,7 @@
 
         <div class="card card-primary">
 
-            <div class="card-body">
+            {{--<div class="card-body">
                 <table class="table table-bordered ">
                     <thead>
                     <th>Image</th>
@@ -60,7 +60,7 @@
                     @endif
                     </tbody>
                 </table>
-            </div>
+            </div>--}}
         </div>
 
     </section>
