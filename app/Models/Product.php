@@ -18,4 +18,9 @@ class Product extends Model
         return $this->HasOne(ProductGallery::class);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->BelongsTo(Category::class);
+    }
+
 }

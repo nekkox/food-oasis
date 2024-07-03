@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\SectionTitle;
 use App\Models\Slider;
 use App\Models\WhyChooseUs;
@@ -21,11 +22,15 @@ class FrontendController extends Controller
         $sectionTitles = $this->getSectionTitles();
         $whyChooseUs = WhyChooseUs::where('status',1)->get();
 
+        $categories = Category::where(['show_at_home'=>1, 'status'=>1])->get();
+
+
         // return view('frontend.layouts.master');
         return view('frontend.home.index', [
             'sliders'=>$sliders,
             'sectionTitles' => $sectionTitles,
-            'whyChooseUs' => $whyChooseUs
+            'whyChooseUs' => $whyChooseUs,
+            'categories' => $categories
         ]);
 
     }
