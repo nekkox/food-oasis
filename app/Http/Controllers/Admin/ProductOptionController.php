@@ -78,6 +78,12 @@ class ProductOptionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $size = ProductOption::findOrFail($id);
+            $size->delete();
+            return response(['status' => 'success', 'message' => 'Item Deleted Successfully']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' =>'Something went wrong!']);
+        }
     }
 }

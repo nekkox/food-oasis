@@ -4,7 +4,7 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Products Sizes ({{$product->name}})</h1>
+            <h1>Products Variants ({{$product->name}})</h1>
         </div>
 
         <div>
@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h4>Create Size</h4>
+                        <h4>Create Product Size</h4>
                     </div>
 
                     <div class="card-body">
@@ -54,6 +54,7 @@
                     <div class="card-body">
                         <table class="table table-bordered ">
                             <thead>
+                            <th>No.</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Action</th>
@@ -61,6 +62,7 @@
                             <tbody>
                             @foreach($sizes as $size)
                                 <tr class="container list-group-item-action item">
+                                    <td >{{++$loop->index}}</td>
                                     <td>{{$size->name}}</td>
                                     <td>{{$size->price}}</td>
                                     <td style="position: relative;">
@@ -122,23 +124,25 @@
                     <div class="card-body">
                         <table class="table table-bordered ">
                             <thead>
+                            <th>No.</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Action</th>
                             </thead>
                             <tbody>
-                            @foreach($sizes as $size)
+                            @foreach($options as $option)
                                 <tr class="container list-group-item-action item">
-                                    <td>{{$size->name}}</td>
-                                    <td>{{$size->price}}</td>
+                                    <td>{{++$loop->index}}</td>
+                                    <td>{{$option->name}}</td>
+                                    <td>{{$option->price}}</td>
                                     <td style="position: relative;">
                                         <a style="position: absolute; right: 20px; bottom: 15px"
-                                           href='{{route('admin.product-size.destroy', $size->id)}}'
+                                           href='{{route('admin.product-option.destroy', $option->id)}}'
                                            class='btn btn-danger delete-item'><i class='fas fa-trash'></i></a>
                                     </td>
                                 </tr>
                             @endforeach
-                            @if(count($sizes) === 0)
+                            @if(count($options) === 0)
                                 <tr>
                                     <td class="text-center" colspan="3">No Data Found</td>
                                 </tr>
