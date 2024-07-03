@@ -17,7 +17,8 @@ class ProductSizeController extends Controller
     public function index(string $product_id): View
     {
         $product = Product::findOrFail($product_id);
-        return view('admin.product.product-size.index', ['product' => $product]);
+        $sizes = ProductSize::where('product_id', $product->id)->get();
+        return view('admin.product.product-size.index', ['product' => $product, 'sizes' => $sizes]);
     }
 
     /**
@@ -79,6 +80,12 @@ class ProductSizeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $size = ProductSize::findOrFail($id);
+            $size->delete();
+            return response(['status' => 'success', 'message' => 'Item Deleted Successfully']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' =>'Something went wrong!']);
+        }
     }
 }

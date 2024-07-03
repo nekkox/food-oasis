@@ -50,31 +50,33 @@
 
         <div class="card card-primary">
 
-            {{--<div class="card-body">
+            <div class="card-body">
                 <table class="table table-bordered ">
                     <thead>
-                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
                     <th>Action</th>
                     </thead>
                     <tbody>
-                    @foreach($images as $image)
+                    @foreach($sizes as $size)
                         <tr class="container list-group-item-action item">
-                            <td style="text-align: center; width: 200px"><img height="100px" src="{{asset($image->image)}}" class="p-2"></td>
+                            <td>{{$size->name}}</td>
+                            <td>{{$size->price}}</td>
                             <td style="position: relative;">
-                                <a style="position: absolute; right: 20px"
-                                   href='{{route('admin.product-gallery.destroy', $image->id)}}'
+                                <a style="position: absolute; right: 20px; bottom: 15px"
+                                   href='{{route('admin.product-size.destroy', $size->id)}}'
                                    class='btn btn-danger delete-item'><i class='fas fa-trash'></i></a>
                             </td>
                         </tr>
                     @endforeach
-                    @if(count($images) === 0)
+                    @if(count($sizes) === 0)
                         <tr>
-                            <td class="text-center" colspan="2">No Data Found</td>
+                            <td class="text-center" colspan="3">No Data Found</td>
                         </tr>
                     @endif
                     </tbody>
                 </table>
-            </div>--}}
+            </div>
         </div>
 
     </section>
