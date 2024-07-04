@@ -16,19 +16,20 @@ use Illuminate\Support\Collection;
 class FrontendController extends Controller
 {
 
-    public function index() : View{
+    public function index(): View
+    {
 
         //Get all sliders
-        $sliders = Slider::where('status',1)->get();
+        $sliders = Slider::where('status', 1)->get();
         $sectionTitles = $this->getSectionTitles();
-        $whyChooseUs = WhyChooseUs::where('status',1)->get();
+        $whyChooseUs = WhyChooseUs::where('status', 1)->get();
 
-        $categories = Category::where(['show_at_home'=>1, 'status'=>1])->get();
+        $categories = Category::where(['show_at_home' => 1, 'status' => 1])->get();
 
 
         // return view('frontend.layouts.master');
         return view('frontend.home.index', [
-            'sliders'=>$sliders,
+            'sliders' => $sliders,
             'sectionTitles' => $sectionTitles,
             'whyChooseUs' => $whyChooseUs,
             'categories' => $categories
@@ -36,7 +37,7 @@ class FrontendController extends Controller
 
     }
 
-    public function getSectionTitles() : Collection
+    public function getSectionTitles(): Collection
     {
         $keys = [
             'why_choose_us_top_title',
@@ -48,11 +49,13 @@ class FrontendController extends Controller
     }
 
 
-    public function showProduct(string $slug):View
+    public function showProduct(string $slug): View
     {
-        $product = Product::with(['gallery','productSizes','productOptions'])->where(['slug'=> $slug, 'status'=>1])->firstOrFail();
+        $product = Product::with(['gallery', 'productSizes', 'productOptions'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
 
-        return view('frontend.pages.product-view', ['product'=>$product]);
+        $relatedProducts = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->take(8)->latest()->get();
+
+        return view('frontend.pages.product-view', ['product' => $product, 'relatedProducts'=>$relatedProducts]);
     }
 
 }
