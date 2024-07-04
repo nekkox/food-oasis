@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label>Long Description</label>
                         <textarea name="long_description" class="form-control summernote"
-                                  id="">{{ $product->long_description }}</textarea>
+                                  id="">{!! $product->long_description !!}</textarea>
                     </div>
 
                     <div class="form-group">
@@ -98,7 +98,7 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
 
             </div>

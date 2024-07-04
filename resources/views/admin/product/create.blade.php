@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label>Long Description</label>
                         <textarea name="long_description" class="form-control summernote"
-                                  id="">{{ old('long_description') }}</textarea>
+                                  id="">{!! old('long_description') !!}</textarea>
                     </div>
 
                     <div class="form-group">

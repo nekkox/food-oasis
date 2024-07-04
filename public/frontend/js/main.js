@@ -549,7 +549,7 @@ $(function () {
 
 
     //=======PRODUCT DETAILS SLIDER======
-    if ($("#exzoom").length > 0) {
+   if ($("#exzoom").length > 0) {
         $("#exzoom").exzoom({
             autoPlay: true,
         });

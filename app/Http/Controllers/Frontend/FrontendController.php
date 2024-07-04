@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\Slider;
 use App\Models\WhyChooseUs;
@@ -49,7 +50,9 @@ class FrontendController extends Controller
 
     public function showProduct(string $slug):View
     {
-        return view('frontend.pages.product-view');
+        $product = Product::with(['gallery','productSizes','productOptions'])->where(['slug'=> $slug, 'status'=>1])->firstOrFail();
+
+        return view('frontend.pages.product-view', ['product'=>$product]);
     }
 
 }
