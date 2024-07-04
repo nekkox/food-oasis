@@ -42,7 +42,8 @@
                     <div class="col-xl-3 col-sm-6 col-lg-4 {{$category->slug}} wow fadeInUp" data-wow-duration="1s">
                         <div class="fp__menu_item">
                             <div class="fp__menu_item_img">
-                                <img src="{{asset($product->thumb_image)}}" alt="{{$product->name}}" class="img-fluid w-100">
+                                <img src="{{asset($product->thumb_image)}}" alt="{{$product->name}}"
+                                     class="img-fluid w-100">
                                 <a class="category" href="#">{{ @$product->category->name }}</a>
                             </div>
                             <div class="fp__menu_item_text">
@@ -54,7 +55,7 @@
                                     <i class="far fa-star"></i>
                                     <span>54</span>
                                 </p>
-                                <a class="title" href="menu_details.html">{{$product->name}}</a>
+                                <a class="title" href="{{route('product.show', $product->slug)}}">{{$product->name}}</a>
                                 <h5 class="price">
                                     @if($product->offer_price > 0)
                                         ${{$product->offer_price}}

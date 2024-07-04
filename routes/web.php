@@ -19,9 +19,6 @@ Route::group(['middleware' => 'guest'], function(){
 });
 
 
-
-Route::get('/', [FrontendController::class, 'index'])->name('home');
-
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::put('/profile', [\App\Http\Controllers\Frontend\ProfileController::class, 'updateProfile'])->name('profile.update');
@@ -41,12 +38,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__ . '/auth.php';
 //require __DIR__ . '/admin.php';
 
-Route::get('/admin/slider/abc', function () {
-    $slider = Slider::all();
+//Show Home page
+Route::get('/', [FrontendController::class, 'index'])->name('home');
 
-     return response()->json($slider);
-});
+//Show Product details page
+Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 
