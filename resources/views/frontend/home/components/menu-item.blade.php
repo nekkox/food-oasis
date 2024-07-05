@@ -25,7 +25,6 @@
                 </div>
             </div>
         </div>
-{{dd(config('settings.site_name'))}}
         <div class="row grid">
 
             @foreach($categories as $category)
@@ -58,10 +57,10 @@
                                 <a class="title" href="{{route('product.show', $product->slug)}}">{{$product->name}}</a>
                                 <h5 class="price">
                                     @if($product->offer_price > 0)
-                                        ${{$product->offer_price}}
-                                        <del>${{$product->offer_price}}</del>
+                                        {{currencyPosition($product->offer_price)}}
+                                        <del>{{currencyPosition($product->offer_price)}}</del>
                                     @else
-                                        ${{$product->price}}
+                                       {{currencyPosition($product->price)}}
                                     @endif
 
                                 </h5>
@@ -75,10 +74,7 @@
                         </div>
                     </div>
                 @endforeach
-
             @endforeach
-
-
         </div>
     </div>
 </section>

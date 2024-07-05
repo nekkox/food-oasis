@@ -63,10 +63,10 @@
                         </p>
                         <h3 class="price">
                             @if ($product->offer_price > 0)
-                                ${{ $product->offer_price }}
-                                <del>${{ $product->price }}</del>
+                                {{currencyPosition($product->offer_price)}}
+                                <del>{{currencyPosition($product->price)}}</del>
                             @else
-                                ${{ $product->price }}
+                                {{currencyPosition($product->price)}}
                             @endif
                            </h3>
                         <p class="short_description">{{$product->short_description}}</p>
@@ -79,7 +79,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="size-{{$productSize->id}}" checked>
                                     <label class="form-check-label" for="size-{{$productSize->id}}">
-                                        {{$productSize->name}} <span>+ ${{$productSize->price}}</span>
+                                        {{$productSize->name}} <span>+ {{currencyPosition($productSize->price)}}</span>
                                     </label>
                                 </div>
                             @endforeach
@@ -95,7 +95,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="option-{{$productOption->id}}">
                                     <label class="form-check-label" for="option-{{$productOption->id}}">
-                                        {{$productOption->name}} <span>+ ${{$productOption->price}}</span>
+                                        {{$productOption->name}} <span>+ {{currencyPosition($productOption->price)}}</span>
                                     </label>
                                 </div>
                             @endforeach
@@ -283,10 +283,10 @@
                                     <h5 class="price">
 
                                         @if($relatedProduct->offer_price > 0)
-                                            ${{$relatedProduct->price}}
-                                            <del>${{$relatedProduct->offer_price}}</del>
+                                            {{currencyPosition($relatedProduct->price)}}
+                                            <del>{{currencyPosition($relatedProduct->offer_price)}}</del>
                                         @else
-                                            ${{$relatedProduct->price}}
+                                            {{currencyPosition($relatedProduct->price)}}
                                         @endif
 
 
