@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Services\SettingsService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,9 +17,9 @@ class SettingController extends Controller
         return view('admin.setting.index');
     }
 
-    public function UpdateGeneralSetting(Request $request) : RedirectResponse
+    public function UpdateGeneralSetting(Request $request): RedirectResponse
     {
-      $validatedData =  $request->validate([
+        $validatedData = $request->validate([
             'site_name' => ['required', 'max:255'],
             'site_default_currency' => ['required', 'max:4'],
             'site_currency_icon' => ['required', 'max:4'],
@@ -26,13 +27,18 @@ class SettingController extends Controller
         ]);
 
 
-      foreach ($validatedData as $key => $value){
-          Setting::updateOrCreate(
-              ['key'=>$key],
-              ['value' => $value]
+        foreach ($validatedData as $key => $value) {
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
 
-          );
-      }
+            );
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCashedSettings();
+
+
         return redirect()->back()->with('updated', true);
     }
 }
