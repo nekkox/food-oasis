@@ -1,11 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('content')
-@php
 
-\App\Services\SettingsService::getSetting();
-
- @endphp
     <section class="section">
         <div class="section-header">
             <h1>Settings</h1>
