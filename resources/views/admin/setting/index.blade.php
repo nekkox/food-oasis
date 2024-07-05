@@ -45,7 +45,7 @@
                                             <div class="form-group">
                                                 <label>Default Currency</label>
                                                 <select name="site_default_currency" id="" class="select2 form-control">
-                                                    <option value="">test</option>
+                                                    <option value="test">test</option>
                                                 </select>
                                             </div>
                                             <div class="row">
