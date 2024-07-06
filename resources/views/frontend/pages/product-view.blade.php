@@ -398,3 +398,39 @@
         MENU DETAILS END
     ==============================-->
 @endsection
+
+{{--@push('scripts')
+
+    <script>
+
+
+        // Define the breakpoints with corresponding minimum widths
+        const breakpoints = [
+            { name: 'xs', width: 0 },
+            { name: 'sm', width: 576 },
+            { name: 'md', width: 768 },
+            { name: 'lg', width: 992 },
+            { name: 'xl', width: 1200 },
+            { name: 'xxl', width: 1400 }
+        ];
+
+        // Function to get the current breakpoint based on the window width
+        function getCurrentBreakpoint() {
+            const width = window.innerWidth;
+            console.log(breakpoints.slice().reverse().find(breakpoint => width >= breakpoint.width).name);
+            return breakpoints.slice().reverse().find(breakpoint => width >= breakpoint.width).name;
+        }
+
+        // Store the initial breakpoint
+        let currentBreakpoint = getCurrentBreakpoint();
+
+        // Add event listener for window resize
+        window.addEventListener('resize', function() {
+            const newBreakpoint = getCurrentBreakpoint();
+            if (newBreakpoint !== currentBreakpoint) {
+                currentBreakpoint = newBreakpoint;
+                location.reload();
+            }
+        });
+    </script>
+@endpush--}}

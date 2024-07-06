@@ -555,4 +555,15 @@ $(function () {
         });
     }
 
+
+   $(window).resize(
+       function (){
+           $("#exzoom").exzoom('destroy'); // This may vary depending on the actual destroy method of exzoom
+            $("#exzoom").exzoom({
+                autoPlay: true,
+            })
+       }
+   )
+
+
 });

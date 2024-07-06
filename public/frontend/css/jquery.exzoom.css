@@ -146,9 +146,9 @@
 
 .exzoom .exzoom_img_ul_outer .exzoom_img_ul li img {
   margin-top: 5% !important;
-  width: 90% !important;
-  height: 90% !important;
-  object-fit: cover !important;
+    width: 90% !important;
+    height: 90% !important;
+    object-fit: cover !important;
 }
 
 @media screen and (max-width: 768px) {
