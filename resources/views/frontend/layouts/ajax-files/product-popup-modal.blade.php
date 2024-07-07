@@ -70,9 +70,9 @@
             <h5>select quentity</h5>
             <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
                 <div class="quentity_btn">
-                    <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                    <input type="text" placeholder="1">
-                    <button class="btn btn-success"><i class="fal fa-plus"></i></button>
+                    <button class="btn btn-danger decrement"><i class="fal fa-minus"></i></button>
+                    <input type="text" placeholder="1" value="1" id="quantity" readonly>
+                    <button class="btn btn-success increment"><i class="fal fa-plus"></i></button>
                 </div>
                 <h3 id="total_price">
                     @if($product->offer_price > 0)
@@ -86,7 +86,7 @@
         <ul class="details_button_area d-flex flex-wrap">
             <li><a class="common_btn" href="#">add to cart</a></li>
         </ul>
-        <button type="submit">Order</button>
+{{--        <button type="submit">Order</button>--}}
     </div>
 </form>
 
@@ -99,13 +99,38 @@
         $("input[name='product_option[]']").on("change", function () {
             updateTotalPrice();
         });
+
+        let quantity = $('#quantity');
+        let currentQuantity = parseFloat(quantity.val());
+
+        $('.increment').on('click', function (e) {
+            e.preventDefault();
+            quantity.val(++currentQuantity);
+            updateTotalPrice();
+        })
+
+        $('.decrement').on('click', function (e) {
+            e.preventDefault();
+
+           if(currentQuantity > 1){
+               quantity.val(--currentQuantity);
+           }
+            updateTotalPrice();
+        })
+
+
+
     })
+
+
 
     //Update the total price base on selected options
     function updateTotalPrice() {
         let basePrice = parseFloat($('input[name="base_price"]').val());
         let selectedSizePrice = 0;
         let selectedOptionsPrice = 0;
+        let quantity = parseFloat($('#quantity').val());
+
 
         //calculate the selected size price
         let selectedSize = $('input[name="product_size"]:checked');
@@ -123,7 +148,7 @@
         }
 
         //Calculate the total price
-        let totalPrice = basePrice + selectedSizePrice + selectedOptionsPrice
+        let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice) *quantity
         $('#total_price').text("{{config('settings.site_currency_icon')}}" + totalPrice)
 
     }
