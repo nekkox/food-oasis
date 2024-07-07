@@ -58,7 +58,7 @@
                                 <h5 class="price">
                                     @if($product->offer_price > 0)
                                         {{currencyPosition($product->offer_price)}}
-                                        <del>{{currencyPosition($product->offer_price)}}</del>
+                                        <del>{{currencyPosition($product->price)}}</del>
                                     @else
                                        {{currencyPosition($product->price)}}
                                     @endif
