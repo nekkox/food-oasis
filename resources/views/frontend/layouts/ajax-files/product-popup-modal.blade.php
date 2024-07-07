@@ -1,9 +1,9 @@
 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
         class="fal fa-times"></i></button>
-<form method="post" action="{{route('cart')}}">
-    @csrf
+<form id="model_add_to_cart_form" action="">
 
 
+<input type="hidden" name="product_id" value="{{$product->id}}">
     <div class="fp__cart_popup_img">
         <img src="{{asset($product->thumb_image)}}" alt="menu" class="img-fluid w-100">
     </div>
@@ -71,8 +71,8 @@
             <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
                 <div class="quentity_btn">
                     <button class="btn btn-danger decrement"><i class="fal fa-minus"></i></button>
-                    <input type="text" placeholder="1" value="1" id="quantity" readonly>
-                    <button class="btn btn-success increment"><i class="fal fa-plus"></i></button>
+                    <input type="text" placeholder="1" value="1" id="quantity" name="quantity" readonly>
+                    <button class="btn btn-success increment" ><i class="fal fa-plus"></i></button>
                 </div>
                 <h3 id="total_price">
                     @if($product->offer_price > 0)
@@ -84,9 +84,10 @@
             </div>
         </div>
         <ul class="details_button_area d-flex flex-wrap">
-            <li><a class="common_btn" href="#">add to cart</a></li>
+
+            <li><button type="submit" class="common_btn">add to cart</button></li>
         </ul>
-{{--        <button type="submit">Order</button>--}}
+
     </div>
 </form>
 
@@ -105,6 +106,7 @@
 
         $('.increment').on('click', function (e) {
             e.preventDefault();
+
             quantity.val(++currentQuantity);
             updateTotalPrice();
         })
@@ -112,15 +114,31 @@
         $('.decrement').on('click', function (e) {
             e.preventDefault();
 
-           if(currentQuantity > 1){
-               quantity.val(--currentQuantity);
-           }
+            if (currentQuantity > 1) {
+                quantity.val(--currentQuantity);
+            }
             updateTotalPrice();
         })
 
+        $('#model_add_to_cart_form').on('submit', function (event) {
+            event.preventDefault();
+            let formData = $(this).serialize();
 
+            $.ajax({
+                method: 'post',
+                url: '{{route('add-to-cart')}}',
+                data: formData,
+                success: function (response){
+                    console.log(response)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                }
+            })
 
-    })
+        })
+    });
+
 
 
 
@@ -152,4 +170,5 @@
         $('#total_price').text("{{config('settings.site_currency_icon')}}" + totalPrice)
 
     }
+
 </script>

@@ -6,6 +6,8 @@
             url: '{{route("load-product-modal",":productId")}}'.replace(':productId', productId),
             beforeSend: function(){
                 $('.overlay').addClass('active')
+                $('.overlay-container').removeClass('d-none')
+
             },
 
             success: function(response){
@@ -18,6 +20,7 @@
             },
             complete: function(){
                 $('.overlay').removeClass('active')
+                $('.overlay-container').addClass('d-none')
             }
         })
     }
