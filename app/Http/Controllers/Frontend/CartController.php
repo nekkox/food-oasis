@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -18,15 +19,16 @@ class CartController extends Controller
 
         $options = [
             'product_size' => [
-                'id' => $productSize->id,
-                'name' => $productSize->name,
-                'price' => $productSize->price
+                'id' => $productSize?->id,
+                'name' => $productSize?->name,
+                'price' => $productSize?->price
             ],
-            'product_options' => [
-
+            'product_options' => [],
+            'product_info'=>[
+                'image'=>$product->thumb_image,
+                'slug' => $product->slug
             ]
         ];
-
 
         foreach ($productOptions as $productOption) {
 
@@ -38,6 +40,20 @@ class CartController extends Controller
         }
 
 
-        return response($product);
+
+
+        // Add the product to the cart
+        Cart::add(
+            $product->id,
+            $product->name,
+            $request->quantity,
+            $product->offer_price > 0 ? $product->offer_price : $product->price,
+            0,
+            $options
+        );
+
+        return response(['status'=>'success', 'message'=>'Product added onto cart!'], 200);
+
     }
+
 }

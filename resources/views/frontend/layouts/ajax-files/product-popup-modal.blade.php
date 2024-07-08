@@ -24,7 +24,7 @@
                 <del>{{currencyPosition($product->price)}}</del>
             @else
                 <input type="hidden" name="base_price" value="{{$product->price}}">
-                <del>{{currencyPosition($product->price)}}
+                {{currencyPosition($product->price)}}
             @endif
         </h4>
 
