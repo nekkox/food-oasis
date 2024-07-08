@@ -18,17 +18,21 @@ class CartController extends Controller
 
 
         $options = [
-            'product_size' => [
-                'id' => $productSize?->id,
-                'name' => $productSize?->name,
-                'price' => $productSize?->price
-            ],
+            'product_size' => [],
             'product_options' => [],
-            'product_info'=>[
-                'image'=>$product->thumb_image,
+            'product_info' => [
+                'image' => $product->thumb_image,
                 'slug' => $product->slug
             ]
         ];
+
+        if($productSize !== null) {
+            $options['product_size'][] = [
+                'id' => $productSize?->id,
+                'name' => $productSize?->name,
+                'price' => $productSize?->price
+            ];
+        }
 
         foreach ($productOptions as $productOption) {
 
@@ -38,8 +42,6 @@ class CartController extends Controller
                 'name' => $productOption->name
             ];
         }
-
-
 
 
         // Add the product to the cart
@@ -52,7 +54,7 @@ class CartController extends Controller
             $options
         );
 
-        return response(['status'=>'success', 'message'=>'Product added onto cart!'], 200);
+        return response(['status' => 'success', 'message' => 'Product added onto cart!'], 200);
 
     }
 

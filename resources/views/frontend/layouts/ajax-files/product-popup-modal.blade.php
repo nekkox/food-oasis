@@ -122,6 +122,18 @@
 
         $('#model_add_to_cart_form').on('submit', function (event) {
             event.preventDefault();
+
+            //Validation
+            let selectedSize = $('input[name="product_size"]');
+
+            if(selectedSize.length > 0){
+                let checked = $('input[name="product_size"]:checked');
+                if(checked.val() === undefined){
+                    toastr.error("Please select a size")
+                    return
+                }
+            }
+
             let formData = $(this).serialize();
 
             $.ajax({
