@@ -3,7 +3,7 @@
 <form id="model_add_to_cart_form" action="">
 
 
-<input type="hidden" name="product_id" value="{{$product->id}}">
+    <input type="hidden" name="product_id" value="{{$product->id}}">
     <div class="fp__cart_popup_img">
         <img src="{{asset($product->thumb_image)}}" alt="menu" class="img-fluid w-100">
     </div>
@@ -72,7 +72,7 @@
                 <div class="quentity_btn">
                     <button class="btn btn-danger decrement"><i class="fal fa-minus"></i></button>
                     <input type="text" placeholder="1" value="1" id="quantity" name="quantity" readonly>
-                    <button class="btn btn-success increment" ><i class="fal fa-plus"></i></button>
+                    <button class="btn btn-success increment"><i class="fal fa-plus"></i></button>
                 </div>
                 <h3 id="total_price">
                     @if($product->offer_price > 0)
@@ -85,7 +85,9 @@
         </div>
         <ul class="details_button_area d-flex flex-wrap">
 
-            <li><button type="submit" class="common_btn">add to cart</button></li>
+            <li>
+                <button type="submit" class="common_btn">add to cart</button>
+            </li>
         </ul>
 
     </div>
@@ -126,9 +128,9 @@
             //Validation
             let selectedSize = $('input[name="product_size"]');
 
-            if(selectedSize.length > 0){
+            if (selectedSize.length > 0) {
                 let checked = $('input[name="product_size"]:checked');
-                if(checked.val() === undefined){
+                if (checked.val() === undefined) {
                     toastr.error("Please select a size")
                     return
                 }
@@ -140,18 +142,17 @@
                 method: 'post',
                 url: '{{route('add-to-cart')}}',
                 data: formData,
-                success: function (response){
-                    console.log(response)
+                success: function (response) {
+                    toastr.success(response.message)
                 },
                 error: function (xhr, status, error) {
-                    console.log(error)
+                    let errorMessage = xhr.responseJSON.message;
+                    toastr.error(errorMessage);
                 }
             })
 
         })
     });
-
-
 
 
     //Update the total price base on selected options
@@ -172,13 +173,13 @@
         let selectedOptions = $('input[name="product_option[]"]:checked');
         console.log(selectedOptions)
         if (selectedOptions.length > 0) {
-            $(selectedOptions).each(function (){
+            $(selectedOptions).each(function () {
                 selectedOptionsPrice += parseFloat($(this).data("price"))
             })
         }
 
         //Calculate the total price
-        let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice) *quantity
+        let totalPrice = (basePrice + selectedSizePrice + selectedOptionsPrice) * quantity
         $('#total_price').text("{{config('settings.site_currency_icon')}}" + totalPrice)
 
     }
