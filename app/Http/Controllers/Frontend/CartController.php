@@ -27,7 +27,7 @@ class CartController extends Controller
             ];
 
             if ($productSize !== null) {
-                $options['product_size'][] = [
+                $options['product_size'] = [
                     'id' => $productSize?->id,
                     'name' => $productSize?->name,
                     'price' => $productSize?->price
