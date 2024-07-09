@@ -88,10 +88,12 @@
                     <div class="menu_cart_text">
                         <a class="title" href="{{route('product.show', $cartProduct->options->product_info['slug'])}}"> {{$cartProduct->name}} </a>
                         <p class="size">Qty: {{$cartProduct->qty}}</p>
-                        <p class="size">{{@$cartProduct->options['product_size']['name']}}</p>
+
+
+                        <p class="size">{{@$cartProduct->options['product_size']['name']}} &nbsp; {{  @$cartProduct->options['product_size']['name'] ? '('.currencyPosition(@$cartProduct->options['product_size']['price']).')' : '' }}   </p>
 
                         @foreach($cartProduct->options['product_options'] as $option)
-                            <span class="extra">{{$option['name']}}</span>
+                            <span class="extra">{{$option['name']}} &nbsp; ({{ currencyPosition(@$option['price'])  }}) </span>
                         @endforeach
 
                         <p class="price">
@@ -122,7 +124,7 @@
 
 
         </ul>
-        <p class="subtotal">sub total <span>$1220.00</span></p>
+        <p class="subtotal">sub total <span>{{currencyPosition( cartTotal())}}</span></p>
         <a class="cart_view" href="cart_view.html"> view cart</a>
         <a class="checkout" href="check_out.html">checkout</a>
     </div>
