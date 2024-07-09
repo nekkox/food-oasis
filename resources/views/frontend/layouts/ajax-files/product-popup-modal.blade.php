@@ -147,6 +147,7 @@
                 },
 
                 success: function (response) {
+                    updateSidebarCart()
                     toastr.success(response.message)
                 },
                 error: function (xhr, status, error) {

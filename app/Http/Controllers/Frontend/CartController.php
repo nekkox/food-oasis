@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class CartController extends Controller
 {
@@ -55,11 +57,16 @@ class CartController extends Controller
             );
 
             return response(['status' => 'success', 'message' => 'Product added onto cart!'], 200);
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'something went wrong!'], 500);
 
         }
+    }
+
+
+    public function getCartProduct()
+    {
+        return view('frontend.layouts.ajax-files.sidebar-cart-item')->render();
     }
 
 }

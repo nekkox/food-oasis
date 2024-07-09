@@ -66,7 +66,7 @@
                 </li>
                 <li>
                     <a class="common_btn" href="#" data-bs-toggle="modal"
-                       data-bs-target="#staticBackdrop">reservation</a>
+                       data-bs-target="#staticBackdrop" onclick="updateSidebarCart()">reservation</a>
                 </li>
             </ul>
         </div>
@@ -79,10 +79,8 @@
             <h5>total item (05)</h5>
             <span class="close_cart"><i class="fal fa-times"></i></span>
         </div>
-        <ul>
+        <ul class="cart_contents">
             @foreach(Cart::content() as $cartProduct)
-
-
                 <li>
                     <div class="menu_cart_img">
                         <img src="{{asset($cartProduct->options->product_info['image'])}}" alt="menu" class="img-fluid w-100">
@@ -90,7 +88,7 @@
                     <div class="menu_cart_text">
                         <a class="title" href="{{route('product.show', $cartProduct->options->product_info['slug'])}}"> {{$cartProduct->name}} </a>
                         <p class="size">Qty: {{$cartProduct->qty}}</p>
-                        <p class="size">{{$cartProduct->options['product_size']['name']}}</p>
+                        <p class="size">{{@$cartProduct->options['product_size']['name']}}</p>
 
                         @foreach($cartProduct->options['product_options'] as $option)
                             <span class="extra">{{$option['name']}}</span>
