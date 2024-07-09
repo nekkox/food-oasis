@@ -1,24 +1,24 @@
 <script>
-    function loadProductModal(productId){
+    function loadProductModal(productId) {
 
         $.ajax({
             method: "GET",
             url: '{{route("load-product-modal",":productId")}}'.replace(':productId', productId),
-            beforeSend: function(){
+            beforeSend: function () {
                 $('.overlay').addClass('active')
                 $('.overlay-container').removeClass('d-none')
 
             },
 
-            success: function(response){
+            success: function (response) {
 
-            $('.load_product_modal_body').html(response);
-            $('#cartModal').modal('show');
+                $('.load_product_modal_body').html(response);
+                $('#cartModal').modal('show');
             },
-            error: function(xhr, status, error){
+            error: function (xhr, status, error) {
                 console.log(error);
             },
-            complete: function(){
+            complete: function () {
                 $('.overlay').removeClass('active')
                 $('.overlay-container').addClass('d-none')
             }
@@ -28,26 +28,58 @@
 
     //Update Sidebar cart
 
-    function updateSidebarCart(){
+    function updateSidebarCart(callback = null) {
 
         $.ajax({
             method: "GET",
             url: '{{route('get-cart-products')}}',
-            beforeSend: function(){
 
-            },
-
-            success: function(response){
-            $('.cart_contents').html(response);
+            success: function (response) {
+                $('.cart_contents').html(response);
                 let cartTotal = $('#cart_total').val();
-                $('.cart_subtotal').text("{{ currencyPosition(':cartTotal')}}".replace(':cartTotal',cartTotal));
+                let cartCount = $('#cart_product_count').val();
+
+                $('.cart_subtotal').text("{{ currencyPosition(':cartTotal')}}".replace(':cartTotal', cartTotal));
+                $('.cart_count').text(cartCount);
+
+                if (callback && (typeof callback === 'function')) {
+                    callback()
+                }
             },
-            error: function(xhr, status, error){
+            error: function (xhr, status, error) {
                 console.log(error);
             },
-            complete: function(){
-
-            }
         })
     }
+
+    function removeProductFromSidebar(rowId) {
+
+        $.ajax({
+            method: "GET",
+            url: '{{route("cart-product-remove", ":rowId")}}'.replace(':rowId', rowId),
+            beforeSend: function () {
+                $('.overlay').addClass('active')
+                $('.overlay-container').removeClass('d-none')
+            },
+
+            success: function (response) {
+                if (response.status === 'success') {
+                    updateSidebarCart(function () {
+                        setTimeout(() => {
+                            toastr.success(response.message)
+                            $('.overlay').removeClass('active')
+                            $('.overlay-container').addClass('d-none')
+                        }, 2000)
+                    })
+                }
+            },
+            error: function (xhr, status, error) {
+                let errorMessage = xhr.responseJSON.message;
+                toastr.error(errorMessage);
+            },
+
+        })
+    }
+
+
 </script>
