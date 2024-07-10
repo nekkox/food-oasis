@@ -11,6 +11,13 @@ use Illuminate\Support\Collection;
 
 class CartController extends Controller
 {
+
+    public function index():View
+    {
+        return view('frontend.pages.cart-view');
+    }
+
+
     public function addToCart(Request $request)
     {
         //dd($request->all());
