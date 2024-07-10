@@ -35,12 +35,14 @@
                             <ul class='exzoom_img_ul'>
                                 <li><img class=" img-fluid w-100" src="{{asset($product->thumb_image)}}" alt="product">
                                 </li>
+
                                 @foreach($product->gallery as $image)
                                     @if (!$loop->first)
                                         <li><img class="zoom img-fluid w-100" src="{{ asset($image->image) }}"
                                                  alt="product"></li>
                                     @endif
                                 @endforeach
+
                             </ul>
                         </div>
                         <div class="exzoom_nav"></div>
@@ -126,6 +128,7 @@
                                 </div>
                             @endif
 
+                            {{-- QUANTITY--}}
                             <div class="details_quentity">
                                 <h5>select quentity</h5>
                                 <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
@@ -325,7 +328,7 @@
                                         </h5>
                                         <ul class="d-flex flex-wrap justify-content-center">
                                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"><i
-                                                        class="fas fa-shopping-basket"></i></a></li>
+                                                        class="fas fa-shopping-basket" onclick="loadProductModal('{{$relatedProduct->id}}')"></i></a></li>
                                             <li><a href="#"><i class="fal fa-heart"></i></a></li>
                                             <li><a href="#"><i class="far fa-eye"></i></a></li>
                                         </ul>
@@ -343,7 +346,7 @@
     </section>
 
     <!-- CART POPUT START -->
-    <div class="fp__cart_popup">
+    {{--<div class="fp__cart_popup">
         <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -425,7 +428,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
     <!-- CART POPUT END -->
 
     <!--=============================
