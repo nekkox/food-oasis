@@ -52,6 +52,7 @@
         })
     }
 
+    //Remove product from sidebar cart
     function removeProductFromSidebar(rowId) {
 
         $.ajax({
@@ -62,6 +63,7 @@
                 $('.overlay-container').removeClass('d-none')
             },
 
+            //Call updateSidebarCart function async when element is successfully removed
             success: function (response) {
                 if (response.status === 'success') {
                     updateSidebarCart(function () {

@@ -85,7 +85,9 @@
         </div>
         <ul class="details_button_area d-flex flex-wrap">
 
-            <li><button type="submit" class="common_btn modal_cart_button">add to cart</button></li>
+            <li>
+                <button type="submit" class="common_btn modal_cart_button">add to cart</button>
+            </li>
 
         </ul>
 
@@ -121,6 +123,7 @@
             updateTotalPrice();
         })
 
+        //Add to cart function
         $('#model_add_to_cart_form').on('submit', function (event) {
             event.preventDefault();
 
@@ -139,9 +142,9 @@
 
             $.ajax({
                 method: 'post',
-                url: '{{route('add-to-cart')}}',
+                url: '{{route("add-to-cart")}}',
                 data: formData,
-                beforeSend: function(){
+                beforeSend: function () {
                     $('.modal_cart_button').attr('disabled', true);
                     $('.modal_cart_button').html('<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true" ></span>&nbsp;&nbsp;&nbsp;Loading...')
                 },
@@ -154,11 +157,11 @@
                     let errorMessage = xhr.responseJSON.message;
                     toastr.error(errorMessage);
                 },
-                complete: function(){
-                    setTimeout(function(){
+                complete: function () {
+                    setTimeout(function () {
                         $('.modal_cart_button').html('Add to Cart');
                         $('.modal_cart_button').attr('disabled', false);
-                    },1000)
+                    }, 1000)
                 }
             })
 
