@@ -160,31 +160,48 @@
                 let rowId = inputFiend.data('id')
 
                 inputFiend.val(currentValue + 1)
+
                 cartQtyUpdate(rowId, inputFiend.val(), function (response) {
-                    let productTotal = response.product_total;
-                    // Update the total for this product
-                    inputFiend.closest('.product_row')
-                        .find('.product_cart_total')
-                        .text("{{ currencyPosition(":productTotal") }}"
-                            .replace(':productTotal', productTotal))
+                    console.log(response)
+                    if (response.status === 'success') {
+                        inputFiend.val(response.qty)
+                        let productTotal = response.product_total;
+                        // Update the total for this product
+                        inputFiend.closest('.product_row')
+                            .find('.product_cart_total')
+                            .text("{{ currencyPosition(":productTotal") }}"
+                                .replace(':productTotal', productTotal))
+                    } else if (response.status === 'error') {
+                        toastr.error(response.message)
+                        inputFiend.val(response.qty)
+                    }
+
+
                 })
-
-
             })
 
             $('.decrement').on('click', function () {
                 let inputFiend = $(this).siblings('.quantity')
                 let currentValue = parseInt(inputFiend.val());
-                let rowId = inputFiend.data('id')
-                inputFiend.val() > 1 ? inputFiend.val(currentValue - 1) : inputFiend.val();
-                cartQtyUpdate(rowId, inputFiend.val(), function (response) {
-                    let productTotal = response.product_total;
-                    // Update the total for this product
-                    inputFiend.closest('.product_row')
-                        .find('.product_cart_total')
-                        .text("{{ currencyPosition(":productTotal") }}"
-                            .replace(':productTotal', productTotal))
-                })
+                let rowId = inputFiend.data('id');
+
+                if (inputFiend.val() > 1) {
+                    inputFiend.val(currentValue - 1)
+                    cartQtyUpdate(rowId, inputFiend.val(), function (response) {
+                        console.log(response)
+                        if (response.status === 'success') {
+                            inputFiend.val(response.qty);
+                            let productTotal = response.product_total;
+                            // Update the total for this product
+                            inputFiend.closest('.product_row')
+                                .find('.product_cart_total')
+                                .text("{{ currencyPosition(":productTotal") }}"
+                                    .replace(':productTotal', productTotal))
+                        } else if (response.status === 'error') {
+                            toastr.error(response.message);
+                        }
+                    })
+                }
             })
 
 
@@ -208,6 +225,7 @@
                         let errorMessage = xhr.responseJSON.message;
                         hideLoader();
                         toastr.error(errorMessage);
+
                     },
                     complete: function () {
                         setTimeout(function () {

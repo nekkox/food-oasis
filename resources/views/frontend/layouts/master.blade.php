@@ -146,6 +146,8 @@
 <!--main/custom js-->
 <script src="{{asset('frontend/js/main.js')}}"></script>
 
+
+
 <!--show dynamic validation message-->
 <script>
 
@@ -153,7 +155,6 @@
     toastr.options.positionClass = "toast-bottom-right"
     @if($errors->any())
     @foreach($errors->all() as $error)
-
     toastr.error("{{$error}}")
 
     @endforeach

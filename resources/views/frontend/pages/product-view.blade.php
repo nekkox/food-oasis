@@ -569,6 +569,7 @@
                 url: '{{route("add-to-cart")}}',
                 data: formData,
                 beforeSend: function () {
+
                     $('.v_submit_button').attr('disabled', true);
                     $('.v_submit_button').html('<span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true" ></span>&nbsp;&nbsp;&nbsp;Loading...')
                 },
@@ -578,7 +579,8 @@
                     toastr.success(response.message)
                 },
                 error: function (xhr, status, error) {
-                    let errorMessage = xhr.message;
+                    console.log(xhr)
+                    let errorMessage = xhr.responseJSON.message;
                     toastr.error(errorMessage);
                 },
                 complete: function () {
