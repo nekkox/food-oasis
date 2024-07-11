@@ -56,7 +56,7 @@
                                     </th>
 
                                     <th class="fp__pro_icon">
-                                        <a class="clear_all" href="#">clear all</a>
+                                        <a class="clear_all" href="{{route("cart-destroy")}}">clear all</a>
                                     </th>
                                 </tr>
                                 @foreach(Cart::content() as $item)
@@ -109,12 +109,18 @@
                                             <h6 class="product_cart_total">{{currencyPosition(productTotal($item->rowId))}}</h6>
                                         </td>
 
-                                        <td class="fp__pro_icon">
+                                        <td class="fp__pro_icon remove_cart_product" data-id="{{$item->rowId}}">
                                             <a href="#"><i class="far fa-times"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
-
+                                @if(Cart::content()->count() === 0)
+                                    <tr>
+                                        <td colspan="6" class="text-center fp__pro_name"
+                                            style="width: 100%; display: inline">Cart is Empty
+                                        </td>
+                                    </tr>
+                                @endif
 
                                 </tbody>
                             </table>
@@ -192,15 +198,11 @@
                     },
                     beforeSend: function () {
                         showLoader();
-
                     },
                     success: function (response) {
-
                         if (response && typeof callback === 'function') {
                             callback(response)
                         }
-
-                        //$('.product_cart_total').text(response.product_total);
                     },
                     error: function (xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
@@ -212,7 +214,66 @@
                             hideLoader();
                         }, 1000)
                     }
+                })
+            }
 
+
+            $('.remove_cart_product').on('click', function (e) {
+                e.preventDefault();
+                let rowId = $(this).data('id')
+                removeCartProduct(rowId);
+                $(this).closest('tr').remove()
+            })
+
+            function removeCartProduct(rowId) {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route("cart-product-remove", ":rowId")}}'.replace(':rowId', rowId),
+                    beforeSend: function () {
+                        showLoader();
+
+                    },
+                    success: function (response) {
+                        updateSidebarCart()
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMessage = xhr.responseJSON.message;
+                        hideLoader();
+                        toastr.error(errorMessage);
+                    },
+                    complete: function () {
+                        setTimeout(function () {
+                            hideLoader();
+                        }, 1000)
+                    }
+                })
+            }
+
+            $('.clear_all').on('click', function () {
+                destroyCart()
+            })
+
+            function destroyCart() {
+                $.ajax({
+                    method: 'GET',
+                    url: '{{route("cart-destroy")}}',
+                    beforeSend: function () {
+                        showLoader();
+
+                    },
+                    success: function (response) {
+                        updateSidebarCart()
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMessage = xhr.responseJSON.message;
+                        hideLoader();
+                        toastr.error(errorMessage);
+                    },
+                    complete: function () {
+                        setTimeout(function () {
+                            hideLoader();
+                        }, 1000)
+                    }
                 })
             }
 

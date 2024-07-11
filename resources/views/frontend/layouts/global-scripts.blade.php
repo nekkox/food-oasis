@@ -21,11 +21,9 @@
             beforeSend: function () {
                 $('.overlay').addClass('active')
                 $('.overlay-container').removeClass('d-none')
-
             },
 
             success: function (response) {
-
                 $('.load_product_modal_body').html(response);
                 $('#cartModal').modal('show');
             },
