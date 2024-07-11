@@ -1,6 +1,20 @@
 <script>
-    function loadProductModal(productId) {
 
+    /** Show Loader*/
+    function showLoader(){
+        $('.overlay-container').removeClass('d-none')
+        $('.overlay').addClass('active')
+    }
+
+    /** Hide Loader*/
+
+    function hideLoader(){
+        $('.overlay').removeClass('active')
+        $('.overlay-container').addClass('d-none')
+
+    }
+
+    function loadProductModal(productId) {
         $.ajax({
             method: "GET",
             url: '{{route("load-product-modal",":productId")}}'.replace(':productId', productId),
@@ -29,13 +43,14 @@
     //Update Sidebar cart
 
     function updateSidebarCart(callback = null) {
-
+        console.log('cart updated');
         $.ajax({
             method: "GET",
             url: '{{route('get-cart-products')}}',
 
             success: function (response) {
                 $('.cart_contents').html(response);
+
                 let cartTotal = $('#cart_total').val();
                 let cartCount = $('#cart_product_count').val();
 

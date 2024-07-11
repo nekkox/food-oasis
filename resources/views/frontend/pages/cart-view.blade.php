@@ -5,13 +5,13 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{asset('frontend/images/counter_bg.jpg')}});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
                     <h1>cart view</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{route('home')}}">home</a></li>
                         <li><a href="#">cart view</a></li>
                     </ul>
                 </div>
@@ -59,131 +59,62 @@
                                         <a class="clear_all" href="#">clear all</a>
                                     </th>
                                 </tr>
-                                <tr>
-                                    <td class="fp__pro_img"><img src="images/menu1.png" alt="product"
-                                                                 class="img-fluid w-100">
-                                    </td>
+                                @foreach(Cart::content() as $item)
 
-                                    <td class="fp__pro_name">
-                                        <a href="#">Hyderabadi Biryani</a>
-                                        <span>medium</span>
-                                        <p>coca-cola</p>
-                                        <p>7up</p>
-                                    </td>
+                                    <tr>
+                                        <td class="fp__pro_img"><img
+                                                src="{{asset($item->options['product_info']['image'])}}" alt="product"
+                                                class="img-fluid w-100">
+                                        </td>
 
-                                    <td class="fp__pro_status">
-                                        <h6>$180.00</h6>
-                                    </td>
+                                        <td class="fp__pro_name">
+                                            <a href="{{route('product.show', $item->options['product_info']['slug'])}}">{{$item->name}}</a>
+                                            <span>
 
-                                    <td class="fp__pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
+                                                @if( count($item->options['product_size']) > 0 )
+                                                    <span style="color: red">
+                                                            {{$item->options['product_size']['name']}}
+                                                        ({{ currencyPosition($item->options['product_size']['price']) }})
+                                                        </span>
+                                                @endif
 
-                                    <td class="fp__pro_tk">
-                                        <h6>$180,00</h6>
-                                    </td>
+                                            </span>
 
-                                    <td class="fp__pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fp__pro_img">
-                                        <img src="images/menu2.png" alt="product" class="img-fluid w-100">
-                                    </td>
+                                            @if( count($item->options['product_options']) > 0 )
+                                                @foreach($item->options['product_options'] as $option)
+                                                    <span>{{$option['name'] .' ('. currencyPosition($option['price'])}})
 
-                                    <td class="fp__pro_name">
-                                        <a href="#">Chicken Masala</a>
-                                        <span>small</span>
-                                    </td>
-                                    <td class="fp__pro_status">
-                                        <h6>$140.00</h6>
-                                    </td>
+                                                    </span>
+                                                @endforeach
+                                            @endif
 
-                                    <td class="fp__pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <td class="fp__pro_tk">
-                                        <h6>$140,00</h6>
-                                    </td>
+                                        <td class="fp__pro_status">
+                                            <h6>{{ currencyPosition($item->price) }}</h6>
+                                        </td>
 
-                                    <td class="fp__pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fp__pro_img">
-                                        <img src="images/menu3.png" alt="product" class="img-fluid w-100">
-                                    </td>
+                                        <td class="fp__pro_select">
+                                            <div class="quentity_btn">
+                                                <button class="btn btn-danger decrement"><i class="fal fa-minus"></i>
+                                                </button>
+                                                <input class="quantity" type="text" placeholder="1" value="{{$item->qty}}" data-id="{{$item->rowId}}" readonly>
+                                                <button class="btn btn-success increment"><i class="fal fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </td>
 
-                                    <td class="fp__pro_name">
-                                        <a href="#">Daria Shevtsova</a>
-                                        <span>large</span>
-                                        <p>coca-cola</p>
-                                        <p>7up</p>
-                                    </td>
+                                        <td class="fp__pro_tk">
+                                            <h6>$180,00</h6>
+                                        </td>
+
+                                        <td class="fp__pro_icon">
+                                            <a href="#"><i class="far fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
 
-                                    <td class="fp__pro_status">
-                                        <h6>$220.00</h6>
-                                    </td>
-
-                                    <td class="fp__pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
-
-                                    <td class="fp__pro_tk">
-                                        <h6>$220,00</h6>
-                                    </td>
-
-                                    <td class="fp__pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fp__pro_img">
-                                        <img src="images/menu4.png" alt="product" class="img-fluid w-100">
-                                    </td>
-
-                                    <td class="fp__pro_name">
-                                        <a href="#">Hyderabadi Biryani</a>
-                                        <span>medium</span>
-                                        <p>7up</p>
-                                    </td>
-
-                                    <td class="fp__pro_status">
-                                        <h6>$150.00</h6>
-                                    </td>
-
-                                    <td class="fp__pro_select">
-                                        <div class="quentity_btn">
-                                            <button class="btn btn-danger"><i class="fal fa-minus"></i></button>
-                                            <input type="text" placeholder="1">
-                                            <button class="btn btn-success"><i class="fal fa-plus"></i></button>
-                                        </div>
-                                    </td>
-
-                                    <td class="fp__pro_tk">
-                                        <h6>$150.00</h6>
-                                    </td>
-
-                                    <td class="fp__pro_icon">
-                                        <a href="#"><i class="far fa-times"></i></a>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -211,3 +142,58 @@
     ==============================-->
 
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('.increment').on('click', function () {
+                let inputFiend = $(this).siblings('.quantity')
+                let currentValue = parseInt(inputFiend.val());
+                let rowId = inputFiend.data('id')
+                inputFiend.val(currentValue+1)
+                cartQtyUpdate(rowId,  inputFiend.val())
+
+            })
+
+            $('.decrement').on('click', function () {
+                let inputFiend = $(this).siblings('.quantity')
+                let currentValue = parseInt(inputFiend.val());
+                let rowId = inputFiend.data('id')
+                inputFiend.val() > 1 ? inputFiend.val(currentValue-1) : inputFiend.val();
+                cartQtyUpdate(rowId,  inputFiend.val())
+            })
+
+
+            function cartQtyUpdate(rowId, qty){
+                $.ajax({
+                    method:'post',
+                    url: '{{route('cart.quantity-update')}}',
+                    data: {
+                        rowId: rowId,
+                        qty: qty
+                    },
+                    beforeSend: function(){
+                        showLoader();
+
+                    },
+                    success: function(response){
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error){
+                        let errorMessage = xhr.responseJSON.message;
+                        hideLoader();
+                        toastr.error(errorMessage);
+                    },
+                    complete: function(){
+                        setTimeout(function(){
+                            hideLoader();
+                        },1000)
+                    }
+
+                })
+            }
+
+        })
+    </script>
+@endpush

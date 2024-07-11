@@ -66,7 +66,7 @@
                 </li>
                 <li>
                     <a class="common_btn" href="#" data-bs-toggle="modal"
-                       data-bs-target="#staticBackdrop" onclick="updateSidebarCart()">reservation</a>
+                       data-bs-target="#staticBackdrop">reservation</a>
                 </li>
             </ul>
         </div>
@@ -92,7 +92,8 @@
                         <p class="size">Qty: {{$cartProduct->qty}}</p>
 
 
-                        <p class="size">{{@$cartProduct->options['product_size']['name']}} &nbsp; {{  @$cartProduct->options['product_size']['name'] ? '('.currencyPosition(@$cartProduct->options['product_size']['price']).')' : '' }}   </p>
+                        <p class="size">{{@$cartProduct->options['product_size']['name']}} &nbsp;
+                            {{ @$cartProduct->options['product_size']['name'] ? '('.currencyPosition(@$cartProduct->options['product_size']['price']).')' : '' }}   </p>
 
                         @foreach($cartProduct->options['product_options'] as $option)
                             <span class="extra">{{$option['name']}} &nbsp; ({{ currencyPosition(@$option['price'])  }}) </span>
@@ -127,7 +128,7 @@
 
         </ul>
         <p class="subtotal">sub total <span class="cart_subtotal">{{currencyPosition( cartTotal())}}</span></p>
-        <a class="cart_view" href="cart_view.html"> view cart</a>
+        <a class="cart_view" href="{{route('cart.index')}}"> view cart</a>
         <a class="checkout" href="check_out.html">checkout</a>
         <a class="checkout" href="javascript:;" onclick="EmptyCart()"> view cart</a>
     </div>
