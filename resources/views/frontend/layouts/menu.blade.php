@@ -100,7 +100,8 @@
                         @endforeach
 
                         <p class="price">
-                            {{currencyPosition($cartProduct->price)}}
+                            {{currencyPosition(productTotal($cartProduct->rowId))}}
+{{--                            {{currencyPosition($cartProduct->price)}}--}}
                         </p>
                     </div>
                     <span class="del_icon" onclick="removeProductFromSidebar('{{$cartProduct->rowId}}')"><i class="fal fa-times"></i></span>

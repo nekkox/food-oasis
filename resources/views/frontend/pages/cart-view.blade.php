@@ -61,7 +61,7 @@
                                 </tr>
                                 @foreach(Cart::content() as $item)
 
-                                    <tr>
+                                    <tr class="product_row">
                                         <td class="fp__pro_img"><img
                                                 src="{{asset($item->options['product_info']['image'])}}" alt="product"
                                                 class="img-fluid w-100">
@@ -98,14 +98,15 @@
                                             <div class="quentity_btn">
                                                 <button class="btn btn-danger decrement"><i class="fal fa-minus"></i>
                                                 </button>
-                                                <input class="quantity" type="text" placeholder="1" value="{{$item->qty}}" data-id="{{$item->rowId}}" readonly>
+                                                <input class="quantity" type="text" placeholder="1"
+                                                       value="{{$item->qty}}" data-id="{{$item->rowId}}" readonly>
                                                 <button class="btn btn-success increment"><i class="fal fa-plus"></i>
                                                 </button>
                                             </div>
                                         </td>
 
                                         <td class="fp__pro_tk">
-                                            <h6>$180,00</h6>
+                                            <h6 class="product_cart_total">{{currencyPosition(productTotal($item->rowId))}}</h6>
                                         </td>
 
                                         <td class="fp__pro_icon">
@@ -151,8 +152,17 @@
                 let inputFiend = $(this).siblings('.quantity')
                 let currentValue = parseInt(inputFiend.val());
                 let rowId = inputFiend.data('id')
-                inputFiend.val(currentValue+1)
-                cartQtyUpdate(rowId,  inputFiend.val())
+
+                inputFiend.val(currentValue + 1)
+                cartQtyUpdate(rowId, inputFiend.val(), function (response) {
+                    let productTotal = response.product_total;
+                    // Update the total for this product
+                    inputFiend.closest('.product_row')
+                        .find('.product_cart_total')
+                        .text("{{ currencyPosition(":productTotal") }}"
+                            .replace(':productTotal', productTotal))
+                })
+
 
             })
 
@@ -160,39 +170,52 @@
                 let inputFiend = $(this).siblings('.quantity')
                 let currentValue = parseInt(inputFiend.val());
                 let rowId = inputFiend.data('id')
-                inputFiend.val() > 1 ? inputFiend.val(currentValue-1) : inputFiend.val();
-                cartQtyUpdate(rowId,  inputFiend.val())
+                inputFiend.val() > 1 ? inputFiend.val(currentValue - 1) : inputFiend.val();
+                cartQtyUpdate(rowId, inputFiend.val(), function (response) {
+                    let productTotal = response.product_total;
+                    // Update the total for this product
+                    inputFiend.closest('.product_row')
+                        .find('.product_cart_total')
+                        .text("{{ currencyPosition(":productTotal") }}"
+                            .replace(':productTotal', productTotal))
+                })
             })
 
 
-            function cartQtyUpdate(rowId, qty){
+            function cartQtyUpdate(rowId, qty, callback) {
                 $.ajax({
-                    method:'post',
+                    method: 'post',
                     url: '{{route('cart.quantity-update')}}',
                     data: {
                         rowId: rowId,
                         qty: qty
                     },
-                    beforeSend: function(){
+                    beforeSend: function () {
                         showLoader();
 
                     },
-                    success: function(response){
-                        console.log(response);
+                    success: function (response) {
+
+                        if (response && typeof callback === 'function') {
+                            callback(response)
+                        }
+
+                        //$('.product_cart_total').text(response.product_total);
                     },
-                    error: function(xhr, status, error){
+                    error: function (xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
                         hideLoader();
                         toastr.error(errorMessage);
                     },
-                    complete: function(){
-                        setTimeout(function(){
+                    complete: function () {
+                        setTimeout(function () {
                             hideLoader();
-                        },1000)
+                        }, 1000)
                     }
 
                 })
             }
+
 
         })
     </script>

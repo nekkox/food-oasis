@@ -1,3 +1,5 @@
+{{--When Product is added to the cart this script is run to update all products in the cart--}}
+
 <input type="hidden" value="{{cartTotal()}}" id="cart_total">
 <input type="hidden" value="{{count(Cart::content())}}" id="cart_product_count">
 
@@ -18,7 +20,9 @@
             @endforeach
 
             <p class="price">
-               {{currencyPosition($cartProduct->price)}}
+{{--              {{currencyPosition($cartProduct->price)}}--}}
+
+                {{currencyPosition(productTotal($cartProduct->rowId))}}
             </p>
         </div>
         <span class="del_icon" onclick="removeProductFromSidebar('{{$cartProduct->rowId}}')"><i class="fal fa-times"></i></span>
