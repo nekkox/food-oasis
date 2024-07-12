@@ -34,6 +34,7 @@ class CouponController extends Controller
      */
     public function store(CouponCreateRequest $request) : RedirectResponse
     {
+
         $coupon = new Coupon();
         $coupon->name = $request->name;
         $coupon->code = $request->code;
