@@ -85,9 +85,17 @@
         </div>
         <ul class="details_button_area d-flex flex-wrap">
 
-            <li>
-                <button type="submit" class="common_btn modal_cart_button">add to cart</button>
-            </li>
+            @if($product->quantity === 0)
+                <li>
+                    <button type="button" class="common_btn bg-danger">Stock Out</button>
+                </li>
+            @else
+                <li>
+                    <button type="submit" class="common_btn modal_cart_button">add to cart</button>
+                </li>
+            @endif
+
+
 
         </ul>
 
