@@ -62,3 +62,6 @@ Route::get('cart-product-remove/{rowId}',[CartController::class, 'cartProductRem
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart-update-qty', [CartController::class, 'cartQtyUpdate'])->name('cart.quantity-update');
 Route::get('/cart-destroy', [CartController::class, 'cartDestroy'])->name('cart-destroy');
+
+
+Route::get('jquery',[\App\Http\Controllers\jq::class, 'index'])->name('jquery');

@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductOptionController;
@@ -50,6 +51,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /*Product Option Routes*/
     Route::resources(['product-option' => ProductOptionController::class]);
+
+    /*Coupon Routes*/
+    Route::resources(['coupon' => CouponController::class]);
 
 
     /*Product Option Routes*/
