@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\Slider;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 
@@ -65,7 +67,19 @@ class FrontendController extends Controller
         return view('frontend.layouts.ajax-files.product-popup-modal', ['product' => $product ])->render();
     }
 
-    public function storeCart(Request $request){
+   /* public function storeCart(Request $request){
         dd($request->all());
+    }*/
+
+    public function applyCoupon(Request $request) : Response{
+        $code = Coupon::where('code', $request->code)->first();
+        if($code !== null){
+            return response(['done']);
+        }
+        else{
+            return response(['status' => 'error', 'message' => 'Wrong Coupon'], 500);
+
+        }
+
     }
 }

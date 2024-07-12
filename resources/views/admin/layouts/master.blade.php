@@ -1,6 +1,3 @@
-DZIAŁĄ
-
-
 
 <!DOCTYPE html>
 <html lang="en">
