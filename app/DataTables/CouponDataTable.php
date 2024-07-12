@@ -57,7 +57,7 @@ class CouponDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(1)
+            ->orderBy(0)
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -66,6 +66,11 @@ class CouponDataTable extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
+            ])
+            ->parameters([
+                'createdRow' => 'function(row, data, dataIndex) {
+                            $(row).addClass("list-group-item-action item");
+                        }',
             ]);
     }
 

@@ -138,11 +138,12 @@ DZIAŁĄ
                                 console.log('deleted');
                                 toastr.success(response.message);
                                 item.remove(); // Remove the deleted item from the DOM
-                               // $('#slider-table').DataTable().draw();
+                                $('#product-table').DataTable().draw();
+                                $('#slider-table').DataTable().draw();
+                                $('#coupon-table').DataTable().draw();
 
 
                             } else if (response.status === 'error') {
-                                console.log('xxxxxx');
                                 toastr.error(response.message)
                             }
                         },
