@@ -131,8 +131,8 @@
                     <div class="fp__cart_list_footer_button">
                         <h6>total cart</h6>
                         <p>subtotal: <span>{{currencyPosition(cartTotal())}}</span></p>
-                        <p>delivery: <span>$00.00</span></p>
-                        <p>discount: <span>$10.00</span></p>
+                        <p>discount: <span id="discount">{{ config('settings.site_currency_icon') }}0</span></p>
+                        <p class="total"><span>total:</span> <span id="final_total">{{ config('settings.site_currency_icon') }}0</span></p>
                         <p class="total"><span>total:</span> <span>$134.00</span></p>
                         <form id="coupon_form">
                             <input type="text" id="coupon_code" name="code" placeholder="Coupon Code">
@@ -315,15 +315,19 @@
                         subtotal: subtotal
                     },
                     beforeSend: function(){
+                        showLoader()
                     },
                     success: function(response){
-                        console.log(response)
+                        $('#discount').text("{{ config('settings.site_currency_icon') }}"+response.discount);
+                        $('#final_total').text("{{ config('settings.site_currency_icon') }}"+response.finalTotal);
+                        toastr.success('Coupon applied successfully');
                     },
                     error: function(xhr, status, error){
                         let errorMessage = xhr.responseJSON.message;
                         toastr.error(errorMessage);
                     },
                     complete: function(){
+                        hideLoader()
                     }
                 })
             }

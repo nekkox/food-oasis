@@ -53,33 +53,53 @@ class FrontendController extends Controller
 
     public function showProduct(string $slug): View
     {
-        $product = Product::with(['gallery', 'productSizes', 'productOptions','category'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
+        $product = Product::with(['gallery', 'productSizes', 'productOptions', 'category'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
 
         $relatedProducts = Product::with('category')->where('category_id', $product->category_id)->where('id', '!=', $product->id)->take(8)->latest()->get();
 
-        return view('frontend.pages.product-view', ['product' => $product, 'relatedProducts'=>$relatedProducts]);
+        return view('frontend.pages.product-view', ['product' => $product, 'relatedProducts' => $relatedProducts]);
     }
 
 
     public function loadProductModal(string $productId)
     {
-        $product = Product::with('productSizes','productOptions')->findOrFail($productId);
-        return view('frontend.layouts.ajax-files.product-popup-modal', ['product' => $product ])->render();
+        $product = Product::with('productSizes', 'productOptions')->findOrFail($productId);
+        return view('frontend.layouts.ajax-files.product-popup-modal', ['product' => $product])->render();
     }
 
-   /* public function storeCart(Request $request){
-        dd($request->all());
-    }*/
+    /* public function storeCart(Request $request){
+         dd($request->all());
+     }*/
 
-    public function applyCoupon(Request $request) : Response{
-        $code = Coupon::where('code', $request->code)->first();
-        if($code !== null){
-            return response(['done']);
-        }
-        else{
-            return response(['status' => 'error', 'message' => 'Wrong Coupon'], 500);
+    public function applyCoupon(Request $request): Response
+    {
 
+        $subtotal = $request->subtotal;
+        $code = $request->code;
+
+        $coupon = Coupon::where('code', $code)->first();
+
+        if (!$coupon) {
+            return response(['message' => 'Invalid Coupon Code.'], 422);
         }
+
+        if ($coupon->quantity <= 0) {
+            return response(['message' => 'Coupon has been fully redeemed.'], 422);
+        }
+
+        if ($coupon->expire_date < now()) {
+            return response(['message' => 'Coupon hs expired.'], 422);
+        }
+
+        if ($coupon->discount_type === 'percent') {
+            $discount = $subtotal * ($coupon->discount / 100);
+        } elseif ($coupon->discount_type === 'amount') {
+            $discount = $coupon->discount;
+        }
+
+        $finalTotal = $subtotal - $discount;
+
+        return response(['discount' => $discount, 'finalTotal' => $finalTotal]);
 
     }
 }
