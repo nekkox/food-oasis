@@ -131,7 +131,7 @@
                     <div class="fp__cart_list_footer_button">
                         <h6>total cart</h6>
                         <p>subtotal: <span id="subtotal">{{currencyPosition(cartTotal())}}</span></p>
-                        <p>delivery: <span>$00.00</span></p>
+                        <p>delivery: <span> {{ config('settings.site_currency_icon') }}00.00</span></p>
                         <p>discount: <span id="discount">
 
                                  @if (isset(session()->get('coupon')['discount']))
@@ -154,6 +154,23 @@
                             <input type="text" id="coupon_code" name="code" placeholder="Coupon Code">
                             <button type="submit" id="coupon_btn">apply</button>
                         </form>
+
+                        <div class="coupon_card">
+                        @if(session()->has('coupon'))
+
+                                <div class="card mt-2">
+                                    <div class="m-3">
+                                        <span><b class="v_coupon_code">Applied Couppon: {{ session()->get('coupon')['code'] }}</b></span>
+                                        <span>
+                                    <button id="destroy_coupon"><i class="far fa-times"></i></button>
+                                </span>
+                                    </div>
+                                </div>
+
+
+                        @endif
+                        </div>
+
                         <a class="common_btn" href=" #">checkout</a>
                     </div>
                 </div>
@@ -358,16 +375,57 @@
                         showLoader()
                     },
                     success: function (response) {
+                        $("#coupon_code").val("");
                         $('#discount').text("{{ config('settings.site_currency_icon') }}" + response.discount);
                         $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.finalTotal);
+
+                        $couponCartHtml = `<div class="card mt-2">
+                            <div class="m-3">
+                                <span><b class="v_coupon_code">Applied Couppon: ${response.coupon_code}</b></span>
+                                <span>
+                                    <button id="destroy_coupon"><i class="far fa-times"></i></button>
+                                </span>
+                            </div>
+                        </div>`
+
+                        $('.coupon_card').html($couponCartHtml);
                         toastr.success('Coupon applied successfully');
                     },
                     error: function (xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
+                        hideLoader()
                         toastr.error(errorMessage);
                     },
                     complete: function () {
                         hideLoader()
+                    }
+                })
+            }
+
+            $(document).on('click', "#destroy_coupon", function(){
+                destroyCoupon();
+            });
+
+            function destroyCoupon(){
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("destroy-coupon") }}',
+                    beforeSend: function(){
+                        showLoader();
+                    },
+                    success: function(response){
+                        $('#discount').text("{{ config('settings.site_currency_icon') }}"+0);
+                        $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total);
+                        $('.coupon_card').html("");
+                        toastr.success(response.message);
+                    },
+                    error: function(xhr, status, error){
+                        let errorMessage = xhr.responseJSON.message;
+                        hideLoader()
+                        toastr.error(errorMessage);
+                    },
+                    complete: function(){
+                        hideLoader();
                     }
                 })
             }
