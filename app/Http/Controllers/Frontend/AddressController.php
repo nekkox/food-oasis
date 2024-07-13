@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryArea;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -12,7 +13,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
