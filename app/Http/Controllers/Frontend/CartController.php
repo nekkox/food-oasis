@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 class CartController extends Controller
 {
 
-    public function index():View
+    public function index(): View
     {
         return view('frontend.pages.cart-view');
     }
@@ -23,7 +23,7 @@ class CartController extends Controller
     {
         //dd($request->all());
         $product = Product::with('productSizes', 'productOptions')->findOrFail($request->product_id);
-        if($product->quantity < $request->quantity){
+        if ($product->quantity < $request->quantity) {
             throw ValidationException::withMessages(['Quantity is not available']);
         }
         try {
@@ -87,9 +87,8 @@ class CartController extends Controller
     {
         try {
             Cart::remove($rowId);
-            return response(['status' => 'success', 'message' => 'Item has been removed!'], 200);
-        }
-        catch (\Exception $e){
+            return response(['status' => 'success', 'message' => 'Item has been removed!', 'cart_total' => cartTotal()], 200);
+        } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'Something went wrong'], 500);
         }
     }
@@ -98,18 +97,22 @@ class CartController extends Controller
     {
         //dd($request->all());
         $cartItem = Cart::get($request->rowId);
-       // dd($item );
+        // dd($item );
         $product = Product::findOrFail($cartItem->id);
-       // dd($product);
-        if($product->quantity < $request->qty){
-            return response(['status'=>'error', 'message' => 'Quantity is not available', 'qty'=>$cartItem->qty],200);
+        // dd($product);
+        if ($product->quantity < $request->qty) {
+            return response([
+                'status' => 'error',
+                'message' => 'Quantity is not available',
+                'qty' => $cartItem->qty,
+            ],
+                200);
         }
 
         try {
-            $cart =  Cart::update($request->rowId, $request->qty);
-            return response(['status' => 'success','product_total'=>productTotal($request->rowId), 'qty'=>$cart->qty], 200);
-        }
-        catch (\Exception $e ){
+            $cart = Cart::update($request->rowId, $request->qty);
+            return response(['status' => 'success', 'product_total' => productTotal($request->rowId), 'qty' => $cart->qty, 'cart_total' => cartTotal()], 200);
+        } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'Something went wrong, please reload the page'], 500);
 
         }
@@ -117,7 +120,7 @@ class CartController extends Controller
 
     public function cartDestroy()
     {
-            Cart::destroy();
-       return redirect()->back();
+        Cart::destroy();
+        return redirect()->back();
     }
 }

@@ -130,7 +130,7 @@
                 <div class="col-lg-4 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__cart_list_footer_button">
                         <h6>total cart</h6>
-                        <p>subtotal: <span>{{currencyPosition(cartTotal())}}</span></p>
+                        <p>subtotal: <span id="subtotal">{{currencyPosition(cartTotal())}}</span></p>
                         <p>discount: <span id="discount">{{ config('settings.site_currency_icon') }}0</span></p>
                         <p class="total"><span>total:</span> <span id="final_total">{{ config('settings.site_currency_icon') }}0</span></p>
                         <p class="total"><span>total:</span> <span>$134.00</span></p>
@@ -154,6 +154,9 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
+
+            var cartTotal = 0;
+
             $('.increment').on('click', function () {
                 let inputFiend = $(this).siblings('.quantity')
                 let currentValue = parseInt(inputFiend.val());
@@ -162,15 +165,21 @@
                 inputFiend.val(currentValue + 1)
 
                 cartQtyUpdate(rowId, inputFiend.val(), function (response) {
-                    console.log(response)
+
                     if (response.status === 'success') {
-                        inputFiend.val(response.qty)
+                        inputFiend.val(response.qty);
+
                         let productTotal = response.product_total;
                         // Update the total for this product
                         inputFiend.closest('.product_row')
                             .find('.product_cart_total')
                             .text("{{ currencyPosition(":productTotal") }}"
                                 .replace(':productTotal', productTotal))
+
+                        cartTotal = response.cart_total;
+                        $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+
+
                     } else if (response.status === 'error') {
                         toastr.error(response.message)
                         inputFiend.val(response.qty)
@@ -197,6 +206,11 @@
                                 .find('.product_cart_total')
                                 .text("{{ currencyPosition(":productTotal") }}"
                                     .replace(':productTotal', productTotal))
+
+                            cartTotal = response.cart_total;
+                            $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+
+
                         } else if (response.status === 'error') {
                             toastr.error(response.message);
                         }
@@ -253,6 +267,10 @@
                     },
                     success: function (response) {
                         updateSidebarCart()
+
+                        cartTotal = response.cart_total;
+                        $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+
                     },
                     error: function (xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
@@ -304,6 +322,11 @@
                 couponApply(code, subtotal)
             })
 
+
+           /* function updateSubtotal(){
+                alert(getCartTotal())
+                $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + getCartTotal());
+            }*/
 
 
             function couponApply(code, subtotal) {
