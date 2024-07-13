@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\DeliveryAreaController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductOptionController;
@@ -59,6 +60,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /*Product Option Routes*/
     Route::get('/setting',[SettingController::class, 'index'])->name('setting.index');
     Route::put('/general-setting',[SettingController::class, 'UpdateGeneralSetting'])->name('general-setting.update');
+
+    /** Delivery Area Routes */
+    Route::resource('delivery-area', DeliveryAreaController::class);
 
 });
 
