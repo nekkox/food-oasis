@@ -131,9 +131,25 @@
                     <div class="fp__cart_list_footer_button">
                         <h6>total cart</h6>
                         <p>subtotal: <span id="subtotal">{{currencyPosition(cartTotal())}}</span></p>
-                        <p>discount: <span id="discount">{{ config('settings.site_currency_icon') }}0</span></p>
-                        <p class="total"><span>total:</span> <span id="final_total">{{ config('settings.site_currency_icon') }}0</span></p>
-                        <p class="total"><span>total:</span> <span>$134.00</span></p>
+                        <p>delivery: <span>$00.00</span></p>
+                        <p>discount: <span id="discount">
+
+                                 @if (isset(session()->get('coupon')['discount']))
+                                    {{ config('settings.site_currency_icon') }} {{ session()->get('coupon')['discount'] }}
+                                @else
+                                    {{ config('settings.site_currency_icon') }}0
+                                @endif
+
+                            </span></p>
+
+                        <p class="total"><span>total:</span> <span id="final_total">
+                            @if (isset(session()->get('coupon')['discount']))
+                                    {{ config('settings.site_currency_icon') }} {{ cartTotal() - session()->get('coupon')['discount'] }}
+                                @else
+                                    {{ config('settings.site_currency_icon') }} {{ cartTotal() }}
+                                @endif
+                        </span></p>
+
                         <form id="coupon_form">
                             <input type="text" id="coupon_code" name="code" placeholder="Coupon Code">
                             <button type="submit" id="coupon_btn">apply</button>
@@ -155,7 +171,7 @@
     <script>
         $(document).ready(function () {
 
-            var cartTotal = 0;
+            var cartTotal = parseInt("{{ cartTotal() }}");
 
             $('.increment').on('click', function () {
                 let inputFiend = $(this).siblings('.quantity')
@@ -178,7 +194,7 @@
 
                         cartTotal = response.cart_total;
                         $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
-
+                        $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
 
                     } else if (response.status === 'error') {
                         toastr.error(response.message)
@@ -209,7 +225,7 @@
 
                             cartTotal = response.cart_total;
                             $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
-
+                            $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
 
                         } else if (response.status === 'error') {
                             toastr.error(response.message);
@@ -270,6 +286,7 @@
 
                         cartTotal = response.cart_total;
                         $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
+                        $("#final_total").text("{{ config('settings.site_currency_icon') }}" + response.grand_cart_total)
 
                     },
                     error: function (xhr, status, error) {
@@ -317,15 +334,15 @@
             $('#coupon_form').on('submit', function (e) {
                 e.preventDefault();
                 let code = $('#coupon_code').val();
-                let subtotal = getCartTotal();
+                let subtotal = cartTotal;
 
                 couponApply(code, subtotal)
             })
 
 
-           /* function updateSubtotal(){
-                alert(getCartTotal())
-                $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + getCartTotal());
+            /* function updateSubtotal(){
+                 alert(getCartTotal())
+                 $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + getCartTotal());
             }*/
 
 
@@ -333,23 +350,23 @@
                 $.ajax({
                     method: 'post',
                     url: '{{route('apply-coupon')}}',
-                    data:{
+                    data: {
                         code: code,
                         subtotal: subtotal
                     },
-                    beforeSend: function(){
+                    beforeSend: function () {
                         showLoader()
                     },
-                    success: function(response){
-                        $('#discount').text("{{ config('settings.site_currency_icon') }}"+response.discount);
-                        $('#final_total').text("{{ config('settings.site_currency_icon') }}"+response.finalTotal);
+                    success: function (response) {
+                        $('#discount').text("{{ config('settings.site_currency_icon') }}" + response.discount);
+                        $('#final_total').text("{{ config('settings.site_currency_icon') }}" + response.finalTotal);
                         toastr.success('Coupon applied successfully');
                     },
-                    error: function(xhr, status, error){
+                    error: function (xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
                         toastr.error(errorMessage);
                     },
-                    complete: function(){
+                    complete: function () {
                         hideLoader()
                     }
                 })
