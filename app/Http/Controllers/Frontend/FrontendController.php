@@ -88,7 +88,7 @@ class FrontendController extends Controller
         }
 
         if ($coupon->expire_date < now()) {
-            return response(['message' => 'Coupon hs expired.'], 422);
+            return response(['message' => 'Coupon has expired.'], 422);
         }
 
         if ($coupon->discount_type === 'percent') {

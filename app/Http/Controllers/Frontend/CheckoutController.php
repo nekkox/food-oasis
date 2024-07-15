@@ -32,4 +32,17 @@ class CheckoutController extends Controller
             return response(['message' => 'Something Went Wrong!'], 422);
         }
     }
+
+    public function checkoutRedirect(request $request){
+       $request->validate([
+           'id' =>['required', 'integer']
+       ]);
+
+       $address = Address::with('deliveryArea')->findOrFail($request->id);
+       $selectedAddress = $address->address.', Area: '. $address->deliveryArea?->area_name;
+        session('address', $selectedAddress);
+
+        return response(['redirect_url' => route('payment.index')]);
+
+    }
 }
