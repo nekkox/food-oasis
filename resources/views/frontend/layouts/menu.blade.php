@@ -27,7 +27,7 @@
                         <li><a href="menu_details.html">menu details</a></li>
                         <li><a href="blog_details.html">blog details</a></li>
                         <li><a href="cart_view.html">cart view</a></li>
-                        <li><a href="check_out.html">checkout</a></li>
+                        <li><a href="{{route('checkout.index')}}">checkout</a></li>
                         <li><a href="payment.html">payment</a></li>
                         <li><a href="testimonial.html">testimonial</a></li>
                         <li><a href="search_menu.html">search result</a></li>
@@ -130,7 +130,7 @@
         </ul>
         <p class="subtotal">sub total <span class="cart_subtotal">{{currencyPosition( cartTotal())}}</span></p>
         <a class="cart_view" href="{{route('cart.index')}}"> view cart</a>
-        <a class="checkout" href="check_out.html">checkout</a>
+        <a class="checkout" href="{{route('checkout.index')}}">checkout</a>
         <a class="checkout" href="javascript:;" onclick="EmptyCart()"> view cart</a>
     </div>
 </div>

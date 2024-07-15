@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\ProfileController;
@@ -75,7 +76,10 @@ Route::get('/destroy-coupon', [FrontendController::class, 'destroyCoupon'])->nam
 
 
 
-
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::get('checkout/{id}/delivery-cal', [CheckoutController::class, 'CalculateDeliveryCharge'])->name('checkout.delivery-cal');
+});
 
 
 Route::get('jquery',[\App\Http\Controllers\jq::class, 'index'])->name('jquery');
