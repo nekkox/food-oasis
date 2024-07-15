@@ -30,4 +30,8 @@ class PaymentController extends Controller
             ]);
         }
 
+    public function makePayment(Request $request)
+    {
+
+        }
 }
