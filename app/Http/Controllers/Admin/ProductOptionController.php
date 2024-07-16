@@ -34,7 +34,7 @@ class ProductOptionController extends Controller
             'price' => ['required', 'numeric'],
             'product_id' => ['required', 'integer']
         ], [
-                'name. required' => 'Product option name is required',
+                'name.required' => 'Product option name is required',
                 'name.max' => 'Product option max length is 255',
                 'price.required' => 'Product option price is required',
                 'price.numeric' => 'Product option price have to be a number',

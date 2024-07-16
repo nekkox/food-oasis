@@ -31,7 +31,7 @@ class OrderService
             $order->order_status = 'pending';
             $order->save();
 
-            //If the Odeer is saved successfully then save each product in OrderItem
+            //If the Order is saved successfully then save each product in OrderItem
             foreach (Cart::content() as $product) {
                 $orderItem = new OrderItem();
                 $orderItem->order_id = $order->id;
