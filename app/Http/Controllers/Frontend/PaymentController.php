@@ -125,9 +125,17 @@ class PaymentController extends Controller
     }
 
 
-    public function paypalSuccess()
+    public function paypalSuccess(Request $request)
     {
+        $config = $this->setPaypalConfig();
+        $provider = new PayPalClient($config);
+        $provider->getAccessToken();
 
+        $response = $provider->capturePaymentOrder($request->token);
+
+        if(isset($response['status']) && $response['status'] === 'COMPLETED'){
+            dd('Payment Competed');
+        }
     }
 
 
