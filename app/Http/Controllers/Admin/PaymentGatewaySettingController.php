@@ -53,10 +53,10 @@ class PaymentGatewaySettingController extends Controller
         }
 
         $settingsService = app(PaymentGatewaySettingService::class);
-
+dd(config()->all());
         $settingsService->clearCachedSettings();
 
        // toastr()->success('Updated Successfully!');
-        return redirect()->back()->with('created', true);
+        return redirect()->back()->with('updated', true);
     }
 }
