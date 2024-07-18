@@ -43,6 +43,10 @@ class OrderService
                 $orderItem->product_option = json_encode($product->options->product_options);
                 $orderItem->save();
             }
+
+            /** Putting the Order id in session */
+            session()->put('order_id', $order->id);
+
             /** Putting the grand total amount in session */
             session()->put('grand_total', $order->grand_total);
 

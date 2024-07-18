@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\OrderPaymentUpdateEvent;
 use App\Http\Controllers\Controller;
 use App\Services\OrderService;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\View\View;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use function Illuminate\Events\queueable;
 
 class PaymentController extends Controller
 {
@@ -134,10 +138,18 @@ class PaymentController extends Controller
         $response = $provider->capturePaymentOrder($request->token);
 
         if(isset($response['status']) && $response['status'] === 'COMPLETED'){
-            dd('Payment Competed');
+            $orderId = session()->get('order_id');
+            $capture = $response['purchase_units'][0]['payments']['captures'][0];
+            $paymentInfo = [
+                'transaction_id' => $capture['id'],
+                'currency' => $capture['amount']['currency_code'],
+                'status' => $capture['status']
+            ];
+
+            OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
+            dd('success');
         }
     }
-
 
     public function paypalCancel()
     {
