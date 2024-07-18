@@ -21,7 +21,6 @@ class PaymentController extends Controller
     public function index(): View
     {
 
-
         if (!session()->has('delivery_fee') || !session()->has('address')) {
             throw ValidationException::withMessages(['Something went wrong']);
         }
@@ -53,7 +52,7 @@ class PaymentController extends Controller
             // redirect user to the payment host
             switch ($request->payment_gateway) {
                 case 'paypal':
-                   return response(['redirect_url'=>route('paypal.payment')]);
+                    return response(['redirect_url' => route('paypal.payment')]);
                     break;
 
                 default:
@@ -68,26 +67,26 @@ class PaymentController extends Controller
 
     public function setPaypalConfig()
     {
-      $config = [
-          'mode'    => config('gatewaySettings.paypal_account_mode'), // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
-          'sandbox' => [
-              'client_id'         => config('gatewaySettings.paypal_api_key'),
-              'client_secret'     => config('gatewaySettings.paypal_secret_key'),
-              'app_id'            => 'APP-80W284485P519543T',
-          ],
-          'live' => [
-              'client_id'         => config('gatewaySettings.paypal_api_key'),
-              'client_secret'     => config('gatewaySettings.paypal_secret_key'),
-              'app_id'            => env('PAYPAL_LIVE_APP_ID', ''),
-          ],
+        $config = [
+            'mode' => config('gatewaySettings.paypal_account_mode'), // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+            'sandbox' => [
+                'client_id' => config('gatewaySettings.paypal_api_key'),
+                'client_secret' => config('gatewaySettings.paypal_secret_key'),
+                'app_id' => 'APP-80W284485P519543T',
+            ],
+            'live' => [
+                'client_id' => config('gatewaySettings.paypal_api_key'),
+                'client_secret' => config('gatewaySettings.paypal_secret_key'),
+                'app_id' => env('PAYPAL_LIVE_APP_ID', ''),
+            ],
 
-          'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
-          'currency'       => config('gatewaySettings.paypal_currency'),
-          'notify_url'     => env('PAYPAL_NOTIFY_URL', ''), // Change this accordingly for your application.
-          'locale'         => 'en_US', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
-          'validate_ssl'   => true, // Validate SSL when creating api client.
-      ];
-      return $config;
+            'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
+            'currency' => config('gatewaySettings.paypal_currency'),
+            'notify_url' => env('PAYPAL_NOTIFY_URL', ''), // Change this accordingly for your application.
+            'locale' => 'en_US', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
+            'validate_ssl' => true, // Validate SSL when creating api client.
+        ];
+        return $config;
     }
 
     //PayPal Payment
@@ -103,6 +102,7 @@ class PaymentController extends Controller
         $grandTotal = session()->get('grand_total');
         $payableAmount = round($grandTotal * config('gatewaySettings.paypal_rate'));
 
+        //creates post request to paypal api
         $response = $provider->createOrder([
             'intent' => "CAPTURE",
             'application_context' => [
@@ -119,14 +119,20 @@ class PaymentController extends Controller
             ]
         ]);
 
-        if($response && $response !== null){
-            foreach($response['links'] as $link){
-                if($link['rel']==='approve'){
+        if(isset($response['error'])){
+            return redirect()->route('payment.cancel')->withErrors(['error' => $response['error']['message']]);
+        }
+
+        if ($response && $response !== null) {
+            foreach ($response['links'] as $link) {
+                if ($link['rel'] === 'approve') {
                     return redirect()->away($link['href']);
                 }
             }
         }
-       // dd($response);
+        else {
+            return redirect()->route('payment.cancel')->withErrors(['error' => $response['error']['message']]);
+        }
     }
 
 
@@ -138,7 +144,7 @@ class PaymentController extends Controller
 
         $response = $provider->capturePaymentOrder($request->token);
 
-        if(isset($response['status']) && $response['status'] === 'COMPLETED'){
+        if (isset($response['status']) && $response['status'] === 'COMPLETED') {
             $orderId = session()->get('order_id');
             $capture = $response['purchase_units'][0]['payments']['captures'][0];
             $paymentInfo = [
@@ -149,16 +155,30 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
             OrderPlacedNotificationEvent::dispatch($orderId);
-            dd('success');
+
+            return redirect()->route('payment.success');
+
+        }else{
+
+            return redirect()->route('payment.cancel')->withErrors(['error' => $response['error']['message']]);
+
         }
     }
 
     public function paypalCancel()
     {
 
+        return redirect()->route('payment.cancel');
     }
 
 
+    function paymentSuccess() : View {
+        return view('frontend.pages.payment-success');
+    }
+
+    function paymentCancel() : View {
+        return view('frontend.pages.payment-cancel');
+    }
 
 }
 
