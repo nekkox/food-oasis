@@ -11,8 +11,13 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->BelongsTo(User::class);
+    }
+
+    public function deliveryArea(): BelongsTo
+    {
+        return $this->belongsTo(DeliveryArea::class);
     }
 }
