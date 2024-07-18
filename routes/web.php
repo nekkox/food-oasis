@@ -96,4 +96,5 @@ Route::group(['middleware' => 'auth'], function(){
 });
 
 
+
 Route::get('jquery',[\App\Http\Controllers\jq::class, 'index'])->name('jquery');
