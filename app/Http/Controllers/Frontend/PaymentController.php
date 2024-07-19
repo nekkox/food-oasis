@@ -6,13 +6,12 @@ use App\Events\OrderPaymentUpdateEvent;
 use App\Events\OrderPlacedNotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Services\OrderService;
-use GuzzleHttp\Client;
 use Illuminate\Contracts\View\View;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Stripe\Stripe;
+use Stripe\Checkout\Session as StripeSession;
 use function Illuminate\Events\queueable;
 
 class PaymentController extends Controller
@@ -41,7 +40,7 @@ class PaymentController extends Controller
     public function makePayment(Request $request, OrderService $orderService)
     {
         $request->validate([
-            'payment_gateway' => ['required', 'string', 'in:paypal']
+            'payment_gateway' => ['required', 'string', 'in:paypal,stripe']
         ]);
 
 
@@ -53,6 +52,9 @@ class PaymentController extends Controller
             switch ($request->payment_gateway) {
                 case 'paypal':
                     return response(['redirect_url' => route('paypal.payment')]);
+                    break;
+                case 'stripe':
+                    return response(['redirect_url' => route('stripe.payment')]);
                     break;
 
                 default:
@@ -162,7 +164,7 @@ class PaymentController extends Controller
             return redirect()->route('payment.success');
 
         }else{
-
+            $this->transactionFailUpdateStatus('PayPal');
             return redirect()->route('payment.cancel')->withErrors(['error' => $response['error']['message']]);
 
         }
@@ -170,10 +172,72 @@ class PaymentController extends Controller
 
     public function paypalCancel()
     {
-
+        $this->transactionFailUpdateStatus('PayPal');
         return redirect()->route('payment.cancel');
     }
 
+    /** Stripe Payment **/
+    public function payWithStripe(){
+
+        Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
+
+        /** calculate payable amount */
+        $grandTotal = session()->get('grand_total');
+        $payableAmount = round($grandTotal * config('gatewaySettings.stripe_rate')) * 100;
+
+        $response = StripeSession::create([
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => config('gatewaySettings.stripe_currency'),
+                        'product_data' => [
+                            'name' => 'Product'
+                        ],
+                        'unit_amount' => $payableAmount
+                    ],
+                    'quantity' => 1
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => route('stripe.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('stripe.cancel')
+        ]);
+
+        return redirect()->away($response->url);
+    }
+
+    function stripeSuccess(Request $request, OrderService $orderService) {
+        $sessionId = $request->session_id;
+        Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
+        $response = StripeSession::retrieve($sessionId);
+
+        if($response->payment_status === 'paid') {
+
+            $orderId = session()->get('order_id');
+            $paymentInfo = [
+                'transaction_id' => $response->payment_intent,
+                'currency' => $response->currency,
+                'status' => $response->status
+            ];
+
+            OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Stripe');
+            OrderPlacedNotificationEvent::dispatch($orderId);
+
+            /** Clear session data */
+            $orderService->clearSession();
+
+            return redirect()->route('payment.success');
+        }else {
+            $this->transactionFailUpdateStatus('Stripe');
+            return redirect()->route('payment.cancel');
+        }
+    }
+
+    function stripeCancel() {
+
+        $this->transactionFailUpdateStatus('Stripe');
+        return redirect()->route('payment.cancel');
+    }
 
     function paymentSuccess() : View {
         return view('frontend.pages.payment-success');
@@ -183,5 +247,15 @@ class PaymentController extends Controller
         return view('frontend.pages.payment-cancel');
     }
 
+    function transactionFailUpdateStatus($gatewayName) : void {
+        $orderId = session()->get('order_id');
+        $paymentInfo = [
+            'transaction_id' => '',
+            'currency' => '',
+            'status' => 'Failed'
+        ];
+
+        OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, $gatewayName);
+    }
 }
 

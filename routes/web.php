@@ -92,12 +92,17 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('payment-success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
-
+    /** Paypal Routes */
     Route::get('paypal/payment', [PaymentController::class, 'payWithPaypal'])->name('paypal.payment');
     //Paypal returns to this routes if transaction is successful or if transaction is rejected
     Route::get('paypal/success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
     Route::get('paypal/cancel', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
 
+
+    /** Stripe Routes */
+    Route::get('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
+    Route::get('stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
+    Route::get('stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
 
 });
 

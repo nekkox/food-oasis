@@ -8,8 +8,8 @@
                 <div class="form-group">
                     <label for="">Paypal Status</label>
                     <select name="paypal_status" id="" class="select2 form-control">
-                        <option @selected(@$paymentGateway['paypal_status'] === '1') value="1">Active</option>
-                        <option @selected(@$paymentGateway['paypal_status'] === '0') value="0">Inactive</option>
+                        <option @selected(@$paymentGateway['paypal_status']  == 1) value="1">Active</option>
+                        <option @selected(@$paymentGateway['paypal_status'] == 0) value="0">Inactive</option>
                     </select>
                 </div>
 
@@ -63,7 +63,7 @@
 
                 <div class="form-group">
                     <label>Paypal Logo</label>
-                    <div id="image-preview" class="paypal-preview">
+                    <div id="image-preview" class="paypal-preview image-preview">
                         <label for="image-upload" id="image-label">Choose File</label>
                         <input type="file" name="paypal_logo" id="image-upload" />
                     </div>
@@ -83,5 +83,15 @@
                 'background-position': 'center center'
             })
         })
+
+        $.uploadPreview({
+            input_field: "#image-upload", // Default: .image-upload
+            preview_box: "#image-preview", // Default: .image-preview
+            label_field: "#image-label", // Default: .image-label
+            label_default: "Choose File", // Default: Choose File
+            label_selected: "Change File", // Default: Change File
+            no_label: false, // Default: false
+            success_callback: null // Default: null
+        });
     </script>
 @endpush
