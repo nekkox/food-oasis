@@ -22,7 +22,43 @@ class OrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'order.action')
+            ->addColumn('user_name', function($query){
+                return $query->user?->name;
+            })
+            ->addColumn('grand_total', function($query){
+                return $query->grand_total.' '.strtoupper($query->currency_name);
+            })
+            ->addColumn('order_status', function($query){
+                if($query->order_status === 'delivered'){
+                    return '<span class="badge badge-success">Delivered</span>';
+                }elseif($query->order_status === 'declined'){
+                    return '<span class="badge badge-danger">Declined</span>';
+                }else {
+                    return '<span class="badge badge-warning">'.$query->order_status.'</span>';
+                }
+            })
+            ->addColumn('payment_status', function($query){
+                if(strtoupper($query->payment_status) == 'COMPLETED'){
+                    return '<span class="badge badge-success">COMPLETED</span>';
+                }elseif(strtoupper($query->payment_status) === 'pending'){
+                    return '<span class="badge badge-warning">Pending</span>';
+                }else {
+                    return '<span class="badge badge-danger">'.$query->payment_status.'</span>';
+                }
+            })
+            ->addColumn('date', function($query){
+                return date('d-m-Y', strtotime($query->created_at));
+            })
+            ->addColumn('action', function($query){
+                $view = "<a href='".route('admin.slider.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-eye'></i></a>";
+                $status = "<a href='".route('admin.slider.edit', $query->id)."' class='btn btn-warning ml-2'><i class='fas fa-truck-loading'></i></a>";
+
+                $delete = "<a href='".route('admin.slider.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+
+                return $view.$status.$delete;
+            })
+            ->rawColumns(['order_status', 'payment_status', 'action'])
             ->setRowId('id');
     }
 
@@ -62,15 +98,19 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id'),
+            Column::make('invoice_id'),
+            Column::make('user_name'),
+            Column::make('product_qty'),
+            Column::make('grand_total'),
+            Column::make('order_status'),
+            Column::make('payment_status'),
+            Column::make('date'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(150)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
