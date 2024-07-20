@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="invoice-title">
-                                <h2>Invoice</h2>
+                                <h2>Order Preview</h2>
                                 <div class="invoice-number">Order #{{ $order->invoice_id }}</div>
                             </div>
                             <hr>
@@ -211,7 +211,7 @@
                     <hr>
                     <div class="text-md-right">
 
-                        <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i>
+                        <button class="btn btn-warning btn-icon icon-left" id="print_btn"><i class="fas fa-print"></i>
                             Print
                         </button>
                     </div>
@@ -220,3 +220,23 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#print_btn').on('click', function() {
+                let printContents = $('.invoice-print').html();
+                let originalContents = document.body.innerHTML;
+                let printWindow = window.open('', '', 'width=600,height=600');
+                printWindow.document.open();
+                printWindow.document.write('<html><body>');
+                printWindow.document.write(printContents);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+                printWindow.close();
+                document.body.innerHTML = originalContents;
+            })
+        })
+    </script>
+@endpush
