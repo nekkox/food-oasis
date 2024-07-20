@@ -12,6 +12,7 @@ class OrderService
     /** Store Order in Database  */
     function createOrder()
     {
+
         try {
             $order = new Order();
             $order->invoice_id = generateInvoiceId();
@@ -29,7 +30,8 @@ class OrderService
             $order->coupon_info = json_encode(session()->get('coupon'));
             $order->currency_name = NULL;
             $order->order_status = 'pending';
-            $order->delivery_area_id = session()->get('delivery_area_id');
+            $order->address_id = session()->get('address_id');
+            //$order->delivery_area_id = session()->get('delivery_area_id');
             $order->save();
 
             //If the Order is saved successfully then save each product in OrderItem
@@ -53,6 +55,7 @@ class OrderService
 
             return true;
         } catch (\Exception $e) {
+            dd($e);
             logger($e);
 
             return false;

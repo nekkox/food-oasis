@@ -39,6 +39,7 @@ class PaymentController extends Controller
 
     public function makePayment(Request $request, OrderService $orderService)
     {
+
         $request->validate([
             'payment_gateway' => ['required', 'string', 'in:paypal,stripe']
         ]);
@@ -50,6 +51,7 @@ class PaymentController extends Controller
 
             // redirect user to the payment host
             switch ($request->payment_gateway) {
+
                 case 'paypal':
                     return response(['redirect_url' => route('paypal.payment')]);
                     break;
@@ -152,7 +154,7 @@ class PaymentController extends Controller
             $paymentInfo = [
                 'transaction_id' => $capture['id'],
                 'currency' => $capture['amount']['currency_code'],
-                'status' => $capture['status']
+                'status' => 'completed'
             ];
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
@@ -217,7 +219,7 @@ class PaymentController extends Controller
             $paymentInfo = [
                 'transaction_id' => $response->payment_intent,
                 'currency' => $response->currency,
-                'status' => $response->status
+                'status' => 'completed'
             ];
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Stripe');
