@@ -219,6 +219,8 @@
             </div>
         </div>
     </section>
+
+
 @endsection
 
 @push('scripts')
@@ -226,7 +228,7 @@
         $(document).ready(function(){
             $('#print_btn').on('click', function() {
                 let printContents = $('.invoice-print').html();
-                let originalContents = document.body.innerHTML;
+               // let originalContents = document.body.innerHTML;
                 let printWindow = window.open('', '', 'width=600,height=600');
                 printWindow.document.open();
                 printWindow.document.write('<html>');
