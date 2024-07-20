@@ -94,12 +94,13 @@
                                     </thead>
                                     <tbody class="">
                                     @foreach($order->order_items as $orderItem)
+
                                         @php
                                             $size = json_decode($orderItem->product_size);
                                             $options = json_decode($orderItem->product_option);
                                             $qty = $orderItem->qty;
                                             $untiPrice = $orderItem->unit_price;
-                                            $sizePrice = $size->price;
+                                            $sizePrice = $size->price ?? 0;
                                             $optionPrice = 0;
                                             foreach ($options as $optionItem)
                                             {
@@ -113,11 +114,16 @@
                                             <td>{{ ++$loop->index }}</td>
                                             <td>{{ $orderItem->product_name }}</td>
                                             <td>
+                                                size:
+                                                @if($orderItem->product_size !='[]')
+
                                                 <b>{{ @$size->name }} ({{ currencyPosition(@$size->price) }})</b>
+                                                @endif
                                                 <br>
                                                 options:
                                                 <br>
                                                 @foreach ($options as $option)
+
                                                     {{ @$option->name }} ({{ currencyPosition(@$option->price) }})
                                                     <br>
                                                 @endforeach

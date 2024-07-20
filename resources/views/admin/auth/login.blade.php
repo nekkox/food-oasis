@@ -131,9 +131,6 @@
     @endforeach
     @endif
 
-    @php
-        $currentRoute = Route::currentRouteName();
-    @endphp
 
     @if($currentRoute === 'register')
     console.log('hello from register page!!');

@@ -51,7 +51,7 @@ class OrderDataTable extends DataTable
             })
             ->addColumn('action', function($query){
                 $view = "<a href='".route('admin.orders.show', $query->id)."' class='btn btn-primary'><i class='fas fa-eye'></i></a>";
-                $status = "<a href='javascript:;' class='btn btn-warning ml-2 order_status' data-toggle='modal' data-target='#order_modal'><i class='fas fa-truck-loading'></i></a>";
+                $status = "<a href='javascript:;' class='btn btn-warning ml-2 order_status_btn' data-toggle='modal' data-target='#order_modal' data-id='".$query->id."'><i class='fas fa-truck-loading'></i></a>";
 
                 $delete = "<a href='".route('admin.slider.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
 
