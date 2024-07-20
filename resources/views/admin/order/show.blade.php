@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="invoice-title">
-                                <h2>Order Preview</h2>
+                                <h2 class="bg-danger">Order Preview</h2>
                                 <div class="invoice-number">Order #{{ $order->invoice_id }}</div>
                             </div>
                             <hr>
@@ -135,7 +135,7 @@
                                 <div class="col-lg-8">
 
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 d-print-none" >
                                         <form action="{{ route('admin.orders.status-update', $order->id) }}"
                                               method="POST">
                                             @csrf
@@ -229,13 +229,20 @@
                 let originalContents = document.body.innerHTML;
                 let printWindow = window.open('', '', 'width=600,height=600');
                 printWindow.document.open();
-                printWindow.document.write('<html><body>');
+                printWindow.document.write('<html>');
+                printWindow.document.write('<link rel="stylesheet" href="{{ asset("admin/assets/modules/bootstrap/css/bootstrap.min.css") }}">');
+                printWindow.document.write('<body>');
                 printWindow.document.write(printContents);
                 printWindow.document.write('</body></html>');
                 printWindow.document.close();
-                printWindow.print();
-                printWindow.close();
-                document.body.innerHTML = originalContents;
+              //  printWindow.print();
+              //  printWindow.close();
+
+                printWindow.onload = function() {
+                    printWindow.print();
+                    printWindow.close();
+                };
+                //document.body.innerHTML = originalContents;
             })
         })
     </script>
