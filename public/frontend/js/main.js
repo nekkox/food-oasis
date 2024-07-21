@@ -458,17 +458,17 @@ $(function () {
         $(".fp_dashboard_order").fadeOut();
     });
 
-    $('.view_invoice').on('click', function () {
+/*    $('.view_invoice').on('click', function () {
         $(".fp__invoice").fadeIn();
-    });
+    });*/
 
-    $(".go_back").on("click", function () {
+/*    $(".go_back").on("click", function () {
         $(".fp_dashboard_order").fadeIn();
-    });
+    });*/
 
-    $(".go_back").on("click", function () {
+/*    $(".go_back").on("click", function () {
         $(".fp__invoice").fadeOut();
-    });
+    });*/
 
 
     //*==========DASHBOARD ADDRESS==========
