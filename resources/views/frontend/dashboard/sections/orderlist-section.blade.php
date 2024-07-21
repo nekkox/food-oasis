@@ -13,141 +13,32 @@
                         <th>Amount</th>
                         <th>Action</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <h5>#2545758745</h5>
-                        </td>
-                        <td>
-                            <p>July 16, 2022</p>
-                        </td>
-                        <td>
-                            <span class="complete">Complated</span>
-                        </td>
-                        <td>
-                            <h5>$560</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#2457945235</h5>
-                        </td>
-                        <td>
-                            <p>jan 21, 2021</p>
-                        </td>
-                        <td>
-                            <span class="complete">complete</span>
-                        </td>
-                        <td>
-                            <h5>$654</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#2456875648</h5>
-                        </td>
-                        <td>
-                            <p>July 11, 2020</p>
-                        </td>
-                        <td>
-                            <span class="active">active</span>
-                        </td>
-                        <td>
-                            <h5>$440</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#7896542130</h5>
-                        </td>
-                        <td>
-                            <p>July 16, 2022</p>
-                        </td>
-                        <td>
-                            <span class="active">active</span>
-                        </td>
-                        <td>
-                            <h5>$225</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#4587964125</h5>
-                        </td>
-                        <td>
-                            <p>jan 21, 2021</p>
-                        </td>
-                        <td>
-                            <span class="cancel">cancel</span>
-                        </td>
-                        <td>
-                            <h5>$335</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#4579654153</h5>
-                        </td>
-                        <td>
-                            <p>July 11, 2020</p>
-                        </td>
-                        <td>
-                            <span class="cancel">cancel</span>
-                        </td>
-                        <td>
-                            <h5>$550</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#12547965423</h5>
-                        </td>
-                        <td>
-                            <p>July 16, 2022</p>
-                        </td>
-                        <td>
-                            <span class="complete">Complated</span>
-                        </td>
-                        <td>
-                            <h5>$545</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#4589635878</h5>
-                        </td>
-                        <td>
-                            <p>jan 21, 2021</p>
-                        </td>
-                        <td>
-                            <span class="cancel">cancel</span>
-                        </td>
-                        <td>
-                            <h5>$600</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>#89698745895</h5>
-                        </td>
-                        <td>
-                            <p>July 11, 2020</p>
-                        </td>
-                        <td>
-                            <span class="complete">complete</span>
-                        </td>
-                        <td>
-                            <h5>$200</h5>
-                        </td>
-                        <td><a class="view_invoice">View Details</a></td>
-                    </tr>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <td>
+                                <h5>#{{ $order->invoice_id }}</h5>
+                            </td>
+                            <td>
+                                <p>{{ date('F d, Y', strtotime($order->created_at)) }}</p>
+                            </td>
+                            <td>
+                                @if ($order->order_status === 'pending')
+                                    <span class="active">Pending</span>
+                                @elseif ($order->order_status === 'in_process')
+                                    <span class="active">In Process</span>
+                                @elseif ($order->order_status === 'delivered')
+                                    <span class="complete">Delivered</span>
+                                @elseif ($order->order_status === 'declined')
+                                    <span class="cancel">Declined</span>
+                                @endif
+                            </td>
+                            <td>
+                                <h5>{{ currencyPosition($order->grand_total) }}</h5>
+                            </td>
+                            <td><a class="view_invoice">View Details</a></td>
+                        </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
             </div>

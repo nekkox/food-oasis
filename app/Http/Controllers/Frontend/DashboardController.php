@@ -7,6 +7,7 @@ use App\Http\Requests\Frontend\AddressCreateRequest;
 use App\Http\Requests\Frontend\AddressUpdateRequest;
 use App\Models\Address;
 use App\Models\DeliveryArea;
+use App\Models\Order;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -17,7 +18,9 @@ class DashboardController extends Controller
     {
         $deliveryAreas = DeliveryArea::where('status', 1)->get();
         $userAddresses = Address::where('user_id', auth()->user()->id)->get();
-        return view('frontend.dashboard.index', ['deliveryAreas' => $deliveryAreas, 'userAddresses' => $userAddresses]);
+        $orders = Order::where('user_id', auth()->user()->id)->get();
+
+        return view('frontend.dashboard.index', ['deliveryAreas' => $deliveryAreas, 'userAddresses' => $userAddresses, 'orders'=> $orders]);
     }
 
 public function createAddress(AddressCreateRequest $request)
