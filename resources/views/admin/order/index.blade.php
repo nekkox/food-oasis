@@ -27,7 +27,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="POST">
+                    <form action="" method="POST" class="order_status_form">
                         @csrf
                         @method('PUT')
 
@@ -50,12 +50,13 @@
                             </select>
 
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary submit_btn">Save changes</button>
+                        </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -65,17 +66,22 @@
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
     <script>
-        $(document).ready(function(){
-            $(document).on('click', '.order_status_btn', function(){
+        $(document).ready(function () {
+
+            var orderId = '';
+
+            $(document).on('click', '.order_status_btn', function () {
                 let id = $(this).data('id');
+                orderId = id;
+
                 let paymentStatus = $('.payment_status');
                 let orderStatus = $('.order_status');
                 let defaultPaymentStatus = 'default_payment_status_value'; // Set the default value for payment status
                 let defaultOrderStatus = 'default_order_status_value'; // Set the default value for order status
 
-                function checkPaymentStatus(response, item){
+                function checkPaymentStatus(response, item) {
                     return new Promise((resolve) => {
-                        if(item.val() === response.payment_status){
+                        if (item.val() === response.payment_status) {
                             item.prop('selected', true);
                             resolve(true);
                         } else {
@@ -84,9 +90,9 @@
                     });
                 }
 
-                function checkOrderStatus(response, item){
+                function checkOrderStatus(response, item) {
                     return new Promise((resolve) => {
-                        if(item.val() === response.order_status){
+                        if (item.val() === response.order_status) {
                             item.prop('selected', true);
                             resolve(true);
                         } else {
@@ -98,14 +104,17 @@
                 $.ajax({
                     method: 'GET',
                     url: '{{route("admin.orders.status", ":id")}}'.replace(":id", id),
-                    success: function(response) {
+                    beforeSend: function () {
+                        $('.submit_btn').prop('disabled', true);
+                    },
+                    success: function (response) {
                         console.log(response);
 
                         let paymentMatched = false;
                         let orderMatched = false;
 
                         // Check and process paymentStatus options
-                        paymentStatus.find('option').each(function() {
+                        paymentStatus.find('option').each(function () {
                             checkPaymentStatus(response, $(this))
                                 .then(result => {
                                     if (result) {
@@ -121,7 +130,7 @@
                         });
 
                         // Check and process orderStatus options
-                        orderStatus.find('option').each(function() {
+                        orderStatus.find('option').each(function () {
                             checkOrderStatus(response, $(this))
                                 .then(result => {
                                     if (result) {
@@ -136,14 +145,46 @@
                                 });
                         });
                     },
-                    error: function(xhr, status, error){
+                    error: function (xhr, status, error) {
                         console.error('AJAX Error:', status, error);
                     },
-                    complete: function(){
+                    complete: function () {
+                        $('.submit_btn').prop('disabled', false);
                         console.log('AJAX Request Completed');
                     }
                 });
             });
+
+
+            $('.order_status_form').on('submit', function (event) {
+                event.preventDefault();
+
+                let formContent = $(this).serialize();
+
+                $.ajax({
+                    method: 'POST',
+                    url: '{{route("admin.orders.status-update", ":id")}}'.replace(":id", orderId),
+                    data: formContent,
+                    success: function (response) {
+                        console.log(response);
+                        if (response !== "fail") {
+                            toastr.success(response.message)
+                            $('#order_modal').modal('hide');
+                            $('#order-table').DataTable().draw();
+
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error(xhr.responseJSON.message);
+                    },
+                    complete: function () {
+                        console.log('AJAX Request Completed');
+                    },
+
+                });
+            })
+
         });
 
 
