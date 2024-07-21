@@ -106,6 +106,7 @@
 <script>
     $(document).ready(function () {
 
+        //Action when Element is DELETED
         $('body').on('click', '.delete-item', function (e) {
             e.preventDefault();
             let url = $(this).attr('href');
@@ -147,6 +148,9 @@
                         },
                         error: function (error) {
                             console.log(error);
+                        },
+                        complete: function () {
+
                         }
                     });
                 }

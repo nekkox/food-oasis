@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\InProcessOrderDataTable;
 use App\DataTables\OrderDataTable;
+use App\DataTables\PendingOrderDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Contracts\View\View;
@@ -59,6 +61,17 @@ class OrderController extends Controller
             logger($e);
             return response(['status' => 'error', 'message' => 'something went wrong!']);
         }
+    }
+
+
+    /*PENDING ORDERS*/
+    public function pendingOrderIndex(PendingOrderDataTable $dataTable)
+    {
+        return $dataTable->render('admin.order.pending-order-index');
+    }
+
+    public function inProcessOrderIndex(InProcessOrderDataTable $dataTable){
+        return $dataTable->render('admin.order.inprocess-order-index');
     }
 
 }
