@@ -77,6 +77,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::put('orders/status-update/{id}', [OrderController::class, 'orderStatusUpdate'])->name('orders.status-update');
     Route::get('orders/status/{id}', [OrderController::class, 'getOrderStatus'])->name('orders.status');
+    Route::delete('orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
 });
 
 /*

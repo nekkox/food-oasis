@@ -29,7 +29,7 @@ class OrderController extends Controller
             'payment_status' => ['required', 'in:pending,completed'],
             'order_status' => ['required', 'in:pending,in_process,delivered,declined']
         ]);
-        
+
         $order = Order::findOrFail($id);
         $order->payment_status = $request->payment_status;
         $order->order_status = $request->order_status;
@@ -42,15 +42,23 @@ class OrderController extends Controller
 
             return redirect()->back()->with('updated', true);
         }
-
-
     }
 
     public function getOrderStatus(string $id) : Response  {
         $order = Order::select(['order_status', 'payment_status'])->findOrFail($id);
 
         return response($order);
+    }
 
+    function destroy(string $id) : Response {
+        try{
+            $order = Order::findOrFail($id);
+            $order->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        }catch(\Exception $e){
+            logger($e);
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 
 }

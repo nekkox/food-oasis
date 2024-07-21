@@ -138,6 +138,7 @@
                                 $('#product-table').DataTable().draw();
                                 $('#slider-table').DataTable().draw();
                                 $('#coupon-table').DataTable().draw();
+                                $('#order-table').DataTable().draw();
 
 
                             } else if (response.status === 'error') {
