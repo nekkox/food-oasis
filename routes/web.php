@@ -109,3 +109,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 Route::get('jquery',[\App\Http\Controllers\jq::class, 'index'])->name('jquery');
+Route::get('test',
+function(){
+    dd(config('broadcasting'));
+    \App\Events\RTOrderPlacedNotificationEvent::dispatch("hello");
+   // return "xxx";
+}
+)->name('test');

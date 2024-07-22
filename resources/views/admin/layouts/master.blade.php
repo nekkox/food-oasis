@@ -24,6 +24,10 @@
     <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
 
+    <script>
+        var pusherKey = "{{config('settings.pusher_key')}}";
+        var pusherCluster = "{{config('settings.pusher_cluster')}}";
+    </script>
 @vite(['resources/js/app.js'])
 </head>
 
