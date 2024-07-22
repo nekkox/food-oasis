@@ -24,7 +24,7 @@ class SettingsService
 
     }
 
-    public function clearCashedSettings()
+    public function clearCachedSettings()
     {
         Cache::forget('settings');
     }
