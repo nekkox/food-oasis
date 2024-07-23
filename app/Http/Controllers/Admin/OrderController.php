@@ -9,6 +9,7 @@ use App\DataTables\OrderDataTable;
 use App\DataTables\PendingOrderDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderPlacedNotification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -23,6 +24,10 @@ class OrderController extends Controller
 
     function show($id) : View {
         $order = Order::findOrFail($id);
+
+        //When in Dashboard mode visit the order notification the status is changed to seen 1
+        $notification = OrderPlacedNotification::where('order_id', $order->id)->update(['seen'=>1]);
+
 
         return view('admin.order.show', ['order' => $order]);
     }

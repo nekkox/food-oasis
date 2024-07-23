@@ -87,6 +87,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('inprocess-orders', [OrderController::class, 'inProcessOrderIndex'])->name('inprocess-orders');
     Route::get('delivered-orders', [OrderController::class, 'deliveredOrderIndex'])->name('delivered-orders');
     Route::get('declined-orders', [OrderController::class, 'declinedOrderIndex'])->name('declined-orders');
+
+
+    /*Order Notification Route*/
+    Route::get('clear-notification',[AdminDashboardController::class, 'clearNotification'])->name('clear-notification');
+
 });
 
 /*

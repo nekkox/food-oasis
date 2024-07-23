@@ -27,11 +27,12 @@ window.Echo.channel('order-placed')
                 </div>
                 <div class="dropdown-item-desc">
                     ${e.message}
-                    <div class="time text-primary">2 Min Ago</div>
+                    <div class="time text-primary">${e.date}</div>
                 </div>
             </a>
         `;
         $('.rt_notification').prepend(html);
+        $('.notification_beep').addClass('beep');
     });
 console.log('Echo listener set up complete');
 
