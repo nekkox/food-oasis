@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\DashboardController;
@@ -104,6 +105,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
     Route::get('stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
     Route::get('stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
+
+    /** Chat Routes */
+    Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.send-message');
 
 });
 
