@@ -6,6 +6,7 @@ use App\Events\OrderPaymentUpdateEvent;
 use App\Events\OrderPlacedNotificationEvent;
 use App\Events\RTOrderPlacedNotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -158,9 +159,10 @@ class PaymentController extends Controller
                 'status' => 'completed'
             ];
 
-            RTOrderPlacedNotificationEvent::dispatch($orderId);
+
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'PayPal');
             OrderPlacedNotificationEvent::dispatch($orderId);
+            RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
             /** Clear session data */
             $orderService->clearSession();
@@ -226,6 +228,7 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'Stripe');
             OrderPlacedNotificationEvent::dispatch($orderId);
+            RTOrderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
             /** Clear session data */
             $orderService->clearSession();
