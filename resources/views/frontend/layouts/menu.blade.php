@@ -26,7 +26,7 @@
                     <ul class="droap_menu">
                         <li><a href="menu_details.html">menu details</a></li>
                         <li><a href="blog_details.html">blog details</a></li>
-                        <li><a href="cart_view.html">cart view</a></li>
+                        <li><a href="{{route('cart.index')}}">cart view</a></li>
                         <li><a href="{{route('checkout.index')}}">checkout</a></li>
                         <li><a href="payment.html">payment</a></li>
                         <li><a href="testimonial.html">testimonial</a></li>
@@ -60,6 +60,11 @@
                 </li>
                 <li>
                     <a class="cart_icon"><i class="fas fa-shopping-basket"></i> <span class="cart_count">{{count(Cart::content())}}</span></a>
+                </li>
+                <li>
+                    <a class="cart_icon message_icon"
+                    ><i class="fas fa-comment-alt-dots"></i> <span>7</span></a
+                    >
                 </li>
                 <li>
                     <a href="{{route('login')}}"><i class="fas fa-user"></i></a>
