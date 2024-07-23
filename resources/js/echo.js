@@ -2,15 +2,12 @@ import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
 window.Pusher = Pusher;
-console.log('echo');
+
 window.Echo = new Echo({
-    ket: '20899582e543a6503ba2'
-});
-console.log(Echo)
-window.Echo = new Echo({
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-    wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+    broadcaster: 'pusher',
+    key: pusherKey,
+    cluster: pusherCluster ?? 'mt1',
+    wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${pusherCluster}.pusher.com`,
     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
@@ -18,4 +15,9 @@ window.Echo = new Echo({
 });
 
 
-console.log('echoecho');
+window.Echo.channel('order-placed')
+    .listen('.RTOrderPlacedNotificationEvent', (e) => { // Note the dot before the event name
+        console.log('Event received:', e);
+    });
+
+console.log('Echo listener set up complete');

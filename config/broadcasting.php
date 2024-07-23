@@ -46,6 +46,24 @@ return [
             ],
         ],
 
+/*        'pusher' => [
+            'driver' => 'pusher',
+            'key' => "20899582e543a6503ba2",
+            'secret' =>  "e0d819a69167c6b1d984",
+            'app_id' => "1837524",
+            'options' => [
+                'cluster' => "eu",
+                'host' => env('PUSHER_HOST') ?: 'api-eu'.'.pusher.com',
+                'port' => env('PUSHER_PORT', 443),
+                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'encrypted' => true,
+                'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
+            ],
+            'client_options' => [
+                // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+            ],
+        ],*/
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),
@@ -63,6 +81,7 @@ return [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
         ],
+
 
         'ably' => [
             'driver' => 'ably',

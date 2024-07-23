@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use \App\Events\RTOrderPlacedNotificationEvent;
 
 
 //Admin Auth Routes
@@ -111,8 +112,11 @@ Route::group(['middleware' => 'auth'], function(){
 Route::get('jquery',[\App\Http\Controllers\jq::class, 'index'])->name('jquery');
 Route::get('test',
 function(){
-    dd(config('broadcasting'));
-    \App\Events\RTOrderPlacedNotificationEvent::dispatch("hello");
+    //dd(config('broadcasting'));
+    RTOrderPlacedNotificationEvent::dispatch("hello");
+   // broadcast(new \App\Events\RTOrderPlacedNotificationEvent('hello'));
+
+    return "Event dispatched";
    // return "xxx";
 }
 )->name('test');

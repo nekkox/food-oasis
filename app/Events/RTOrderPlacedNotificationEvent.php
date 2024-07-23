@@ -8,10 +8,12 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class RTOrderPlacedNotificationEvent implements ShouldBroadcast
+class RTOrderPlacedNotificationEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,6 +26,8 @@ class RTOrderPlacedNotificationEvent implements ShouldBroadcast
     {
         $this->order = $order;
 
+        //dd(config('broadcasting'));
+
     }
 
 
@@ -32,10 +36,14 @@ class RTOrderPlacedNotificationEvent implements ShouldBroadcast
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn(): Channel
     {
-        return [
-            new Channel('order-placed'),
-        ];
+        Log::info('Broadcasting on channel: order-placed');
+        return new Channel('order-placed');
+    }
+
+    public function broadcastAs()
+    {
+        return 'RTOrderPlacedNotificationEvent';
     }
 }
