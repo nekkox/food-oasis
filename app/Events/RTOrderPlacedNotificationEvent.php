@@ -38,7 +38,6 @@ class RTOrderPlacedNotificationEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): Channel
     {
-        Log::info('Broadcasting on channel: order-placed');
         return new Channel('order-placed');
     }
 

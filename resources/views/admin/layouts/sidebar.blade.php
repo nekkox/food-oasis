@@ -10,6 +10,7 @@
 
     </form>
     <ul class="navbar-nav navbar-right">
+        @include('admin.layouts.component.notification')
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{asset(auth()->user()->avatar)}}" class="rounded-circle mr-1">
