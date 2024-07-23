@@ -18,6 +18,21 @@ window.Echo = new Echo({
 window.Echo.channel('order-placed')
     .listen('.RTOrderPlacedNotificationEvent', (e) => { // Note the dot before the event name
         console.log('Event received:', e);
-    });
 
+        let html = `
+            <a href="/admin/orders/${e.orderId}"
+               class="dropdown-item dropdown-item-unread">
+                <div class="dropdown-item-icon bg-primary text-white">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="dropdown-item-desc">
+                    ${e.message}
+                    <div class="time text-primary">2 Min Ago</div>
+                </div>
+            </a>
+        `;
+        $('.rt_notification').prepend(html);
+    });
 console.log('Echo listener set up complete');
+
+

@@ -113,7 +113,9 @@ Route::get('jquery',[\App\Http\Controllers\jq::class, 'index'])->name('jquery');
 Route::get('test',
 function(){
     //dd(config('broadcasting'));
-    RTOrderPlacedNotificationEvent::dispatch("hello");
+    $order = \App\Models\Order::first();
+    //dd($order);
+    RTOrderPlacedNotificationEvent::dispatch($order);
    // broadcast(new \App\Events\RTOrderPlacedNotificationEvent('hello'));
 
     return "Event dispatched";
