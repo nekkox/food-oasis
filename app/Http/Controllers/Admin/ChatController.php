@@ -14,7 +14,7 @@ class ChatController extends Controller
     public function index(){
 
         $userId = auth()->user()->id;
-        //Select user who sent admin the message
+        //Select all users who sent admin the message
          $chatUsers = User::where('id', '!=', $userId)
             ->whereHas('chats', function( $query) use ( $userId) {
                 $query->where(function($subQuery) use ($userId){
@@ -46,4 +46,15 @@ class ChatController extends Controller
         return response(['status' => 'success']);
     }
 
+    function getConversation(string $senderId)
+    {
+        $receiverId = auth()->user()->id;
+        $messages = Chat::with('user')->whereIn('sender_id', [$senderId, $receiverId])
+            ->whereIn('receiver_id', [$senderId, $receiverId])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+
+        return response($messages);
+    }
 }

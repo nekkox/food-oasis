@@ -24,7 +24,7 @@
                             <ul class="list-unstyled list-unstyled-border">
 
                                 @foreach($chatUsers as $chatUser)
-                                    <li class="media">
+                                    <li class="media fp_chat_user" data-user="{{ $chatUser->id }}" style="cursor: pointer" >
                                         <img alt="image" class="mr-3 rounded-circle" width="50"
                                              src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">
                                         <div class="media-body">
@@ -47,9 +47,7 @@
                             <h4>Chat with Rizal</h4>
                         </div>
                         <div class="card-body chat-content">
-                            <div class="chat-item chat-left" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">Hi, dude!</div><div class="chat-time">01:31</div></div></div>
 
-                            <div class="chat-item chat-right" style=""><img src="../dist/img/avatar/avatar-2.png"><div class="chat-details"><div class="chat-text">Wat?</div><div class="chat-time">01:31</div></div></div>
                         </div>
 
                         <div class="card-footer chat-form">
@@ -67,3 +65,31 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.fp_chat_user').on('click', function(){
+                let senderId = $(this).data('user');
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
+                    beforeSend: function() {
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        $('.chat-content').empty();
+                        $.each(response, function(index, message){
+                            $html = `
+                            <div class="chat-item chat-left" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message.message}</div><div class="chat-time">01:31</div></div></div>
+                            `
+                            $('.chat-content').append($html);
+                        })
+                    },
+                    error: function(xhr, status, error) {
+                    }
+                })
+            })
+        })
+    </script>
+@endpush
