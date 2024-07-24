@@ -43,7 +43,7 @@ class ChatController extends Controller
         $chat->save();
 
 
-        return response(['status' => 'success']);
+        return response(['status from Backend' => 'success']);
     }
 
     function getConversation(string $senderId)

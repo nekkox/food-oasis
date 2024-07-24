@@ -52,8 +52,10 @@
 
                         <div class="card-footer chat-form">
                             <form id="chat-form">
-                                <input type="text" class="form-control" placeholder="Type a message">
-                                <button class="btn btn-primary">
+                                @csrf
+                                <input type="text" class="form-control fp_send_message" placeholder="Pick a receiver" name="message">
+                                <input type="hidden"  name="receiver_id" id="receiver_id">
+                                <button type="submit" class="btn btn-primary btn_submit">
                                     <i class="far fa-paper-plane"></i>
                                 </button>
                             </form>
@@ -69,8 +71,24 @@
 @push('scripts')
     <script>
         $(document).ready(function(){
+
+            var userId = "{{ auth()->user()->id }}"
+            $('#receiver_id').val("");
+
+            if($('#receiver_id').val()===""){
+                $('.fp_send_message').prop('disabled', true)
+                $('.fp_send_message').prop('placeholder', 'Pick a receiver')
+                $('.btn_submit').prop('disabled', true)
+            }
+
             $('.fp_chat_user').on('click', function(){
+                if($('#receiver_id').val()===""){
+                    $('.fp_send_message').prop('disabled', false)
+                    $('.fp_send_message').prop('placeholder', 'Write a message')
+                    $('.btn_submit').prop('disabled', false)
+                }
                 let senderId = $(this).data('user');
+                $('#receiver_id').val(senderId)
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
@@ -80,16 +98,55 @@
                         console.log(response);
                         $('.chat-content').empty();
                         $.each(response, function(index, message){
-                            $html = `
-                            <div class="chat-item chat-left" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message.message}</div><div class="chat-time">01:31</div></div></div>
+                           let html = `
+                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img src="../dist/img/avatar/avatar-1.png">
+                                <div class="chat-details">
+                                    <div class="chat-text">${message.message}
+                                    </div>
+                                    <div class="chat-time">sending...
+                                    </div>
+                                </div>
+                            </div>
                             `
-                            $('.chat-content').append($html);
+                            $('.chat-content').append(html);
                         })
                     },
                     error: function(xhr, status, error) {
                     }
                 })
             })
+
+            $('#chat-form').on('submit', function(e){
+                e.preventDefault();
+
+                let formData = $(this).serialize();
+
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('admin.chat.send-message') }}",
+                    data: formData,
+                    beforeSend: function(){
+                        let message = $('.fp_send_message').val();
+                        let html = `
+                             <div class="chat-item chat-right" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
+                            `
+                        $('.chat-content').append(html)
+                        $('.fp_send_message').val("");
+                    },
+                    success: function(response){
+                        console.log(response)
+                    },
+                    error: function(xhr, status, error){
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value){
+                            toastr.error(value);
+                        })
+                    }
+                })
+            })
         })
+
+
+
     </script>
 @endpush
