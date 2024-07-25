@@ -28,8 +28,8 @@
                                         <img alt="image" class="mr-3 rounded-circle" width="50"
                                              src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">
                                         <div class="media-body">
-                                            <div class="mt-0 mb-1 font-weight-bold">{{ $chatUser->name }}</div>
-                                            <div class="text-success text-small font-600-bold"><i
+                                            <div class="mt-0 mb-1 font-weight-bold" id="user-name-{{$chatUser->id}}">{{ $chatUser->name }}</div>
+                                            <div class="text-warning text-small font-600-bold got_new_message"><i
                                                     class="fas fa-circle"></i> Online</div>
                                         </div>
                                     </li>
@@ -70,105 +70,99 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
+            const userId = "{{ auth()->user()->id }}";
+            let avatar = "";
 
-            var userId = "{{ auth()->user()->id }}"
-            var avatar = "";
-            $('#receiver_id').val("");
 
-            function scrollToBootom(){
+            function scrollToBottom() {
                 let chatContent = $('.chat-content');
                 chatContent.scrollTop(chatContent.prop("scrollHeight"));
             }
 
-            if($('#receiver_id').val()===""){
-                $('.fp_send_message').prop('disabled', true)
-                $('.fp_send_message').prop('placeholder', 'Pick a receiver')
-                $('.btn_submit').prop('disabled', true)
+            function toggleMessageInput(enabled) {
+                $('.fp_send_message').prop('disabled', !enabled);
+                $('.fp_send_message').prop('placeholder', enabled ? 'Write a message' : 'Pick a receiver');
+                $('.btn_submit').prop('disabled', !enabled);
             }
 
-            //GET messages
-            $('.fp_chat_user').on('click', function(){
+            toggleMessageInput(false);
 
-                if($('#receiver_id').val()===""){
-                    $('.fp_send_message').prop('disabled', false)
-                    $('.fp_send_message').prop('placeholder', 'Write a message')
-                    $('.btn_submit').prop('disabled', false)
-                }
-                let senderId = $(this).data('user');
-                let senderName = $(this).data('name');
+            $('.fp_chat_user').on('click', function() {
+                toggleMessageInput(true);
 
-                $('#receiver_id').val(senderId)
-
-                $('#mychatbox').attr('data-inbox',senderId);
+                const senderId = $(this).data('user');
+                const senderName = $(this).data('name');
+                $('#receiver_id').val(senderId);
+                $('#mychatbox').attr('data-inbox', senderId);
 
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
                     beforeSend: function() {
                         $('.chat-content').empty();
-                        $('#chat_header').text("Chat with " + senderName)
+                        $('#chat_header').text("Chat with " + senderName);
                     },
                     success: function(response) {
                         console.log(response);
                         $('.chat-content').empty();
-                        $.each(response, function(index, message){
-                             avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
-
-                           let html = `
-                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}">
+                        response.forEach(function(message) {
+                            avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
+                            let html = `
+                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"}">
+                                <img style="width:50px;height:50px;object-fit:cover;" src="${avatar}">
                                 <div class="chat-details">
-                                    <div class="chat-text">${message.message}
-                                    </div>
-
-                                    </div>
+                                    <div class="chat-text">${message.message}</div>
                                 </div>
                             </div>
-                            `
+                        `;
                             $('.chat-content').append(html);
-
-                        })
-
-                        scrollToBootom()
+                        });
+                        scrollToBottom();
                     },
                     error: function(xhr, status, error) {
+                        console.error("Error fetching messages:", error);
                     }
-                })
-            })
+                });
+            });
 
-            $('#chat-form').on('submit', function(e){
+            $('#chat-form').on('submit', function(e) {
                 e.preventDefault();
 
-                let formData = $(this).serialize();
+                const formData = $(this).serialize();
+                const message = $('.fp_send_message').val();
 
                 $.ajax({
                     method: 'POST',
                     url: "{{ route('admin.chat.send-message') }}",
                     data: formData,
-                    beforeSend: function(){
-                        console.log('befotre:',avatar);
-                        let message = $('.fp_send_message').val();
+                    beforeSend: function() {
+                        console.log('before:', avatar);
                         let html = `
-                             <div class="chat-item chat-right" style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
-                            `
-                        $('.chat-content').append(html)
+                        <div class="chat-item chat-right">
+                            <img style="width:50px;height:50px;object-fit:cover;" src="${avatar}">
+                            <div class="chat-details">
+                                <div class="chat-text">${message}</div>
+                                <div class="chat-time">sending...</div>
+                            </div>
+                        </div>
+                    `;
+                        $('.chat-content').append(html);
                         $('.fp_send_message').val("");
                     },
-                    success: function(response){
-                        console.log(response)
-                        scrollToBootom()
+                    success: function(response) {
+                        console.log(response);
+                        scrollToBottom();
                     },
-                    error: function(xhr, status, error){
-                        let errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value){
+                    error: function(xhr, status, error) {
+                        const errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
                             toastr.error(value);
-                        })
+                        });
                     }
-                })
-            })
-        })
-
-
-
+                });
+            });
+        });
     </script>
+
 @endpush
