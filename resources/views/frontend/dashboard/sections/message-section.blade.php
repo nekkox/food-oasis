@@ -59,7 +59,7 @@
                 chatContent.scrollTop(chatContent.prop("scrollHeight"));
             }
 
-            //GET
+            //GET Conversations
             $('.fp_chat_message').on('click', function(){
                 let senderId = 1;
                 $.ajax({
@@ -75,7 +75,7 @@
                                             class="img-fluid w-100" style="border-radius: 50%;">
                                     </div><div class="fp__chating_text">
                                         <p>${message.message}</p>
-                                        <span>sending...</span>
+
                                     </div>
                                 </div>`
                             $('.fp__chat_body').append(html);
@@ -87,7 +87,7 @@
                 })
             })
 
-            //POST
+            //POST Message
             $('.chat_input').on('submit', function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();
@@ -111,9 +111,10 @@
                         </div>`
                         $('.fp__chat_body').append(html)
                         $('.fp_send_message').val("");
+                        scrollToBootom()
                     },
                     success: function(response){
-                        scrollToBootom()
+
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors;

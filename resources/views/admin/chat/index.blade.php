@@ -24,7 +24,7 @@
                             <ul class="list-unstyled list-unstyled-border">
 
                                 @foreach($chatUsers as $chatUser)
-                                    <li class="media fp_chat_user" data-user="{{ $chatUser->id }}" style="cursor: pointer" >
+                                    <li class="media fp_chat_user" data-name="{{$chatUser->name}}" data-user="{{ $chatUser->id }}" style="cursor: pointer" >
                                         <img alt="image" class="mr-3 rounded-circle" width="50"
                                              src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">
                                         <div class="media-body">
@@ -42,9 +42,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-9">
-                    <div class="card chat-box" id="mychatbox" style="height: 70vh">
+                    <div class="card chat-box" id="mychatbox" data-inbox="" style="height: 70vh">
                         <div class="card-header">
-                            <h4>Chat with Rizal</h4>
+                            <h4 id="chat_header"></h4>
                         </div>
                         <div class="card-body chat-content">
 
@@ -74,7 +74,6 @@
 
             var userId = "{{ auth()->user()->id }}"
             var avatar = "";
-
             $('#receiver_id').val("");
 
             function scrollToBootom(){
@@ -88,31 +87,40 @@
                 $('.btn_submit').prop('disabled', true)
             }
 
+            //GET messages
             $('.fp_chat_user').on('click', function(){
+
                 if($('#receiver_id').val()===""){
                     $('.fp_send_message').prop('disabled', false)
                     $('.fp_send_message').prop('placeholder', 'Write a message')
                     $('.btn_submit').prop('disabled', false)
                 }
                 let senderId = $(this).data('user');
+                let senderName = $(this).data('name');
+
                 $('#receiver_id').val(senderId)
+
+                $('#mychatbox').attr('data-inbox',senderId);
+
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
                     beforeSend: function() {
+                        $('.chat-content').empty();
+                        $('#chat_header').text("Chat with " + senderName)
                     },
                     success: function(response) {
                         console.log(response);
                         $('.chat-content').empty();
                         $.each(response, function(index, message){
                              avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
-                            console.log(avatar);
+
                            let html = `
                             <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}">
                                 <div class="chat-details">
                                     <div class="chat-text">${message.message}
                                     </div>
-                                    <div class="chat-time">sending...
+
                                     </div>
                                 </div>
                             </div>
