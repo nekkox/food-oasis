@@ -73,7 +73,14 @@
         $(document).ready(function(){
 
             var userId = "{{ auth()->user()->id }}"
+            var avatar = "";
+
             $('#receiver_id').val("");
+
+            function scrollToBootom(){
+                let chatContent = $('.chat-content');
+                chatContent.scrollTop(chatContent.prop("scrollHeight"));
+            }
 
             if($('#receiver_id').val()===""){
                 $('.fp_send_message').prop('disabled', true)
@@ -98,8 +105,10 @@
                         console.log(response);
                         $('.chat-content').empty();
                         $.each(response, function(index, message){
+                             avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
+                            console.log(avatar);
                            let html = `
-                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img src="../dist/img/avatar/avatar-1.png">
+                            <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"} " style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}">
                                 <div class="chat-details">
                                     <div class="chat-text">${message.message}
                                     </div>
@@ -110,6 +119,8 @@
                             `
                             $('.chat-content').append(html);
                         })
+
+                        scrollToBootom()
                     },
                     error: function(xhr, status, error) {
                     }
@@ -126,9 +137,10 @@
                     url: "{{ route('admin.chat.send-message') }}",
                     data: formData,
                     beforeSend: function(){
+                        console.log('befotre:',avatar);
                         let message = $('.fp_send_message').val();
                         let html = `
-                             <div class="chat-item chat-right" style=""><img src="../dist/img/avatar/avatar-1.png"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
+                             <div class="chat-item chat-right" style=""><img src="${avatar}"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
                             `
                         $('.chat-content').append(html)
                         $('.fp_send_message').val("");
