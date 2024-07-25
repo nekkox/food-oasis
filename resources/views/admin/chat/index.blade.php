@@ -140,7 +140,7 @@
                         console.log('befotre:',avatar);
                         let message = $('.fp_send_message').val();
                         let html = `
-                             <div class="chat-item chat-right" style=""><img src="${avatar}"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
+                             <div class="chat-item chat-right" style=""><img style="width:50px;height:50px;object-fit:cover;" src="${avatar}"><div class="chat-details"><div class="chat-text">${message}</div><div class="chat-time">sending...</div></div></div>
                             `
                         $('.chat-content').append(html)
                         $('.fp_send_message').val("");

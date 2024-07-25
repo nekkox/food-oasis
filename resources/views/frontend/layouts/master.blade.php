@@ -23,6 +23,19 @@
     <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
     <!-- <link rel="stylesheet" href="css/rtl.css"> -->
+
+
+    <script>
+
+
+        var pusherKey = "{{ config('settings.pusher_key') }}";
+        var pusherCluster = "{{ config('settings.pusher_cluster') }}";
+        var loggedInUserId = "{{ auth()->user()->id ?? '' }}" ;
+
+
+    </script>
+
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>

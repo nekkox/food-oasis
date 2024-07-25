@@ -2,7 +2,7 @@
      aria-labelledby="v-pills-settings-tab">
     <div class="fp_dashboard_body fp__change_password">
         <div class="fp__message">
-            <h3>Message</h3>
+            <h3>Messages</h3>
             <div class="fp__chat_area">
                 <div class="fp__chat_body">
                     {{--<div class="fp__chating">
@@ -59,6 +59,7 @@
                 chatContent.scrollTop(chatContent.prop("scrollHeight"));
             }
 
+            //GET
             $('.fp_chat_message').on('click', function(){
                 let senderId = 1;
                 $.ajax({
@@ -86,7 +87,7 @@
                 })
             })
 
-
+            //POST
             $('.chat_input').on('submit', function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();
@@ -112,6 +113,7 @@
                         $('.fp_send_message').val("");
                     },
                     success: function(response){
+                        scrollToBootom()
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors;
