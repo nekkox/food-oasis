@@ -118,6 +118,7 @@
                             </div>
                             `
                             $('.chat-content').append(html);
+
                         })
 
                         scrollToBootom()
@@ -147,6 +148,7 @@
                     },
                     success: function(response){
                         console.log(response)
+                        scrollToBootom()
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors;

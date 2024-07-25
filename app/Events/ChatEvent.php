@@ -17,12 +17,14 @@ class ChatEvent implements ShouldBroadcastNow
 
     public $message;
     public $receiverId;
+    public $avatar;
     /**
      * Create a new event instance.
      */
-    public function __construct($message, $receiverId)
+    public function __construct($message, $avatar, $receiverId)
     {
         $this->message = $message;
+        $this->avatar = $avatar;
         $this->receiverId = $receiverId;
     }
 

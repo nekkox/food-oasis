@@ -35,7 +35,7 @@
 
     </script>
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/app.js', 'resources/js/frontend.js'])
 </head>
 
 <body>

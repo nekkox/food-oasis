@@ -21,7 +21,9 @@ class ChatController extends Controller
         $chat->receiver_id = $request->receiver_id;
         $chat->message = $request->message;
         $chat->save();
-        broadcast(new ChatEvent($request->message, $request->receiver_id))->toOthers();
+
+        $avatar = asset(auth()->user()->avatar);
+        broadcast(new ChatEvent($request->message, $avatar, $request->receiver_id))->toOthers();
 
         return response(['status from frontend' => 'success']);
     }

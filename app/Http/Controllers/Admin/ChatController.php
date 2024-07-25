@@ -12,13 +12,14 @@ use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
         $userId = auth()->user()->id;
         //Select all users who sent admin the message
-         $chatUsers = User::where('id', '!=', $userId)
-            ->whereHas('chats', function( $query) use ( $userId) {
-                $query->where(function($subQuery) use ($userId){
+        $chatUsers = User::where('id', '!=', $userId)
+            ->whereHas('chats', function ($query) use ($userId) {
+                $query->where(function ($subQuery) use ($userId) {
                     $subQuery->where('sender_id', $userId)
                         ->orWhere('receiver_id', $userId);
                 });
@@ -28,10 +29,11 @@ class ChatController extends Controller
             ->get();
 
 
-        return view('admin.chat.index',['chatUsers'=>$chatUsers]);
+        return view('admin.chat.index', ['chatUsers' => $chatUsers]);
     }
 
-    public function sendMessage(Request $request){
+    public function sendMessage(Request $request)
+    {
         $request->validate([
             'message' => ['required', 'max:1000'],
             'receiver_id' => ['required', 'integer']
@@ -42,7 +44,9 @@ class ChatController extends Controller
         $chat->receiver_id = $request->receiver_id;
         $chat->message = $request->message;
         $chat->save();
-        broadcast(new ChatEvent($request->message, $request->receiver_id))->toOthers();
+
+        $avatar = auth()->user()->avatar;
+        broadcast(new ChatEvent($request->message, $avatar, $request->receiver_id))->toOthers();
 
         return response(['status from Backend' => 'success']);
     }

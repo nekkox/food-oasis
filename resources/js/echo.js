@@ -38,10 +38,12 @@ console.log('Echo listener set up complete');
 
 
 
+/*
 window.Echo.private("chat."+loggedInUserId).listen(
     "ChatEvent",
     (e) => {
         console.log(e);
     }
 );
+*/
 
