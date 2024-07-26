@@ -17,7 +17,7 @@ class ChatController extends Controller
 
         $userId = auth()->user()->id;
         //Select all users who sent admin the message
-        $chatUsers = User::where('id', '!=', $userId)
+       /* $chatUsers = User::where('id', '!=', $userId)
             ->whereHas('chats', function ($query) use ($userId) {
                 $query->where(function ($subQuery) use ($userId) {
                     $subQuery->where('sender_id', $userId)
@@ -26,10 +26,17 @@ class ChatController extends Controller
             })
             ->orderByDesc('created_at')
             ->distinct()
+            ->get();*/
+        $senders = Chat::select('sender_id')
+            ->where('receiver_id', $userId)
+            ->where('sender_id', '!=', $userId)
+            ->selectRaw('MAX(created_at) as latest_message_sent')
+            ->groupBy('sender_id')
+            ->orderByDesc('latest_message_sent')
             ->get();
 
 
-        return view('admin.chat.index', ['chatUsers' => $chatUsers]);
+        return view('admin.chat.index', ['senders' => $senders]);
     }
 
     public function sendMessage(Request $request)
@@ -55,6 +62,9 @@ class ChatController extends Controller
     function getConversation(string $senderId)
     {
         $receiverId = auth()->user()->id;
+
+        Chat::where('sender_id', $senderId)->where('receiver_id', $receiverId)->where('seen', 0)->update(['seen' => 1]);
+
         $messages = Chat::whereIn('sender_id', [$senderId, $receiverId])
             ->whereIn('receiver_id', [$senderId, $receiverId])
             ->with(['sender'])

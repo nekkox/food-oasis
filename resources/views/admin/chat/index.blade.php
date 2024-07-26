@@ -23,18 +23,29 @@
                         <div class="card-body">
                             <ul class="list-unstyled list-unstyled-border">
 
-                                @foreach($chatUsers as $chatUser)
-                                    <li class="media fp_chat_user" data-name="{{$chatUser->name}}" data-user="{{ $chatUser->id }}" style="cursor: pointer" >
+                                @foreach($senders as $sender)
+
+                                    @php
+                                        $chatUser = \App\Models\User::find($sender->sender_id);
+                                        $unseenMessages = \App\Models\Chat::where(['sender_id' => $chatUser->id, 'receiver_id' => auth()->user()->id, 'seen' => 0])->count();
+                                    @endphp
+
+                                    <li class="media fp_chat_user" data-name="{{$chatUser->name}}"
+                                        data-user="{{ $chatUser->id }}" style="cursor: pointer">
                                         <img alt="image" class="mr-3 rounded-circle" width="50"
-                                             src="{{ asset($chatUser->avatar) }}" style="width: 50px;height: 50px; object-fit: cover;">
+                                             src="{{ asset($chatUser->avatar) }}"
+                                             style="width: 50px;height: 50px; object-fit: cover;">
                                         <div class="media-body">
-                                            <div class="mt-0 mb-1 font-weight-bold" id="user-name-{{$chatUser->id}}">{{ $chatUser->name }}</div>
-                                            <div class="text-warning text-small font-600-bold got_new_message"><i
-                                                    class="fas fa-circle"></i> Online</div>
+                                            <div class="mt-0 mb-1 font-weight-bold"
+                                                 id="user-name-{{$chatUser->id}}">{{ $chatUser->name }}</div>
+                                            <div class="text-warning text-small font-600-bold got_new_message">
+                                                @if ($unseenMessages > 0)
+                                                    <i class="beep"></i>new message
+                                                @endif
+                                            </div>
                                         </div>
                                     </li>
                                 @endforeach
-
 
 
                             </ul>
@@ -53,8 +64,9 @@
                         <div class="card-footer chat-form">
                             <form id="chat-form">
                                 @csrf
-                                <input type="text" class="form-control fp_send_message" placeholder="Pick a receiver" name="message">
-                                <input type="hidden"  name="receiver_id" id="receiver_id">
+                                <input type="text" class="form-control fp_send_message" placeholder="Pick a receiver"
+                                       name="message">
+                                <input type="hidden" name="receiver_id" id="receiver_id">
                                 <button type="submit" class="btn btn-primary btn_submit">
                                     <i class="far fa-paper-plane"></i>
                                 </button>
@@ -70,7 +82,7 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const userId = "{{ auth()->user()->id }}";
             let avatar = "";
 
@@ -88,25 +100,27 @@
 
             toggleMessageInput(false);
 
-            $('.fp_chat_user').on('click', function() {
+            $('.fp_chat_user').on('click', function () {
                 toggleMessageInput(true);
 
                 const senderId = $(this).data('user');
                 const senderName = $(this).data('name');
+                let clickedElemnt = $(this);
+
                 $('#receiver_id').val(senderId);
                 $('#mychatbox').attr('data-inbox', senderId);
 
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("admin.chat.get-conversation", ":senderId") }}'.replace(":senderId", senderId),
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('.chat-content').empty();
                         $('#chat_header').text("Chat with " + senderName);
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log(response);
                         $('.chat-content').empty();
-                        response.forEach(function(message) {
+                        response.forEach(function (message) {
                             avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
                             let html = `
                             <div class="chat-item ${message.sender_id == userId ? "chat-right" : "chat-left"}">
@@ -118,15 +132,17 @@
                         `;
                             $('.chat-content').append(html);
                         });
+
+                        clickedElemnt.find(".got_new_message").html("")
                         scrollToBottom();
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error("Error fetching messages:", error);
                     }
                 });
             });
 
-            $('#chat-form').on('submit', function(e) {
+            $('#chat-form').on('submit', function (e) {
                 e.preventDefault();
 
                 const formData = $(this).serialize();
@@ -136,7 +152,7 @@
                     method: 'POST',
                     url: "{{ route('admin.chat.send-message') }}",
                     data: formData,
-                    beforeSend: function() {
+                    beforeSend: function () {
                         console.log('before:', avatar);
                         let html = `
                         <div class="chat-item chat-right">
@@ -149,14 +165,23 @@
                     `;
                         $('.chat-content').append(html);
                         $('.fp_send_message').val("");
-                    },
-                    success: function(response) {
-                        console.log(response);
                         scrollToBottom();
+
+                        // remove beep notification
+                        $(".fp_chat_user").each(function () {
+                            let senderId = $(this).data('user');
+                            if ($('#mychatbox').attr('data-inbox') == senderId) {
+                                $(this).find(".got_new_message").html("");
+                            }
+                        })
                     },
-                    error: function(xhr, status, error) {
+                    success: function (response) {
+                        console.log(response);
+
+                    },
+                    error: function (xhr, status, error) {
                         const errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
+                        $.each(errors, function (key, value) {
                             toastr.error(value);
                         });
                     }

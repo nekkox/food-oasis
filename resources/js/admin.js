@@ -8,6 +8,7 @@ window.Echo.private("chat." + loggedInUserId).listen(
     "ChatEvent",
     (e) => {
         console.log(e);
+        $('.message-envelope').addClass('beep');
 
         if (e.sender_id == $('#mychatbox').attr('data-inbox')) {
             let html = `
@@ -16,7 +17,6 @@ window.Echo.private("chat." + loggedInUserId).listen(
             $('.chat-content').append(html);
             scrollToBootom();
         }
-
 
         // show message notification
         $(".fp_chat_user").each(function(){
@@ -27,11 +27,8 @@ window.Echo.private("chat." + loggedInUserId).listen(
                 let html = `<i class="beep"></i>new message`;
 
                 $(this).find(".got_new_message").html(html);
-
             }
         })
-
-
-
+        console.log('hello')
     }
 );
