@@ -65,7 +65,17 @@
                                 <button class="nav-link fp_chat_message" id="v-pills-settings-tab" data-bs-toggle="pill"
                                         data-bs-target="#v-pills-settings" type="button" role="tab"
                                         aria-controls="v-pills-settings" aria-selected="false"><span><i
-                                            class="far fa-comment-dots"></i></span> Message <b>7</b></button>
+                                            class="far fa-comment-dots"></i></span> Message
+                                    @php
+                                        $unseenMessages = \App\Models\Chat::where(['sender_id' => 1, 'receiver_id' => auth()->user()->id, 'seen' => 0])->count();
+                                    @endphp
+
+
+                                        <b class="unseen-message-count">{{$unseenMessages ? 1 : 0 git add .}}</b>
+
+
+
+                                </button>
 
                                 <button class="nav-link" id="v-pills-messages-tab2" data-bs-toggle="pill"
                                         data-bs-target="#v-pills-messages2" type="button" role="tab"

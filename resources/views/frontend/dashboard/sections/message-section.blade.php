@@ -69,8 +69,10 @@
                     },
                     success: function(response) {
                         $('.fp__chat_body').empty();
+
                         $.each(response, function(index, message){
                             let avatar = "{{ asset(':avatar') }}".replace(':avatar', message.sender.avatar);
+
                             let html = `<div class="fp__chating ${message.sender_id == userId ? 'tf_chat_right' : ''}"><div class="fp__chating_img"><img src="${avatar}"
                                             class="img-fluid w-100" style="border-radius: 50%;">
                                     </div><div class="fp__chating_text">
@@ -78,7 +80,9 @@
 
                                     </div>
                                 </div>`
+
                             $('.fp__chat_body').append(html);
+                            $('.unseen-message-count').text(0)
                         })
                         scrollToBootom()
                     },
