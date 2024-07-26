@@ -39,8 +39,9 @@
                     <input id="select_file" type="file" hidden="">
                     <input type="text" name="message" placeholder="Type a message..." class="fp_send_message">
                     <input type="hidden" name="receiver_id" value="1">
-                    <button class="fp__massage_btn" type="submit"><i class="fas fa-paper-plane"
-                                                       aria-hidden="true"></i></button>
+                    <input id="msg_temp_id" type="hidden" name="msg_temp_id" value="">
+
+                    <button class="fp__massage_btn" type="submit"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
                 </form>
             </div>
         </div>
@@ -94,14 +95,20 @@
             //POST Message
             $('.chat_input').on('submit', function(e){
                 e.preventDefault();
+
+                var msgId = Math.floor(Math.random() * 10001);
+                $('#msg_temp_id').val(msgId)
+
                 let formData = $(this).serialize();
                 console.log(formData);
+
                 $.ajax({
                     method: 'POST',
                     url: "{{ route('chat.send-message') }}",
                     data: formData,
                     beforeSend: function(){
                         let message = $('.fp_send_message').val();
+
                         let html =  `
                         <div class="fp__chating tf_chat_right">
                             <div class="fp__chating_img">
@@ -110,7 +117,7 @@
                             </div>
                             <div class="fp__chating_text">
                                 <p>${message}</p>
-                                <span>sending...</span>
+                                <span class="msg_sending ${msgId}">sending...</span>
                             </div>
                         </div>`
                         $('.fp__chat_body').append(html)
@@ -118,6 +125,10 @@
                         scrollToBootom()
                     },
                     success: function(response){
+
+                            if(response.msg_temp_id == msgId ){
+                                $('.'+msgId).remove()
+                            }
 
                     },
                     error: function(xhr, status, error){

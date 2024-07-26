@@ -26,7 +26,7 @@ class ChatController extends Controller
         $sender_id = auth()->user()->id;
         broadcast(new ChatEvent($request->message, $avatar, $request->receiver_id, $sender_id))->toOthers();
 
-        return response(['status from frontend' => 'success']);
+        return response(['status from frontend' => 'success', 'msg_temp_id'=>$request->msg_temp_id]);
     }
 
     function getConversation(string $senderId) : Response {

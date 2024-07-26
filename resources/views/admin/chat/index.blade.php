@@ -67,6 +67,7 @@
                                 <input type="text" class="form-control fp_send_message" placeholder="Pick a receiver"
                                        name="message">
                                 <input type="hidden" name="receiver_id" id="receiver_id">
+                                <input id="msg_temp_id" type="hidden" name="msg_temp_id" value="">
                                 <button type="submit" class="btn btn-primary btn_submit">
                                     <i class="far fa-paper-plane"></i>
                                 </button>
@@ -144,9 +145,11 @@
 
             $('#chat-form').on('submit', function (e) {
                 e.preventDefault();
+                var msgId = Math.floor(Math.random() * 10001);
+                $('#msg_temp_id').val(msgId)
 
-                const formData = $(this).serialize();
-                const message = $('.fp_send_message').val();
+                let formData = $(this).serialize();
+                let message = $('.fp_send_message').val();
 
                 $.ajax({
                     method: 'POST',
@@ -159,7 +162,7 @@
                             <img style="width:50px;height:50px;object-fit:cover;" src="${avatar}">
                             <div class="chat-details">
                                 <div class="chat-text">${message}</div>
-                                <div class="chat-time">sending...</div>
+                                <div class="chat-time msg_sending ${msgId}">sending...</div>
                             </div>
                         </div>
                     `;
@@ -177,6 +180,12 @@
                     },
                     success: function (response) {
                         console.log(response);
+                        console.log(msgId);
+                        if (response.msg_temp_id == msgId) {
+                            console.log('ppp')
+                            $('.' + msgId).remove()
+                        }
+
 
                     },
                     error: function (xhr, status, error) {

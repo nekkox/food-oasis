@@ -71,7 +71,7 @@
                                     @endphp
 
 
-                                        <b class="unseen-message-count">{{$unseenMessages ? 1 : 0 git add .}}</b>
+                                        <b class="unseen-message-count">{{$unseenMessages}}</b>
 
 
 
