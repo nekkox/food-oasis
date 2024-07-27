@@ -101,6 +101,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 
     /** Daily Offer Routes */
+    Route::get('daily-offer/search-product', [DailyOfferController::class, 'productSearch'])->name('daily-offer.search-product');
     Route::resource('daily-offer', DailyOfferController::class);
 
 });
