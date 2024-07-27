@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 trait FileUploadTrait
 {
-    function uploadImage(Request $request, string $inputName, string $oldPath = null,  string $path = '/uploads')
+    function uploadImage(Request $request, string $inputName, string $oldPath = null,  string $path = 'uploads')
     {
         if ($request->hasFile($inputName)) {
 
@@ -24,6 +24,7 @@ trait FileUploadTrait
             }
 
             return $path . '/' . $imageName;
+
         }
         return null;
     }
