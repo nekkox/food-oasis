@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CouponController;
@@ -106,6 +107,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::resource('daily-offer', DailyOfferController::class);
 
+
+    /** Banner Slider Routes */
+    Route::resource('banner-slider', BannerSliderController::class);
 });
 
 /*
