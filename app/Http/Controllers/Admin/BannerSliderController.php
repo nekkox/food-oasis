@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\BannerSliderDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BannerSliderCreateRequest;
+use App\Http\Requests\Admin\BannerSliderUpdateRequest;
 use App\Models\BannerSlider;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
@@ -62,15 +63,30 @@ class BannerSliderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $bannerSlider = BannerSlider::findOrFail($id);
+        return view('admin.banner-slider.edit', ['bannerSlider'=>$bannerSlider]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BannerSliderUpdateRequest $request, string $id)
     {
-        //
+        //dd($request->all());
+        $imagePath = $this->uploadImage($request, 'image', $request->old_image);
+
+        $bannerSlider = BannerSlider::findOrFail($id);
+        $bannerSlider->banner = !empty($imagePath) ? $imagePath : $request->old_image;
+        $bannerSlider->title = $request->title;
+        $bannerSlider->sub_title = $request->sub_title;
+        $bannerSlider->url = $request->url;
+
+        $bannerSlider->status = $request->status;
+        $bannerSlider->save();
+
+        //toastr()->success("Update Successfully!");
+
+        return to_route('admin.banner-slider.index')->with('updated',true);
     }
 
     /**
@@ -79,5 +95,13 @@ class BannerSliderController extends Controller
     public function destroy(string $id)
     {
         //
+        try {
+            $slider = BannerSlider::findOrFail($id);
+            $this->removeImage($slider->banner);
+            $slider->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }

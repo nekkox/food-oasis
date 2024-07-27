@@ -146,7 +146,7 @@
                                 $('#coupon-table').DataTable().draw();
                                 $('#order-table').DataTable().draw();
                                 $('#dailyoffer-table').DataTable().draw();
-
+                                $('#bannerslider-table').DataTable().draw();
 
                             } else if (response.status === 'error') {
                                 toastr.error(response.message)
