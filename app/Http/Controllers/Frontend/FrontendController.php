@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\DailyOffer;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
@@ -27,14 +28,15 @@ class FrontendController extends Controller
         $whyChooseUs = WhyChooseUs::where('status', 1)->get();
 
         $categories = Category::where(['show_at_home' => 1, 'status' => 1])->get();
-
+        $dailyOffers = DailyOffer::with('product')->where('status', 1)->take(15)->get();
 
         // return view('frontend.layouts.master');
         return view('frontend.home.index', [
             'sliders' => $sliders,
             'sectionTitles' => $sectionTitles,
             'whyChooseUs' => $whyChooseUs,
-            'categories' => $categories
+            'categories' => $categories,
+            'dailyOffers' => $dailyOffers
         ]);
 
     }
@@ -44,7 +46,10 @@ class FrontendController extends Controller
         $keys = [
             'why_choose_us_top_title',
             'why_choose_us_main_title',
-            'why_choose_us_sub_title'
+            'why_choose_us_sub_title',
+            'daily_offer_top_title',
+            'daily_offer_main_title',
+            'daily_offer_sub_title'
         ];
         // Create an associative array to map keys to their values
         return SectionTitle::whereIn('key', $keys)->get()->pluck('value', 'key');

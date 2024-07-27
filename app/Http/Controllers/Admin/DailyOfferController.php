@@ -6,6 +6,7 @@ use App\DataTables\DailyOfferDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\DailyOffer;
 use App\Models\Product;
+use App\Models\SectionTitle;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +18,10 @@ class DailyOfferController extends Controller
      */
     public function index(DailyOfferDataTable $dataTable)
     {
-        return $dataTable->render('admin.daily-offer.index');
+        $keys = ['daily_offer_top_title', 'daily_offer_main_title', 'daily_offer_sub_title'];
+        $titles = SectionTitle::whereIn('key', $keys)->pluck('value','key');
+
+        return $dataTable->render('admin.daily-offer.index', ['titles' => $titles]);
     }
 
     /**
@@ -98,5 +102,25 @@ class DailyOfferController extends Controller
     {
         $product = Product::select('id', 'name', 'thumb_image')->where('name', 'LIKE', '%'.$request->search.'%')->get();
         return response($product);
+    }
+
+    public function updateTitle(Request $request)
+    {
+        $validatedData = $request->validate([
+            'daily_offer_top_title' => ['max:100'],
+            'daily_offer_main_title' => ['max:200'],
+            'daily_offer_sub_title' => ['max:500']
+        ]);
+
+        foreach ($validatedData as $key => $value) {
+            SectionTitle::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+
+
+        return redirect()->back()->with('created', true);
     }
 }
