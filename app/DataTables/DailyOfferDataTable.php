@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\DailyOffer;
+use App\Models\Admin\DailyOffer;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -22,7 +22,26 @@ class DailyOfferDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'dailyoffer.action')
+            ->addColumn('action', function ($query) {
+                $edit = "<a href='" . route('admin.daily-offer.edit', $query->id) . "' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='" . route('admin.daily-offer.destroy', $query->id) . "' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit . $delete;
+            })
+            ->addColumn('name', function ($query) {
+                return $query->product->name;
+            })
+            ->addColumn('image', function ($query) {
+                return '<img width="50px" src="' . asset($query->product->thumb_image) . '">';
+            })
+            ->addColumn('status', function ($query) {
+                if ($query->status === 1) {
+                    return '<span class="badge badge-primary">Active</span>';
+                } else {
+                    return '<span class="badge badge-danger">InActive</span>';
+                }
+            })
+            ->rawColumns(['action', 'name', 'image', 'status'])
             ->setRowId('id');
     }
 
@@ -40,20 +59,20 @@ class DailyOfferDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('dailyoffer-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('dailyoffer-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -62,15 +81,14 @@ class DailyOfferDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('image'),
+            Column::make('name'),
+            Column::make('status'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
         ];
     }
 
