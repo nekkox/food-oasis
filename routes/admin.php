@@ -129,7 +129,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Counter Routes */
     Route::get('counter', [CounterController::class, 'index'])->name('counter.index');
-
+    Route::put('counter', [CounterController::class, 'update'])->name('counter.update');
 
 });
 
