@@ -61,7 +61,10 @@ class FrontendController extends Controller
             'why_choose_us_sub_title',
             'daily_offer_top_title',
             'daily_offer_main_title',
-            'daily_offer_sub_title'
+            'daily_offer_sub_title',
+            'chef_top_title',
+            'chef_main_title',
+            'chef_sub_title'
         ];
         // Create an associative array to map keys to their values
         return SectionTitle::whereIn('key', $keys)->get()->pluck('value', 'key');

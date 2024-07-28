@@ -113,6 +113,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('banner-slider', BannerSliderController::class);
 
     /** Chef Routes */
+    Route::put('chefs-title-update', [ChefController::class, 'updateTitle'])->name('chefs-title-update');
     Route::resource('chefs', ChefController::class);
 });
 
