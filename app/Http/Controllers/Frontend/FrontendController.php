@@ -12,6 +12,7 @@ use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\Slider;
+use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class FrontendController extends Controller
         $bannerSliders = BannerSlider::where('status', 1)->latest()->take(10)->get();
         $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
         $appSection = AppDownloadSection::first();
+        $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
+
 
 
         // return view('frontend.layouts.master');
@@ -46,7 +49,8 @@ class FrontendController extends Controller
             'dailyOffers' => $dailyOffers,
             'bannerSliders' => $bannerSliders,
             'chefs' => $chefs,
-            'appSection' => $appSection
+            'appSection' => $appSection,
+            'testimonials' =>$testimonials
         ]);
 
     }
@@ -54,6 +58,11 @@ class FrontendController extends Controller
     function chef() : View {
         $chefs = Chef::where(['status' => 1])->paginate(3);
         return view('frontend.pages.chefs', ['chefs'=>$chefs]);
+    }
+
+    function testimonial() : View {
+        $testimonials = Testimonial::where(['status' => 1])->paginate(9);
+        return view('frontend.pages.testimonial', ['testimonials'=>$testimonials]);
     }
 
     public function getSectionTitles(): Collection
@@ -67,7 +76,10 @@ class FrontendController extends Controller
             'daily_offer_sub_title',
             'chef_top_title',
             'chef_main_title',
-            'chef_sub_title'
+            'chef_sub_title',
+            'testimonial_top_title',
+            'testimonial_main_title',
+            'testimonial_sub_title'
         ];
         // Create an associative array to map keys to their values
         return SectionTitle::whereIn('key', $keys)->get()->pluck('value', 'key');

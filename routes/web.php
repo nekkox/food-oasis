@@ -56,6 +56,9 @@ require __DIR__ . '/auth.php';
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/chef', [FrontendController::class, 'chef'])->name('chef');
 
+/** Testimonial page */
+Route::get('/testimonials', [FrontendController::class, 'testimonial'])->name('testimonial');
+
 
 //Show Product details page
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
