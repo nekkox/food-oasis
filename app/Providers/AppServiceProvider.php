@@ -4,6 +4,7 @@ namespace App\Providers;
 
 
 use App\Models\Setting;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrap();
 
         //Getting Pusher credentials from database
         $values = ['pusher_app_id', 'pusher_key', 'pusher_secret','pusher_cluster'];

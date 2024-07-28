@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\DailyOffer;
 use App\Models\BannerSlider;
 use App\Models\Category;
+use App\Models\Chef;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\SectionTitle;
@@ -31,6 +32,7 @@ class FrontendController extends Controller
         $categories = Category::where(['show_at_home' => 1, 'status' => 1])->get();
         $dailyOffers = DailyOffer::with('product')->where('status', 1)->take(15)->get();
         $bannerSliders = BannerSlider::where('status', 1)->latest()->take(10)->get();
+        $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
 
 
         // return view('frontend.layouts.master');
@@ -40,9 +42,15 @@ class FrontendController extends Controller
             'whyChooseUs' => $whyChooseUs,
             'categories' => $categories,
             'dailyOffers' => $dailyOffers,
-            'bannerSliders' => $bannerSliders
+            'bannerSliders' => $bannerSliders,
+            'chefs' => $chefs
         ]);
 
+    }
+
+    function chef() : View {
+        $chefs = Chef::where(['status' => 1])->paginate(3);
+        return view('frontend.pages.chefs', ['chefs'=>$chefs]);
     }
 
     public function getSectionTitles(): Collection

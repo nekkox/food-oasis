@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\ChefDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ChefCreateRequest;
+use App\Http\Requests\Admin\ChefUpdateRequest;
 use App\Models\Chef;
 use App\Traits\FileUploadTrait;
 use Illuminate\Contracts\View\View;
@@ -20,7 +21,7 @@ class ChefController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ChefDataTable $dataTable)
+    public function index(ChefDataTable $dataTable) : View|JsonResponse
     {
         return $dataTable->render('admin.chef.index');
 
@@ -37,7 +38,7 @@ class ChefController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ChefCreateRequest  $request)
+    public function store(ChefCreateRequest $request) : RedirectResponse
     {
         $imagePath = $this->uploadImage($request, 'image');
 
@@ -71,15 +72,30 @@ class ChefController extends Controller
      */
     public function edit(string $id) : View
     {
-        //
+        $chef = Chef::findOrFail($id);
+        return view('admin.chef.edit', ['chef'=>$chef]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id) : RedirectResponse
+    public function update(ChefUpdateRequest $request, string $id) : RedirectResponse
     {
-        //
+        $imagePath = $this->uploadImage($request, 'image', $request->old_image);
+
+        $chef = Chef::findOrFail($id);
+        $chef->image = !empty($imagePath) ? $imagePath : $request->old_image;
+        $chef->name = $request->name;
+        $chef->title = $request->title;
+        $chef->fb = $request->fb;
+        $chef->in = $request->in;
+        $chef->x = $request->x;
+        $chef->web = $request->web;
+        $chef->show_at_home = $request->show_at_home;
+        $chef->status = $request->status;
+        $chef->save();
+
+        return to_route('admin.chefs.index')->with('updated', true);
     }
 
     /**
@@ -87,6 +103,13 @@ class ChefController extends Controller
      */
     public function destroy(string $id) : Response
     {
-        //
+        try {
+            $chef = Chef::findOrFail($id);
+            $this->removeImage($chef->image);
+            $chef->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
     }
 }
