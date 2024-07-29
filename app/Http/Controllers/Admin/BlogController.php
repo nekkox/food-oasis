@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\BlogCategoryDataTable;
+use App\DataTables\BlogCommentDataTable;
 use App\DataTables\BlogDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BlogCreateRequest;
 use App\Http\Requests\Admin\BlogUpdateRequest;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\BlogComment;
 use App\Traits\FileUploadTrait;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -117,5 +120,11 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'something went wrong!']);
         }
+    }
+
+    function blogComment(BlogCommentDataTable $dataTable) : View|JsonResponse
+    {
+
+        return $dataTable->render('admin.blog.blog-comment.index');
     }
 }
