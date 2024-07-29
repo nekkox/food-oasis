@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\DailyOffer;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
+use App\Models\Blog;
+use App\Models\BlogCategory;
 use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Counter;
@@ -41,7 +43,6 @@ class FrontendController extends Controller
         $counter = Counter::first();
 
 
-
         // return view('frontend.layouts.master');
         return view('frontend.home.index', [
             'sliders' => $sliders,
@@ -52,20 +53,46 @@ class FrontendController extends Controller
             'bannerSliders' => $bannerSliders,
             'chefs' => $chefs,
             'appSection' => $appSection,
-            'testimonials' =>$testimonials,
+            'testimonials' => $testimonials,
             'counter' => $counter
         ]);
 
     }
 
-    function chef() : View {
+    function chef(): View
+    {
         $chefs = Chef::where(['status' => 1])->paginate(3);
-        return view('frontend.pages.chefs', ['chefs'=>$chefs]);
+        return view('frontend.pages.chefs', ['chefs' => $chefs]);
     }
 
-    function testimonial() : View {
+    function testimonial(): View
+    {
         $testimonials = Testimonial::where(['status' => 1])->paginate(9);
-        return view('frontend.pages.testimonial', ['testimonials'=>$testimonials]);
+        return view('frontend.pages.testimonial', ['testimonials' => $testimonials]);
+    }
+
+    function blog(): View
+    {
+        $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);
+
+        return view('frontend.pages.blog', ['blogs' => $blogs]);
+    }
+
+    function blogDetails(string $slug): View
+    {
+
+        $blog = Blog::with(['user'])->where('slug', $slug)->where('status', 1)->firstOrFail();
+
+        $latestBlogs = Blog::select('id', 'title', 'slug', 'created_at', 'image')
+            ->where('status', 1)
+            ->where('id', '!=', $blog->id)
+            ->latest()->take(5)->get();
+
+        $categories = BlogCategory::withCount(['blogs' => function ($query) {
+            $query->where('status', 1);
+        }])->where('status', 1)->get();
+
+        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories]);
     }
 
     public function getSectionTitles(): Collection
@@ -130,14 +157,14 @@ class FrontendController extends Controller
         }
 
         if ($coupon->discount_type === 'percent') {
-            $discount = number_format($subtotal * ($coupon->discount / 100),2);
+            $discount = number_format($subtotal * ($coupon->discount / 100), 2);
         } elseif ($coupon->discount_type === 'amount') {
-            $discount = number_format($coupon->discount,2);
+            $discount = number_format($coupon->discount, 2);
         }
 
         $finalTotal = $subtotal - $discount;
 
-        session()->put('coupon', ['code'=>$code, 'discount' => $discount]);
+        session()->put('coupon', ['code' => $code, 'discount' => $discount]);
 
         return response([
             'discount' => $discount,
@@ -147,11 +174,12 @@ class FrontendController extends Controller
     }
 
     //destroying a coupon from session
-    public function destroyCoupon(){
-        try{
+    public function destroyCoupon()
+    {
+        try {
             session()->forget('coupon');
             return response(['message' => 'Coupon Removed!', 'grand_cart_total' => grandCartTotal()]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             logger($e);
             return response(['message' => 'Something went wrong']);
         }
