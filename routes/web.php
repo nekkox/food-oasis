@@ -63,7 +63,7 @@ Route::get('/testimonials', [FrontendController::class, 'testimonial'])->name('t
 /** Blogs Routes */
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');
 Route::get('/blogs/{slug}', [FrontendController::class, 'blogDetails'])->name('blogs.details');
-
+Route::post('/blogs/comment/{blog_id}', [FrontendController::class, 'blogCommentStore'])->name('blogs.comment.store');
 
 
 //Show Product details page
