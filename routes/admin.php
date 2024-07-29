@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AppDownloadSectionController;
 use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\BlogCategoryController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
@@ -135,6 +136,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Blogs Routes */
     Route::resource('blog-category', BlogCategoryController::class);
+
+    Route::resource('blogs', BlogController::class);
 
 });
 

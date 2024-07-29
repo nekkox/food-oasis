@@ -107,7 +107,7 @@
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Blog</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{route('admin.blog-category.index')}}">Categories</a></li>
-                    <li><a class="nav-link" href="{{ route('admin.delivery-area.index') }}">Blog</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.blogs.index') }}">All Blogs</a></li>
                 </ul>
             </li>
 
