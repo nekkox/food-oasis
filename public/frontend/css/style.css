@@ -6907,3 +6907,22 @@ CHECKOUT PAGE START
     background-color: var(--colorPrimary);;
     border-color: var(--colorPrimary);
 }
+
+
+.blog_det_button {
+    display: flex;
+    justify-content: space-between;
+}
+
+.blog_det_button .previous-blog {
+    order: 1;
+}
+
+.blog_det_button .next-blog {
+    order: 2;
+    margin-left: auto; /* Ensure it's on the right */
+}
+
+.blog_det_button .next-blog.only-next {
+    margin-left: 0; /* Reset margin if it's the only item */
+}

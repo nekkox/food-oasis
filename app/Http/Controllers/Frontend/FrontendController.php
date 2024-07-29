@@ -92,7 +92,10 @@ class FrontendController extends Controller
             $query->where('status', 1);
         }])->where('status', 1)->get();
 
-        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories]);
+        $nextBlog = Blog::select('id', 'title', 'slug', 'image')->where('id', '>', $blog->id)->orderBy('id', 'ASC')->first();
+        $previousBlog = Blog::select('id', 'title', 'slug', 'image')->where('id', '<', $blog->id)->orderBy('id', 'DESC')->first();
+
+        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories,  'nextBlog'=>$nextBlog, 'previousBlog'=>$previousBlog]);
     }
 
     public function getSectionTitles(): Collection
