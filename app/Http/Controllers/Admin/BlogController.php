@@ -22,6 +22,8 @@ class BlogController extends Controller
      */
     public function index(BlogDataTable $dataTable): View|JsonResponse
     {
+
+
         return $dataTable->render('admin.blog.index');
     }
 
