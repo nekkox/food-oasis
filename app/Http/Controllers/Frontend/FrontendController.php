@@ -19,6 +19,7 @@ use App\Models\Slider;
 use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -73,11 +74,27 @@ class FrontendController extends Controller
         return view('frontend.pages.testimonial', ['testimonials' => $testimonials]);
     }
 
-    function blog(): View
+    function blog(Request $request): View
     {
-        $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);
+       /* $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);*/
+        $blogs = Blog::with(['category', 'user'])->where('status', 1);
+        if($request->has('search') && $request->filled('search')){
+            $blogs->where(function($query) use ($request) {
+                $query->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
+            });
+        }
 
-        return view('frontend.pages.blog', ['blogs' => $blogs]);
+        if($request->has('category') && $request->filled('category')) {
+            $blogs->whereHas('category', function($query) use ($request){
+                $query->where('slug', $request->category);
+            });
+        }
+
+        $blogs = $blogs->latest()->paginate(9);
+        $categories = BlogCategory::where('status', 1)->get();
+
+        return view('frontend.pages.blog', ['blogs' => $blogs, 'categories' => $categories]);
     }
 
     function blogDetails(string $slug): View
