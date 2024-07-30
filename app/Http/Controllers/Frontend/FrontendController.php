@@ -77,6 +77,10 @@ class FrontendController extends Controller
         return view('frontend.pages.testimonial', ['testimonials' => $testimonials]);
     }
 
+    function about() : View {
+        return view('frontend.pages.about');
+    }
+    
     function blog(Request $request): View
     {
        /* $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);*/

@@ -13,7 +13,7 @@
                     <a class="nav-link active" aria-current="page" href="{{url('/')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">about</a>
+                    <a class="nav-link" href="{{route('about')}}">about</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="menu.html">menu</a>
@@ -25,7 +25,7 @@
                     <a class="nav-link" href="#">pages <i class="far fa-angle-down"></i></a>
                     <ul class="droap_menu">
                         <li><a href="menu_details.html">menu details</a></li>
-                        <li><a href="blog_details.html">blog details</a></li>
+                        <li><a href="{{route('blogs')}}">blog details</a></li>
                         <li><a href="{{route('cart.index')}}">cart view</a></li>
                         <li><a href="{{route('checkout.index')}}">checkout</a></li>
                         <li><a href="payment.html">payment</a></li>
@@ -41,7 +41,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="blogs.html">blog</a>
+                    <a class="nav-link" href="{{route('blogs')}}">blog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.html">contact</a>
