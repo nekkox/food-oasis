@@ -4,7 +4,7 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url({{asset('frontend/images/counter_bg.jpg')}});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -36,7 +36,8 @@
                         <div class="fp__blog_details_text wow fadeInUp" data-wow-duration="1s">
                             <ul class="details_bloger d-flex flex-wrap">
                                 <li><i class="far fa-user"></i> By {{ $blog->user->name }}</li>
-                                <li><i class="far fa-comment-alt-lines"></i> 12 Comments</li>
+                                <li><a href="#comments"><i class="far fa-comment-alt-lines"></i> {{ count($comments) }} Comments</a></li>
+
                                 <li>
                                     <i class="far fa-calendar-alt"></i> {{ date('d m Y', strtotime($blog->created_at)) }}
                                 </li>
@@ -94,7 +95,7 @@
                     </ul>
 
 
-                    <div class="fp__comment mt_100 xs_mt_70 wow fadeInUp" data-wow-duration="1s">
+                    <div id="comments" class="fp__comment mt_100 xs_mt_70 wow fadeInUp" data-wow-duration="1s">
                         <h4>{{ count($comments) }} Comments</h4>
 
                         @foreach($comments as $comment)
@@ -146,8 +147,8 @@
                     <div id="sticky_sidebar">
                         <div class="fp__blog_search blog_sidebar m-0 wow fadeInUp" data-wow-duration="1s">
                             <h3>Search</h3>
-                            <form>
-                                <input type="text" placeholder="Search">
+                            <form  action="{{ route('blogs') }}">
+                                <input type="text" placeholder="Search" name="search">
                                 <button type="submit"><i class="fas fa-search"></i></button>
                             </form>
                         </div>
@@ -174,7 +175,7 @@
                             <h3>Categories</h3>
                             <ul>
                                 @foreach ($categories as $category)
-                                    <li><a href="#">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
+                                    <li><a href="{{ route('blogs', ['category' => $category->slug]) }}">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
                                 @endforeach
                             </ul>
                         </div>

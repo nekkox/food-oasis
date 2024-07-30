@@ -44,7 +44,9 @@ class FrontendController extends Controller
         $appSection = AppDownloadSection::first();
         $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
         $counter = Counter::first();
-
+        $latestBlogs = Blog::withCount(['comments' => function($query){
+            $query->where('status', 1);
+        }])->with(['category', 'user'])->where('status', 1)->latest()->take(3)->get();
 
         // return view('frontend.layouts.master');
         return view('frontend.home.index', [
@@ -57,7 +59,8 @@ class FrontendController extends Controller
             'chefs' => $chefs,
             'appSection' => $appSection,
             'testimonials' => $testimonials,
-            'counter' => $counter
+            'counter' => $counter,
+            'latestBlogs'=>$latestBlogs,
         ]);
 
     }
@@ -77,7 +80,12 @@ class FrontendController extends Controller
     function blog(Request $request): View
     {
        /* $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);*/
-        $blogs = Blog::with(['category', 'user'])->where('status', 1);
+        //$blogs = Blog::with(['category', 'user'])->where('status', 1);
+        $blogs = Blog::withCount(['comments'=> function($query){
+            $query->where('status', 1);
+        }])->with(['category', 'user'])->where('status', 1);
+
+
         if($request->has('search') && $request->filled('search')){
             $blogs->where(function($query) use ($request) {
                 $query->where('title', 'like', '%'.$request->search.'%')
@@ -86,6 +94,7 @@ class FrontendController extends Controller
         }
 
         if($request->has('category') && $request->filled('category')) {
+
             $blogs->whereHas('category', function($query) use ($request){
                 $query->where('slug', $request->category);
             });
