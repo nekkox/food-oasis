@@ -127,4 +127,24 @@ class BlogController extends Controller
 
         return $dataTable->render('admin.blog.blog-comment.index');
     }
+
+    function commentStatusUpdate(string $id) : RedirectResponse {
+        $comment = BlogComment::find($id);
+
+        $comment->status = !$comment->status;
+        $comment->save();
+
+       // toastr()->success('Updated Successfully');
+        return redirect()->back()->with('updated', true);
+    }
+
+    function commentDestroy(string $id) : Response {
+        try {
+            $comment = BlogComment::findOrFail($id);
+            $comment->delete();
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'message' => 'something went wrong!']);
+        }
+    }
 }
