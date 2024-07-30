@@ -90,19 +90,19 @@ if (!function_exists('productTotal')) {
 
 
 /** grand cart total */
-if(!function_exists('grandCartTotal')){
+if (!function_exists('grandCartTotal')) {
     function grandCartTotal($deliveryFee = 0)
     {
         $total = 0;
         $cartTotal = cartTotal();
 
-        if(session()->has('coupon')){
+        if (session()->has('coupon')) {
 
             $discount = session()->get('coupon')['discount'];
             $total = ($cartTotal + $deliveryFee) - $discount;
 
             return $total;
-        }else {
+        } else {
             $total = $cartTotal + $deliveryFee;
             return $total;
         }
@@ -110,19 +110,19 @@ if(!function_exists('grandCartTotal')){
 }
 
 /** Generate Invoice Id */
-if(!function_exists('generateInvoiceId')){
+if (!function_exists('generateInvoiceId')) {
     function generateInvoiceId()
     {
         $randomNumber = rand(1, 9999);
         $currentDateTime = now();
 
-        $invoiceId = $randomNumber.$currentDateTime->format('yd').$currentDateTime->format('s');
+        $invoiceId = $randomNumber . $currentDateTime->format('yd') . $currentDateTime->format('s');
 
         return $invoiceId;
     }
 
     /** get product discount in percent */
-    if(!function_exists('discountInPercent')){
+    if (!function_exists('discountInPercent')) {
         function discountInPercent($originalPrice, $discountPrice)
         {
             $result = (($originalPrice - $discountPrice) / $originalPrice) * 100;
@@ -132,10 +132,28 @@ if(!function_exists('generateInvoiceId')){
 
 
     /** get product discount in percent */
-    if(!function_exists('truncate')){
+    if (!function_exists('truncate')) {
         function truncate(string $string, int $limit = 100)
         {
             return Str::limit($string, $limit, '...');
+        }
+    }
+
+    if(!function_exists('getYtThumbnail')){
+        function getYtThumbnail($link, $size = 'medium')
+        {
+            $videoId = explode("?v=", $link);
+            $videoId = $videoId[1];
+
+            $finalSize = match($size) {
+                'low' => 'sddefault',
+                'medium' => 'mqdefault',
+                'high' => 'hqdefault',
+                'max' => 'maxresdefault'
+            };
+
+            return "https://img.youtube.com/vi/$videoId/$finalSize.jpg";
+
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\Admin\DailyOffer;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
@@ -44,7 +45,7 @@ class FrontendController extends Controller
         $appSection = AppDownloadSection::first();
         $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
         $counter = Counter::first();
-        $latestBlogs = Blog::withCount(['comments' => function($query){
+        $latestBlogs = Blog::withCount(['comments' => function ($query) {
             $query->where('status', 1);
         }])->with(['category', 'user'])->where('status', 1)->latest()->take(3)->get();
 
@@ -60,7 +61,7 @@ class FrontendController extends Controller
             'appSection' => $appSection,
             'testimonials' => $testimonials,
             'counter' => $counter,
-            'latestBlogs'=>$latestBlogs,
+            'latestBlogs' => $latestBlogs,
         ]);
 
     }
@@ -77,29 +78,58 @@ class FrontendController extends Controller
         return view('frontend.pages.testimonial', ['testimonials' => $testimonials]);
     }
 
-    function about() : View {
-        return view('frontend.pages.about');
+    function about(): View
+    {
+
+        $keys = [
+            'why_choose_us_top_title',
+            'why_choose_us_main_title',
+            'why_choose_us_sub_title',
+            'chef_top_title',
+            'chef_main_title',
+            'chef_sub_title',
+            'testimonial_top_title',
+            'testimonial_main_title',
+            'testimonial_sub_title'
+        ];
+
+        // Create an associative array to map keys to their values
+        $sectionTitles = SectionTitle::whereIn('key', $keys)->get()->pluck('value', 'key');
+        $about = About::first();
+        $whyChooseUs = WhyChooseUs::where('status', 1)->get();
+        $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
+        $counter = Counter::first();
+        $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
+
+        return view('frontend.pages.about', [
+            'whyChooseUs' => $whyChooseUs,
+            'about' => $about,
+            'sectionTitles' => $sectionTitles,
+            'chefs' => $chefs,
+            'counter' => $counter,
+            'testimonials' => $testimonials
+            ]);
     }
-    
+
     function blog(Request $request): View
     {
-       /* $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);*/
+        /* $blogs = Blog::with(['category', 'user'])->where('status', 1)->latest()->paginate(9);*/
         //$blogs = Blog::with(['category', 'user'])->where('status', 1);
-        $blogs = Blog::withCount(['comments'=> function($query){
+        $blogs = Blog::withCount(['comments' => function ($query) {
             $query->where('status', 1);
         }])->with(['category', 'user'])->where('status', 1);
 
 
-        if($request->has('search') && $request->filled('search')){
-            $blogs->where(function($query) use ($request) {
-                $query->where('title', 'like', '%'.$request->search.'%')
-                    ->orWhere('description', 'like', '%'.$request->search.'%');
+        if ($request->has('search') && $request->filled('search')) {
+            $blogs->where(function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
             });
         }
 
-        if($request->has('category') && $request->filled('category')) {
+        if ($request->has('category') && $request->filled('category')) {
 
-            $blogs->whereHas('category', function($query) use ($request){
+            $blogs->whereHas('category', function ($query) use ($request) {
                 $query->where('slug', $request->category);
             });
         }
@@ -129,7 +159,7 @@ class FrontendController extends Controller
 
         $comments = $blog->comments()->where('status', 1)->orderBy('id', 'DESC')->paginate(20);
 
-        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories,  'nextBlog'=>$nextBlog, 'previousBlog'=>$previousBlog, 'comments'=>$comments]);
+        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories, 'nextBlog' => $nextBlog, 'previousBlog' => $previousBlog, 'comments' => $comments]);
     }
 
     public function getSectionTitles(): Collection
@@ -222,7 +252,8 @@ class FrontendController extends Controller
         }
     }
 
-    function blogCommentStore(Request $request, string $blog_id) : RedirectResponse {
+    function blogCommentStore(Request $request, string $blog_id): RedirectResponse
+    {
         $request->validate([
             'comment' => ['required', 'max:500']
         ]);

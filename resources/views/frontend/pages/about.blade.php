@@ -1,57 +1,91 @@
-@extends('admin.layouts.master')
+@extends('frontend.layouts.master')
 
 @section('content')
-    <section class="section">
-        <div class="section-header">
-            <h1>About</h1>
-        </div>
 
-        <div class="card card-primary">
-            <div class="card-header">
-                <h4>Update About</h4>
-
-            </div>
-            <div class="card-body">
-                <form action="{{ route('admin.slider.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label>Image</label>
-                        <div id="image-preview" class="image-preview">
-                            <label for="image-upload" id="image-label">Choose File</label>
-                            <input type="file" name="image" id="image-upload" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Offer</label>
-                        <input type="text" name="offer" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" name="title" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Sub Title</label>
-                        <input type="text" name="sub_title" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Short Description</label>
-                        <textarea name="short_description" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Button Link</label>
-                        <input type="text" name="button_link" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" class="form-control" id="">
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
-                </form>
+    <!--=============================
+        BREADCRUMB START
+    ==============================-->
+    <section class="fp__breadcrumb" style="background: url({{asset('frontend/images/counter_bg.jpg')}});">
+        <div class="fp__breadcrumb_overlay">
+            <div class="container">
+                <div class="fp__breadcrumb_text">
+                    <h1>about UniFood</h1>
+                    <ul>
+                        <li><a href="{{route('home')}}">home</a></li>
+                        <li><a href="#">about us</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
+    <!--=============================
+        BREADCRUMB END
+    ==============================-->
+
+
+    <!--=============================
+        ABOUT PAGE START
+    ==============================-->
+    <section class="fp__about_us mt_120 xs_mt_90">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-5 wow fadeInUp" data-wow-duration="1s">
+                    <div class="fp__about_us_img">
+                        <img src="{{ asset($about->image) }}" alt="about us" class="img-fluid w-100">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-7 wow fadeInUp" data-wow-duration="1s">
+                    <div class="fp__section_heading mb_40">
+                        <h4>{!! @$about->title !!}</h4>
+                        <h2>{!! @$about->main_title !!}</h2>
+                        <span>
+                            <img src="images/heading_shapes.png" alt="shapes" class="img-fluid w-100">
+                        </span>
+                    </div>
+                    <div class="fp__about_us_text">
+                        <p> {!! @$about->description !!}</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=============================
+        WHY CHOOSE START
+    ==============================-->
+    @include('frontend.home.components.why-choose')
+    <!--=============================
+        WHY CHOOSE END
+    ==============================-->
+
+
+    <section class="fp__about_video mt_100 xs_mt_70">
+        <div class="container wow fadeInUp" data-wow-duration="1s">
+            <div class="fp__about_video_bg" style="background: url({{ getYtThumbnail($about->video_link, 'high') }});">
+                <div class="fp__about_video_overlay">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fp__about_video_text">
+                                <p>Watch Videos</p>
+                                <a class="play_btn venobox" data-autoplay="true" data-vbtype="video"
+                                   href="{{ $about->video_link }}">
+                                    <i class=" fas fa-play"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @include('frontend.home.components.team-start')
+    @include('frontend.home.components.counter-start')
+    @include('frontend.home.components.testimonial-start')
+
+
+    <!--=============================
+        ABOUT PAGE END
+    ==============================-->
+
 @endsection
