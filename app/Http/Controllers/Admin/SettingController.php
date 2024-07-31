@@ -42,7 +42,8 @@ class SettingController extends Controller
         return redirect()->back()->with('updated', true);
     }
 
-    function UpdatePusherSetting(Request $request) : RedirectResponse {
+    function UpdatePusherSetting(Request $request): RedirectResponse
+    {
         $validatedData = $request->validate([
             'pusher_app_id' => ['required'],
             'pusher_key' => ['required'],
@@ -50,7 +51,7 @@ class SettingController extends Controller
             'pusher_cluster' => ['required'],
         ]);
 
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value]
@@ -62,7 +63,34 @@ class SettingController extends Controller
 
         //toastr()->success('Updated Successfully!');
         return redirect()->back()->with('updated', true);
+    }
+
+    public function UpdateMailSetting(Request $request): RedirectResponse
+    {
+        //dd(config('app.name'));
+        $validatedData = $request->validate([
+            'mail_driver' => ['required'],
+            'mail_host' => ['required'],
+            'mail_port' => ['required'],
+            'mail_username' => ['required'],
+            'mail_password' => ['required'],
+            'mail_encryption' => ['required'],
+            'mail_from_address' => ['required'],
+            'mail_receive_address' => ['required'],
+        ]);
 
 
+
+        foreach($validatedData as $key => $value){
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCachedSettings();
+
+        return redirect()->back()->with('updated', true);
     }
 }
