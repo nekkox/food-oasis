@@ -55,7 +55,6 @@
                     <input name="mail_receive_address" type="text" class="form-control" value="{{ config('settings.mail_receive_address') }}">
                 </div>
 
-
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>

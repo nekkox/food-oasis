@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Services\CustomMailService;
 use App\Services\SettingsService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 class SettingController extends Controller
@@ -61,12 +63,18 @@ class SettingController extends Controller
         $settingsService = app(SettingsService::class);
         $settingsService->clearCachedSettings();
 
+        //customMailService = app(CustomMailService::class);
+        //$customMailService->clearCachedSettings();
+
+
         //toastr()->success('Updated Successfully!');
         return redirect()->back()->with('updated', true);
     }
 
     public function UpdateMailSetting(Request $request): RedirectResponse
     {
+
+
         //dd(config('app.name'));
         $validatedData = $request->validate([
             'mail_driver' => ['required'],
@@ -90,6 +98,7 @@ class SettingController extends Controller
 
         $settingsService = app(SettingsService::class);
         $settingsService->clearCachedSettings();
+        Cache::forget('mail_settings');
 
         return redirect()->back()->with('updated', true);
     }
