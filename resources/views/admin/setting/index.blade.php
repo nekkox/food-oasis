@@ -17,15 +17,15 @@
                             <li class="nav-item">
                                 <a class="nav-link  active show" id="home-tab4" data-toggle="tab"
                                    href="#general-setting" role="tab" aria-controls="home" aria-selected="false">General
-                                    Setting</a>
+                                    </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab4" data-toggle="tab" href="#pusher-setting" role="tab"
-                                   aria-controls="profile" aria-selected="true">Profile</a>
+                                   aria-controls="profile" aria-selected="true">Pusher</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="contact-tab4" data-toggle="tab" href="#contact4" role="tab"
-                                   aria-controls="contact" aria-selected="false">Contact</a>
+                                <a class="nav-link" id="contact-tab4" data-toggle="tab" href="#mail-setting" role="tab"
+                                   aria-controls="contact" aria-selected="false">Mail</a>
                             </li>
                         </ul>
                     </div>
@@ -34,14 +34,7 @@
 
                            @include('admin.setting.sections.general-setting')
                             @include('admin.setting.sections.pusher-setting')
-
-                            <div class="tab-pane fade" id="contact4" role="tabpanel" aria-labelledby="contact-tab4">
-                                Vestibulum imperdiet odio sed neque ultricies, ut dapibus mi maximus. Proin ligula
-                                massa, gravida in lacinia efficitur, hendrerit eget mauris. Pellentesque fermentum, sem
-                                interdum molestie finibus, nulla diam varius leo, nec varius lectus elit id dolor. Nam
-                                malesuada orci non ornare vulputate. Ut ut sollicitudin magna. Vestibulum eget ligula ut
-                                ipsum venenatis ultrices. Proin bibendum bibendum augue ut luctus.
-                            </div>
+                            @include('admin.setting.sections.mail-setting')
                         </div>
                     </div>
                 </div>
