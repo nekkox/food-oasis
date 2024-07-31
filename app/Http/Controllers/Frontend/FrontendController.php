@@ -12,6 +12,7 @@ use App\Models\BlogCategory;
 use App\Models\BlogComment;
 use App\Models\Category;
 use App\Models\Chef;
+use App\Models\Contact;
 use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\PrivacyPolicy;
@@ -115,6 +116,11 @@ class FrontendController extends Controller
     function privacyPolicy() : View {
         $privacyPolicy = PrivacyPolicy::first();
         return view('frontend.pages.privacy-policy', ['privacyPolicy' => $privacyPolicy]);
+    }
+
+    function contact() : View {
+        $contact = Contact::first();
+        return view('frontend.pages.contact', ['contact' => $contact]);
     }
 
     function blog(Request $request): View

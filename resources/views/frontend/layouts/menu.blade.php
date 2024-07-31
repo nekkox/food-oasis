@@ -44,7 +44,7 @@
                     <a class="nav-link" href="{{route('blogs')}}">blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">contact</a>
+                    <a class="nav-link" href="{{route('contact.index')}}">contact</a>
                 </li>
             </ul>
             <ul class="menu_icon d-flex flex-wrap">
