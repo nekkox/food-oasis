@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DailyOfferController;
@@ -154,6 +155,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /** Privacy Policy Routes */
     Route::get('privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
     Route::put('privacy-policy', [PrivacyPolicyController::class, 'update'])->name('privacy-policy.update');
+
+    /** Contact Routes */
+    Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::put('contact', [ContactController::class, 'update'])->name('contact.update');
+
 });
 
 /*
