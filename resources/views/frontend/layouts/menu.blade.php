@@ -36,7 +36,7 @@
                         <li><a href="{{route('login')}}">sign in</a></li>
                         <li><a href="{{route('register')}}">sign up</a></li>
                         <li><a href="{{route('password.request')}}">forgot password</a></li>
-                        <li><a href="privacy_policy.html">privacy policy</a></li>
+                        <li><a href="{{route('privacy-policy.index')}}">privacy policy</a></li>
                         <li><a href="terms_condition.html">terms and condition</a></li>
                     </ul>
                 </li>

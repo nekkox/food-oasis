@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Counter;
 use App\Models\Coupon;
+use App\Models\PrivacyPolicy;
 use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\Slider;
@@ -109,6 +110,11 @@ class FrontendController extends Controller
             'counter' => $counter,
             'testimonials' => $testimonials
             ]);
+    }
+
+    function privacyPolicy() : View {
+        $privacyPolicy = PrivacyPolicy::first();
+        return view('frontend.pages.privacy-policy', ['privacyPolicy' => $privacyPolicy]);
     }
 
     function blog(Request $request): View

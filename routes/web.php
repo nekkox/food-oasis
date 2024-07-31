@@ -62,6 +62,8 @@ Route::get('/testimonials', [FrontendController::class, 'testimonial'])->name('t
 /** About page */
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 
+/** Privacy Policy Routes */
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy-policy.index');
 
 /** Blogs Routes */
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');
