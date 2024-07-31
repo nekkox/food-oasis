@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use App\Models\About;
 use App\Models\Admin\DailyOffer;
 use App\Models\AppDownloadSection;
@@ -27,6 +28,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 
 
 class FrontendController extends Controller
@@ -121,6 +123,19 @@ class FrontendController extends Controller
     function contact() : View {
         $contact = Contact::first();
         return view('frontend.pages.contact', ['contact' => $contact]);
+    }
+
+    function sendContactMessage(Request $request) {
+        $request->validate([
+            'name' => ['required', 'max:50'],
+            'email' => ['required', 'email', 'max:255'],
+            'subject' => ['required', 'max:255'],
+            'message' => ['required', 'max: 1000']
+        ]);
+
+        Mail::send(new ContactMail($request->name, $request->email, $request->subject, $request->message));
+
+        return response(['status' => 'success', 'message' => 'Message Sent Successfully!']);
     }
 
     function blog(Request $request): View

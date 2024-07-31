@@ -68,6 +68,7 @@ Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->nam
 
 /** Contact Routes */
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact.index');
+Route::post('/contact', [FrontendController::class, 'sendContactMessage'])->name('contact.send-message');
 
 
 /** Blogs Routes */
