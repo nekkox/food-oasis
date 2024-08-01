@@ -59,22 +59,22 @@
                     </div>
                 </li>
                 <li>
-                    <a class="cart_icon"><i class="fas fa-shopping-basket"></i> <span class="cart_count">{{count(Cart::content())}}</span></a>
+                    <a class="cart_icon"><i class="fas fa-shopping-basket"></i> <span
+                            class="cart_count">{{count(Cart::content())}}</span></a>
                 </li>
                 <li>
 
-                        @php
+                    @php
 
-                            @$unseenMessages = \App\Models\Chat::where(['sender_id' => 1, 'receiver_id' => auth()->user()->id, 'seen' => 0])->count();
-                        @endphp
+                        @$unseenMessages = \App\Models\Chat::where(['sender_id' => 1, 'receiver_id' => auth()->user()->id, 'seen' => 0])->count();
+                    @endphp
 
 
                     <a class="cart_icon message_icon">
                         <i class="fas fa-comment-alt-dots"></i>
 
 
-                            <span class="unseen-message-count">{{$unseenMessages > 0 ? 1 : 0}}</span>
-
+                        <span class="unseen-message-count">{{$unseenMessages > 0 ? 1 : 0}}</span>
 
 
                     </a>
@@ -103,10 +103,12 @@
             @foreach(Cart::content() as $cartProduct)
                 <li>
                     <div class="menu_cart_img">
-                        <img src="{{asset($cartProduct->options->product_info['image'])}}" alt="menu" class="img-fluid w-100">
+                        <img src="{{asset($cartProduct->options->product_info['image'])}}" alt="menu"
+                             class="img-fluid w-100">
                     </div>
                     <div class="menu_cart_text">
-                        <a class="title" href="{{route('product.show', $cartProduct->options->product_info['slug'])}}"> {{$cartProduct->name}} </a>
+                        <a class="title"
+                           href="{{route('product.show', $cartProduct->options->product_info['slug'])}}"> {{$cartProduct->name}} </a>
                         <p class="size">Qty: {{$cartProduct->qty}}</p>
 
 
@@ -114,35 +116,37 @@
                             {{ @$cartProduct->options['product_size']['name'] ? '('.currencyPosition(@$cartProduct->options['product_size']['price']).')' : '' }}   </p>
 
                         @foreach($cartProduct->options['product_options'] as $option)
-                            <span class="extra">{{$option['name']}} &nbsp; ({{ currencyPosition(@$option['price'])  }}) </span>
+                            <span
+                                class="extra">{{$option['name']}} &nbsp; ({{ currencyPosition(@$option['price'])  }}) </span>
                         @endforeach
 
                         <p class="price">
                             {{currencyPosition(productTotal($cartProduct->rowId))}}
-{{--                            {{currencyPosition($cartProduct->price)}}--}}
+                            {{--                            {{currencyPosition($cartProduct->price)}}--}}
                         </p>
                     </div>
-                    <span class="del_icon" onclick="removeProductFromSidebar('{{$cartProduct->rowId}}')"><i class="fal fa-times"></i></span>
+                    <span class="del_icon" onclick="removeProductFromSidebar('{{$cartProduct->rowId}}')"><i
+                            class="fal fa-times"></i></span>
                 </li>
             @endforeach
 
 
 
-{{--            <li>
-                <div class="menu_cart_img">
-                    <img src="images/menu8.png" alt="menu" class="img-fluid w-100">
-                </div>
-                <div class="menu_cart_text">
-                    <a class="title" href="#">Hyderabadi Biryani </a>
-                    <p class="size">small</p>
-                    <span class="extra">coca-cola</span>
-                    <span class="extra">7up</span>
-                    <p class="price">$99.00
-                        <del>$110.00</del>
-                    </p>
-                </div>
-                <span class="del_icon"><i class="fal fa-times"></i></span>
-            </li>--}}
+            {{--            <li>
+                            <div class="menu_cart_img">
+                                <img src="images/menu8.png" alt="menu" class="img-fluid w-100">
+                            </div>
+                            <div class="menu_cart_text">
+                                <a class="title" href="#">Hyderabadi Biryani </a>
+                                <p class="size">small</p>
+                                <span class="extra">coca-cola</span>
+                                <span class="extra">7up</span>
+                                <p class="price">$99.00
+                                    <del>$110.00</del>
+                                </p>
+                            </div>
+                            <span class="del_icon"><i class="fal fa-times"></i></span>
+                        </li>--}}
 
 
         </ul>
@@ -152,6 +156,11 @@
 
     </div>
 </div>
+
+
+@php
+    $reservations = \App\Models\ReservationTime::where('status',1)->get();
+@endphp
 
 <div class="fp__reservation">
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -163,19 +172,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="fp__reservation_form">
-                        <input class="reservation_input" type="text" placeholder="Name">
-                        <input class="reservation_input" type="text" placeholder="Phone">
-                        <input class="reservation_input" type="date">
-                        <select class="reservation_input" id="select_js">
+                    <form class="fp__reservation_form" action="{{ route('reservation.store') }}" method="POST">
+                        @csrf
+                        <input class="reservation_input" type="text" placeholder="Name" name="name">
+                        <input class="reservation_input" type="text" placeholder="Phone" name="phone">
+                        <input class="reservation_input" type="date" name="date">
+                        <select class="reservation_input" id="reservation_time" name="time">
                             <option value="">select time</option>
-                            <option value="">08.00 am to 09.00 am</option>
-                            <option value="">10.00 am to 11.00 am</option>
-                            <option value="">12.00 pm to 01.00 pm</option>
-                            <option value="">02.00 pm to 03.00 pm</option>
-                            <option value="">04.00 pm to 05.00 pm</option>
+                            @foreach($reservations as $reservation)
+                                <option value="{{ $reservation->start_time }}-{{ $reservation->end_time }}">{{ $reservation->start_time }} to {{ $reservation->end_time }}</option>
+
+                            @endforeach
                         </select>
-                        <select class="reservation_input" id="select_js2">
+                        <select class="reservation_input" id="reservation_person" name="person">
                             <option value="">select person</option>
                             <option value="">1 person</option>
                             <option value="">2 person</option>
@@ -183,10 +192,48 @@
                             <option value="">4 person</option>
                             <option value="">5 person</option>
                         </select>
-                        <button type="submit">book table</button>
+
+                        <input class="reservation_input" type="text" placeholder="Persons" name="persons">
+                        <button type="submit" class="btn_submit">book table</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+
+    <script>
+        $(document).ready(function () {
+            $('#reservation_person').niceSelect();
+            $('#reservation_time').niceSelect();
+
+            $('.fp__reservation_form').on('submit', function(e){
+                e.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("reservation.store") }}',
+                    data: formData,
+                    beforeSend: function(){
+                        $('.btn_submit').html(`<span class="spinner-border text-light"> <span>`);
+                    },
+                    success: function(response){
+                    },
+                    error: function(xhr, status, error){
+                        let errors = xhr.responseJSON.errors;
+                        $.each(errors, function(index, value) {
+                            toastr.error(value);
+                            $('.btn_submit').html(`Book Table`);
+                        })
+                    },
+                    complete: function(){
+                        $('.btn_submit').html(`Book Table`);
+                    }
+                })
+            })
+
+        })
+    </script>
+@endpush

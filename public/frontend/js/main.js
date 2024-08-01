@@ -45,6 +45,8 @@ $(function () {
     $('#select_js2').niceSelect();
     $('#select_js3').niceSelect();
     $('#select_js4').niceSelect();
+    $('#select_js5').niceSelect();
+    $('#select_js6').niceSelect();
     $('.nice-select').niceSelect();
 
 

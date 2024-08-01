@@ -296,4 +296,15 @@ class FrontendController extends Controller
         toastr()->success('Comment submitted successfully and waiting to approve.');
         return redirect()->back();
     }
+
+    function reservation(Request $request)  {
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'phone' => ['required', 'numeric', 'max_digits:50'],
+            'date' => ['required', 'date'],
+            'time' => ['required'],
+            'persons' => ['required', 'numeric']
+        ]);
+return response(['status' => 'success', 'message' => 'Message Sent Successfully!']);;
+    }
 }

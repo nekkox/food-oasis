@@ -71,6 +71,9 @@ Route::get('/contact', [FrontendController::class, 'contact'])->name('contact.in
 Route::post('/contact', [FrontendController::class, 'sendContactMessage'])->name('contact.send-message');
 
 
+/** Reservation Routes */
+Route::post('/reservation', [FrontendController::class, 'reservation'])->name('reservation.store');
+
 /** Blogs Routes */
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');
 Route::get('/blogs/{slug}', [FrontendController::class, 'blogDetails'])->name('blogs.details');
