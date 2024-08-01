@@ -18,6 +18,7 @@ use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\PrivacyPolicy;
 use App\Models\Product;
+use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\Slider;
 use App\Models\Testimonial;
@@ -305,6 +306,17 @@ class FrontendController extends Controller
             'time' => ['required'],
             'persons' => ['required', 'numeric']
         ]);
-return response(['status' => 'success', 'message' => 'Message Sent Successfully!']);;
+
+        $reservation = new Reservation();
+        $reservation->reservation_id = rand(0, 500000);
+        $reservation->name = $request->name;
+        $reservation->phone = $request->phone;
+        $reservation->date = $request->date;
+        $reservation->time = $request->time;
+        $reservation->persons = $request->persons;
+        $reservation->status = 'pending';
+        $reservation->save();
+
+        return response(['status' => 'success', 'message' => 'Request send successfully']);
     }
 }

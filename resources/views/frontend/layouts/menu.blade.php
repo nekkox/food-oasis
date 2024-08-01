@@ -178,7 +178,7 @@
                         <input class="reservation_input" type="text" placeholder="Phone" name="phone">
                         <input class="reservation_input" type="date" name="date">
                         <select class="reservation_input" id="reservation_time" name="time">
-                            <option value="">select time</option>
+                            <option value="" selected>select time</option>
                             @foreach($reservations as $reservation)
                                 <option value="{{ $reservation->start_time }}-{{ $reservation->end_time }}">{{ $reservation->start_time }} to {{ $reservation->end_time }}</option>
 
@@ -220,6 +220,9 @@
                         $('.btn_submit').html(`<span class="spinner-border text-light"> <span>`);
                     },
                     success: function(response){
+                        toastr.success(response.message);
+                        $('.fp__reservation_form').trigger("reset");
+                        $('#staticBackdrop').modal('hide');
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.errors;
