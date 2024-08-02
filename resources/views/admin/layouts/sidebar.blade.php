@@ -112,6 +112,8 @@
 
             <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i>
                     <span>News Letter</span></a></li>
+            <li><a class="nav-link" href="{{ route('admin.social-link.index') }}"><i class="far fa-square"></i>
+                    <span>Social Links</span></a></li>
 
 
             <li class="dropdown">
