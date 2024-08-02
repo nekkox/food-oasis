@@ -4,6 +4,7 @@ namespace App\Providers;
 
 
 use App\Models\Setting;
+use App\Services\StatusUpdater;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+ /*       $this->app->singleton(StatusUpdater::class, function ($app) {
+            return new StatusUpdater();
+        });*/
     }
 
     /**

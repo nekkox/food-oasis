@@ -165,7 +165,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /** Reservation Routes */
     Route::resource('reservation-time', ReservationTimeController::class);
     Route::get('reservation', [ReservationController::class, 'index'])->name('reservation.index');
-
+    Route::post('reservation', [ReservationController::class, 'update'])->name('reservation.update');
+    Route::delete('reservation/{id}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
 
 });
 

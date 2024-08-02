@@ -160,6 +160,7 @@
 
 @php
     $reservations = \App\Models\ReservationTime::where('status',1)->get();
+
 @endphp
 
 <div class="fp__reservation">
@@ -178,9 +179,10 @@
                         <input class="reservation_input" type="text" placeholder="Phone" name="phone">
                         <input class="reservation_input" type="date" name="date">
                         <select class="reservation_input" id="reservation_time" name="time">
+
                             <option value="" selected>select time</option>
                             @foreach($reservations as $reservation)
-                                <option value="{{ $reservation->start_time }}-{{ $reservation->end_time }}">{{ $reservation->start_time }} to {{ $reservation->end_time }}</option>
+                                <option data-reservation_time_id="{{$reservation->id}}" value="{{ $reservation->start_time }}-{{ $reservation->end_time }}">{{ $reservation->start_time }} to {{ $reservation->end_time }}</option>
 
                             @endforeach
                         </select>
@@ -212,6 +214,12 @@
             $('.fp__reservation_form').on('submit', function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();
+
+                let reservationTimeId = $('#reservation_time option:selected').data('reservation_time_id');
+
+                // Append the reservation_time_id to formData
+                formData += '&reservation_time_id=' + reservationTimeId;
+                console.log(formData)
                 $.ajax({
                     method: 'POST',
                     url: '{{ route("reservation.store") }}',

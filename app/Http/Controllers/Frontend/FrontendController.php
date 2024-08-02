@@ -29,7 +29,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 
 class FrontendController extends Controller
@@ -299,21 +301,29 @@ class FrontendController extends Controller
     }
 
     function reservation(Request $request)  {
+      //  dd($request->all());
         $request->validate([
             'name' => ['required', 'max:255'],
             'phone' => ['required', 'numeric', 'max_digits:50'],
             'date' => ['required', 'date'],
             'time' => ['required'],
-            'persons' => ['required', 'numeric']
+            'persons' => ['required', 'numeric',],
+            'reservation_time_id' => ['required','numeric']
         ]);
+
+        if(!Auth::check()){
+            throw ValidationException::withMessages(['Please Login to Request Reservation']);
+        }
 
         $reservation = new Reservation();
         $reservation->reservation_id = rand(0, 500000);
+        $reservation->user_id = auth()->user()->id;
         $reservation->name = $request->name;
         $reservation->phone = $request->phone;
         $reservation->date = $request->date;
         $reservation->time = $request->time;
         $reservation->persons = $request->persons;
+        $reservation->reservation_times_id=$request->reservation_time_id;
         $reservation->status = 'pending';
         $reservation->save();
 

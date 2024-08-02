@@ -8,6 +8,7 @@ use App\Http\Requests\Frontend\AddressUpdateRequest;
 use App\Models\Address;
 use App\Models\DeliveryArea;
 use App\Models\Order;
+use App\Models\Reservation;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -19,11 +20,18 @@ class DashboardController extends Controller
         $deliveryAreas = DeliveryArea::where('status', 1)->get();
         $userAddresses = Address::where('user_id', auth()->user()->id)->get();
         $orders = Order::where('user_id', auth()->user()->id)->get();
+        $reservations = Reservation::where('user_id', auth()->user()->id)->get();
 
-        return view('frontend.dashboard.index', ['deliveryAreas' => $deliveryAreas, 'userAddresses' => $userAddresses, 'orders'=> $orders]);
+        return view('frontend.dashboard.index',
+            [
+                'deliveryAreas' => $deliveryAreas,
+                'userAddresses' => $userAddresses,
+                'orders' => $orders,
+                'reservations' => $reservations
+            ]);
     }
 
-public function createAddress(AddressCreateRequest $request)
+    public function createAddress(AddressCreateRequest $request)
     {
         //dd($request->all());
         $address = new Address();
@@ -41,7 +49,8 @@ public function createAddress(AddressCreateRequest $request)
         return to_route('dashboard');
     }
 
-    public function updateAddress(string $id, AddressUpdateRequest $request){
+    public function updateAddress(string $id, AddressUpdateRequest $request)
+    {
 
         $address = Address::findOrFail($id);
         $address->user_id = auth()->user()->id;
@@ -60,9 +69,10 @@ public function createAddress(AddressCreateRequest $request)
 
     }
 
-    public function destroyAddress(string $id) {
+    public function destroyAddress(string $id)
+    {
         $address = Address::findOrFail($id);
-        if($address && $address->user_id === auth()->user()->id){
+        if ($address && $address->user_id === auth()->user()->id) {
             $address->delete();
             return response(['status' => 'success', 'message' => 'Deleted Successfully']);
 
