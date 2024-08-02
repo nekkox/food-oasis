@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-expand-lg main-navbar">
     <form class="form-inline mr-auto">
         <ul class="navbar-nav mr-3">
@@ -47,8 +45,6 @@
 </nav>
 
 
-
-
 {{--LEFT SIDEBAR--}}
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
@@ -62,12 +58,14 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
 
-            <li class=active><a class="nav-link" href="{{route('admin.dashboard')}}"><i class="fas fa-fire"></i>General Dashboard</a>
+            <li class=active><a class="nav-link" href="{{route('admin.dashboard')}}"><i class="fas fa-fire"></i>General
+                    Dashboard</a>
             </li>
 
             <li class="menu-header">Starter</li>
 
-            <li><a class="nav-link" href="{{route('admin.slider.index')}}"><i class="far fa-square"></i> <span>Slider</span></a></li>
+            <li><a class="nav-link" href="{{route('admin.slider.index')}}"><i class="far fa-square"></i>
+                    <span>Slider</span></a></li>
 
 
             <li class="dropdown">
@@ -112,6 +110,9 @@
                 </ul>
             </li>
 
+            <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i>
+                    <span>News Letter</span></a></li>
+
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
@@ -152,7 +153,8 @@
             </li>
 
 
-            <li><a class="nav-link" href="{{route('admin.setting.index')}}"><i class="far fa-square"></i> <span>Settings</span></a></li>
+            <li><a class="nav-link" href="{{route('admin.setting.index')}}"><i class="far fa-square"></i>
+                    <span>Settings</span></a></li>
 
             {{--<li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
