@@ -5,10 +5,11 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^7.1|^8.0|^8.1|^8.2",
         "anayarojo/shoppingcart": "^4.2",
+        "efectn/laravel-menu-builder": "dev-master",
         "itsgoingd/clockwork": "^5.2",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^10|^11.9",
         "laravel/tinker": "^2.9",
         "pusher/pusher-php-server": "^7.2",
         "srmklive/paypal": "~3.0",
