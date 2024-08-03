@@ -12,7 +12,7 @@ class FooterInfoController extends Controller
 {
     function index() : View {
         $footerInfo = FooterInfo::first();
-        return view('admin.footer-info.index',['footerInfo'=>$footerInfo]);
+        return view('admin.footer.footer-info.index',['footerInfo'=>$footerInfo]);
     }
 
 
@@ -32,4 +32,6 @@ class FooterInfoController extends Controller
 
         return redirect()->back()->with('updated', true);
     }
+
+
 }

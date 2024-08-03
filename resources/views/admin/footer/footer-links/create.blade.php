@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Social Link</h1>
+            <h1>Footer Link</h1>
         </div>
 
         <div class="card card-primary">
@@ -12,13 +12,16 @@
 
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.social-link.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.footer-links.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group">
-                        <label for="">Icon</label>
-                        <br>
-                        <button class="btn btn-secondary" role="iconpicker" name="icon" data-icon=""></button>
+                        <label>Category</label>
+                        <select name="category" class="form-control">
+                            <option value="short">Short Link</option>
+                            <option value="help">Help Link</option>
+                        </select>
+
                     </div>
 
                     <div class="form-group">
@@ -34,7 +37,7 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select name="status" class="form-control" id="">
-                            <option value="1" >Yes</option>
+                            <option value="1">Yes</option>
                             <option value="0">No</option>
                         </select>
                     </div>

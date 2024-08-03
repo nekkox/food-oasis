@@ -160,6 +160,7 @@
                     <span> Footer </span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}">Footer Info</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.footer-links.index') }}">Footer Links</a></li>
                 </ul>
             </li>
 
