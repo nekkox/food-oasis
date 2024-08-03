@@ -181,6 +181,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Footer Routes */
     Route::get('footer-info', [FooterInfoController::class, 'index'])->name('footer-info.index');
+    Route::put('footer-info', [FooterInfoController::class, 'update'])->name('footer-info.update');
 });
 
 /*
