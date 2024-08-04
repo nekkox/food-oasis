@@ -1,7 +1,10 @@
 @php
     $footerInfo = \App\Models\FooterInfo::first();
-    $shortLinks=\App\Models\FooterLink::where('status','1')->where('category', 'short')->get();
-    $helpLinks=\App\Models\FooterLink::where('status','1')->where('category', 'help')->get();
+    $footerMenuOne = Menu::getByName('footer_menu_1');
+    $footerMenuTwo = Menu::getByName('footer_menu_2');
+    $footerMenuThree = Menu::getByName('footer_menu_3');
+
+
 @endphp
 
 <footer>
@@ -32,9 +35,8 @@
                     <div class="fp__footer_content">
                         <h3>Short Link</h3>
                         <ul>
-
-                            @foreach($shortLinks as $shortLink)
-                                <li><a href="{{url($shortLink->link)}}">{{$shortLink->name}}</a></li>
+                            @foreach ($footerMenuOne as $menuItem)
+                                <li><a href="{{ $menuItem['link'] }}">{{ $menuItem['label'] }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -43,8 +45,8 @@
                     <div class="fp__footer_content">
                         <h3>Help Link</h3>
                         <ul>
-                            @foreach($helpLinks as $helpLink)
-                                <li><a href="{{url($helpLink->link)}}">{{$helpLink->name}}</a></li>
+                            @foreach ($footerMenuTwo as $menuItem)
+                                <li><a href="{{ $menuItem['link'] }}">{{ $menuItem['label'] }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -83,10 +85,9 @@
                         @endif
 
                         <ul class="d-flex flex-wrap">
-                            <li><a href="#">FAQs</a></li>
-                            <li><a href="#">payment</a></li>
-                            <li><a href="#">settings</a></li>
-                            <li><a href="#">privacy policy</a></li>
+                            @foreach ($footerMenuThree as $menuItem)
+                                <li><a href="{{ $menuItem['link'] }}">{{ $menuItem['label'] }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>

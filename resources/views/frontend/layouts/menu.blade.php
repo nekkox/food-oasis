@@ -1,3 +1,7 @@
+@php
+    $MainMenu = Menu::getByName('main_menu');
+@endphp
+
 <nav class="navbar navbar-expand-lg main_menu">
     <div class="container">
         <a class="navbar-brand" href="{{route('home')}}">
@@ -9,7 +13,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav m-auto">
-                <li class="nav-item">
+
+                @if ($MainMenu)
+                    @foreach ($MainMenu as $menu)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ $menu['link'] }}">{{ $menu['label'] }}
+                                @if ($menu['child'])
+                                    <i class="far fa-angle-down"></i>
+                                @endif
+                            </a>
+                            @if ($menu['child'])
+                                <ul class="droap_menu">
+                                    @foreach ($menu['child'] as $item)
+                                        <li><a href="{{ $item['link'] }}">{{ $item['label'] }}</a></li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                    @endforeach
+                @endif
+{{--                <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{url('/')}}">Home</a>
                 </li>
                 <li class="nav-item">
@@ -45,7 +68,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('contact.index')}}">contact</a>
-                </li>
+                </li>--}}
             </ul>
             <ul class="menu_icon d-flex flex-wrap">
                 <li>
