@@ -6926,3 +6926,14 @@ CHECKOUT PAGE START
 .blog_det_button .next-blog.only-next {
     margin-left: 0; /* Reset margin if it's the only item */
 }
+
+#rating_input {
+    width: 100%;
+    padding: 12px 20px;
+    outline: none;
+    resize: none;
+    border: 1px solid #eee;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 300;
+}

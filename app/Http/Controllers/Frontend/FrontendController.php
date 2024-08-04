@@ -343,4 +343,9 @@ class FrontendController extends Controller
 
         return response(['status' => 'success', 'message' => 'Subscribed Successfully!']);
     }
+
+    function productReviewStore(Request $request) {
+        dd($request->all());
+    }
 }
+

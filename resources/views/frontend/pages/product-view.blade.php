@@ -261,7 +261,8 @@
                                         <div class="col-lg-4">
                                             <div class="fp__post_review">
                                                 <h4>write a Review</h4>
-                                                <form>
+                                                <form action="{{ route('product-review.store') }}" method="POST">
+                                                    @csrf
                                                     <p class="rating">
                                                         <span>select your rating : </span>
                                                         <i class="fas fa-star"></i>
@@ -272,13 +273,20 @@
                                                     </p>
                                                     <div class="row">
                                                         <div class="col-xl-12">
-                                                            <input type="text" placeholder="Name">
+
+                                                            <select name="rating" id="rating_input"
+                                                                    class="form-control mt-3">
+                                                                <option value="5">5</option>
+                                                                <option value="4">4</option>
+                                                                <option value="3">3</option>
+                                                                <option value="2">2</option>
+                                                                <option value="1">1</option>
+                                                            </select>
+                                                            <input type="hidden" name="product_id"
+                                                                   value="{{$product->id}}">
                                                         </div>
                                                         <div class="col-xl-12">
-                                                            <input type="email" placeholder="Email">
-                                                        </div>
-                                                        <div class="col-xl-12">
-                                                            <textarea rows="3"
+                                                            <textarea rows="3" name="review"
                                                                       placeholder="Write your review"></textarea>
                                                         </div>
                                                         <div class="col-12">
@@ -335,7 +343,9 @@
                                         </h5>
                                         <ul class="d-flex flex-wrap justify-content-center">
                                             <li><a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"><i
-                                                        class="fas fa-shopping-basket" onclick="loadProductModal('{{$relatedProduct->id}}')"></i></a></li>
+                                                        class="fas fa-shopping-basket"
+                                                        onclick="loadProductModal('{{$relatedProduct->id}}')"></i></a>
+                                            </li>
                                             <li><a href="#"><i class="fal fa-heart"></i></a></li>
                                             <li><a href="#"><i class="far fa-eye"></i></a></li>
                                         </ul>
