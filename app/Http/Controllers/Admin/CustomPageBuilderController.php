@@ -35,14 +35,14 @@ class CustomPageBuilderController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:200', 'unique:custom_page_builders,name'],
-            'content' => ['required'],
+            'contents' => ['required'],
             'status' => ['required', 'boolean']
         ]);
 
         $page = new CustomPageBuilder();
         $page->name = $request->name;
         $page->slug = Str::slug($request->name);
-        $page->content = $request->contents;
+        $page->contents = $request->contents;
         $page->status = $request->status;
         $page->save();
 
@@ -75,14 +75,14 @@ class CustomPageBuilderController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:200', 'unique:custom_page_builders,name,'.$id],
-            'content' => ['required'],
+            'contents' => ['required'],
             'status' => ['required', 'boolean']
         ]);
 
         $page = CustomPageBuilder::findOrFail($id);
         $page->name = $request->name;
         $page->slug = Str::slug($request->name);
-        $page->content = $request->contents;
+        $page->contents = $request->contents;
         $page->status = $request->status;
         $page->save();
 

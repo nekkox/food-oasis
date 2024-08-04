@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ChatController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\CustomPageController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\PaymentController;
@@ -79,6 +80,8 @@ Route::post('/reservation', [FrontendController::class, 'reservation'])->name('r
 /** Newsletter Routes */
 Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('subscribe-newsletter');
 
+/** Custom Page Routes */
+Route::get('/page/{slug}', CustomPageController::class); //invokable controller
 
 /** Blogs Routes */
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');

@@ -22,7 +22,7 @@
 
                     <div class="form-group">
                         <label>Page Contents</label>
-                        <textarea name="content" class="form-control summernote">{!! $page->content !!}</textarea>
+                        <textarea name="contents" class="form-control summernote">{!! $page->content !!}</textarea>
                     </div>
 
                     <div class="form-group">

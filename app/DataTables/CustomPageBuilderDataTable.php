@@ -22,7 +22,23 @@ class CustomPageBuilderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'custompagebuilder.action')
+            ->addColumn('action', function($query){
+                $edit = "<a href='".route('admin.custom-page-builder.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='".route('admin.custom-page-builder.destroy', $query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+                return $edit.$delete;
+            })
+            ->addColumn('page_link', function($query){
+                return '<code style="font-size:15px">'."/page/".$query->slug.'<code>';
+            })
+            ->addColumn('status', function($query){
+                if($query->status === 1){
+                    return '<span class="badge badge-primary">Active</span>';
+                }else {
+                    return '<span class="badge badge-danger">InActive</span>';
+                }
+            })
+            ->rawColumns(['action', 'page_link', 'status'])
             ->setRowId('id');
     }
 
@@ -62,15 +78,16 @@ class CustomPageBuilderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('name'),
+            Column::make('slug'),
+            Column::make('page_link'),
+            Column::make('status'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(150)
+                ->addClass('text-center'),
         ];
     }
 
