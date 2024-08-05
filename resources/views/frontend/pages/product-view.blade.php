@@ -60,12 +60,16 @@
                     <div class="fp__menu_details_text">
                         <h2>{{$product->name}}</h2>
                         <p class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span>(201)</span>
+                            @for($i=1; $i<=5; $i++)
+
+                                @if($i <= $product->reviews_avg_rating)
+                                    <i class="fas fa-star"></i>
+                                @else
+                                    <i class="fal fa-star"></i>
+                                @endif
+
+                            @endfor
+                            <span>{{$product->reviews_count}} </span>
                         </p>
                         <h3 class="price">
                             @if ($product->offer_price > 0)
@@ -343,12 +347,16 @@
                                     </div>
                                     <div class="fp__menu_item_text">
                                         <p class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                            <i class="far fa-star"></i>
-                                            <span>74</span>
+                                            @for($i=1; $i<=5; $i++)
+
+                                                @if($i <= $relatedProduct->reviews_avg_rating)
+                                                    <i class="fas fa-star"></i>
+                                                @else
+                                                    <i class="fal fa-star"></i>
+                                                @endif
+
+                                            @endfor
+                                            <span>{{$relatedProduct->reviews_count}} </span>
                                         </p>
                                         <a class="title"
                                            href="{{route('product.show',$relatedProduct->slug)}}">{{$relatedProduct->name}}</a>

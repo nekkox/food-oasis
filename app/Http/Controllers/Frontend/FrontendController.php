@@ -217,9 +217,20 @@ class FrontendController extends Controller
 
     public function showProduct(Request $request , string $slug)
     {
-        $product = Product::with(['gallery', 'productSizes', 'productOptions', 'category'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
+        $product = Product::with(['gallery', 'productSizes', 'productOptions', 'category'])
+            ->where(['slug' => $slug, 'status' => 1])
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->firstOrFail();
 
-        $relatedProducts = Product::with('category')->where('category_id', $product->category_id)->where('id', '!=', $product->id)->take(8)->latest()->get();
+        $relatedProducts = Product::with('category')
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->take(8)
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->latest()
+            ->get();
 
         $reviews = ProductRating::where(['product_id' => $product->id, 'status' => 1])->paginate(10);
 

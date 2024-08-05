@@ -34,6 +34,8 @@
                     $products = \App\Models\Product::with('category')->where(['show_at_home'=>1, 'status'=>1, 'category_id'=>$category->id])
                     ->orderBy('id', 'DESC')
                     ->take(8)
+                    ->withAvg('reviews', 'rating')
+                    ->withCount('reviews')
                     ->get();
                 @endphp
 
@@ -48,12 +50,16 @@
                             </div>
                             <div class="fp__menu_item_text">
                                 <p class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>54</span>
+                                    @for($i=1; $i<=5; $i++)
+
+                                        @if($i <= $product->reviews_avg_rating)
+                                            <i class="fas fa-star"></i>
+                                        @else
+                                            <i class="fal fa-star"></i>
+                                        @endif
+
+                                    @endfor
+                                    <span>{{$product->reviews_count}} </span>
                                 </p>
                                 <a class="title" href="{{route('product.show', $product->slug)}}">{{$product->name}}</a>
                                 <h5 class="price">
