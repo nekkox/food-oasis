@@ -65,6 +65,7 @@ $currentUrl = url()->current();
                                                                             <option value="Testimonials" data-url="/testimonials">Testimonials</option>
                                                                             <option value="Privacy Policy" data-url="/privacy-policy">Privacy Policy</option>
                                                                             <option value="Trams and Conditions" data-url="/trams-and-conditions">Trams and Conditions</option>
+                                                                            <option value="Products" data-url="/products">Products</option>
                                                                         </select>
                                                                     </p>
 
