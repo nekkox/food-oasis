@@ -184,120 +184,142 @@
                                 <div class="fp__review_area">
                                     <div class="row">
                                         <div class="col-lg-8">
-                                            <h4>04 reviews</h4>
+                                            <h4>{{count($reviews)}} reviews</h4>
                                             <div class="fp__comment pt-0 mt_20">
-                                                <div class="fp__single_comment m-0 border-0">
-                                                    <img src="images/comment_img_1.png" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>Michel Holder <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
+
+
+                                                {{--@foreach($reviews as $review)
+                                                    <div class="fp__single_comment m-0 border-0">
+
+                                                        <img src="{{asset($review->user->avatar)}}" alt="review"
+                                                             class="img-fluid">
+                                                        <div class="fp__single_comm_text">
+                                                            <h3>{{$review->user->name}}
+                                                                <span>{{ date('d m Y', strtotime($review->created_at)) }} </span>
+                                                            </h3>
+                                                            <span class="rating">
+
+                                                                @for($i=1; $i<=5; $i++)
+
+                                                                    @if($i <= $review->rating)
+                                                                        <i class="fas fa-star"></i>
+                                                                    @else
+                                                                        <i class="fal fa-star"></i>
+                                                                    @endif
+
+                                                                @endfor
+
                                                         </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
+                                                            <p>{{$review->review}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="fp__single_comment">
-                                                    <img src="images/chef_1.jpg" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>salina khan <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
+
+                                                @endforeach--}}
+                                                    @if ($reviews->hasPages())
+                                                        <div class="fp__pagination ">
+                                                            <div class="row">
+                                                                <div class="col-12" id="reviews-pagination">
+
+                                                                    <section class="articles">
+                                                                        @include('frontend.pages.ajax.load')
+                                                                    </section>
+
+
+{{--                                                                    {{ $reviews->links() }}--}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                @else
+                                                    @foreach($reviews as $review)
+                                                        <div class="fp__single_comment {{$loop->first ?  'm-0 border-0' : ''}}">
+
+                                                            <img src="{{asset($review->user->avatar)}}" alt="review"
+                                                                 class="img-fluid">
+                                                            <div class="fp__single_comm_text">
+                                                                <h3>{{$review->user->name}}
+                                                                    <span>{{ date('d m Y', strtotime($review->created_at)) }} </span>
+                                                                </h3>
+                                                                <span class="rating">
+
+                                                                @for($i=1; $i<=5; $i++)
+
+                                                                        @if($i <= $review->rating)
+                                                                            <i class="fas fa-star"></i>
+                                                                        @else
+                                                                            <i class="fal fa-star"></i>
+                                                                        @endif
+
+                                                                    @endfor
+
                                                         </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
-                                                    </div>
-                                                </div>
-                                                <div class="fp__single_comment">
-                                                    <img src="images/comment_img_2.png" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>Mouna Sthesia <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
-                                                        </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
-                                                    </div>
-                                                </div>
-                                                <div class="fp__single_comment">
-                                                    <img src="images/chef_3.jpg" alt="review" class="img-fluid">
-                                                    <div class="fp__single_comm_text">
-                                                        <h3>marjan janifar <span>29 oct 2022 </span></h3>
-                                                        <span class="rating">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fad fa-star-half-alt"></i>
-                                                            <i class="fal fa-star"></i>
-                                                            <b>(120)</b>
-                                                        </span>
-                                                        <p>Sure there isn't anything embarrassing hiidden in the
-                                                            middles of text. All erators on the Internet
-                                                            tend to repeat predefined chunks</p>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="load_more">load More</a>
+                                                                <p>{{$review->review}}</p>
+                                                            </div>
+                                                        </div>
+
+                                                    @endforeach
+
+
+                                                    @endif
+                                                @if(count($reviews) === 0)
+                                                    <div class="alert alert-warning mt-4">No review found!</div>
+
+                                                @endif
+
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="fp__post_review">
+                                        @auth
+                                            <div class="col-lg-4">
+                                                <div class="fp__post_review">
+                                                    <h4>write a Review</h4>
+                                                    <form action="{{ route('product-review.store') }}" method="POST">
+                                                        @csrf
+                                                        {{--      <p class="rating">
+                                                                  <span>select your rating : </span>
+                                                                  <i class="fas fa-star"></i>
+                                                                  <i class="fas fa-star"></i>
+                                                                  <i class="fas fa-star"></i>
+                                                                  <i class="fas fa-star"></i>
+                                                                  <i class="fas fa-star"></i>
+                                                              </p>--}}
+                                                        <div class="row">
+                                                            <div class="col-xl-12 mt-3">
+                                                                <label>Choose a rating</label>
+                                                                <select name="rating" id="rating_input"
+                                                                        class="form-control">
+                                                                    <option value="5">5</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="1">1</option>
+                                                                </select>
+                                                                <input type="hidden" name="product_id"
+                                                                       value="{{$product->id}}">
+                                                            </div>
+
+                                                            <div class="col-xl-12 mt-4">
+                                                                <label for="">Review</label>
+                                                                <textarea style="margin-top: 2px" rows="3" name="review"
+                                                                          placeholder="Write your review"></textarea>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <button class="common_btn" type="submit">submit
+                                                                    review
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="col-lg-4">
                                                 <h4>write a Review</h4>
-                                                <form action="{{ route('product-review.store') }}" method="POST">
-                                                    @csrf
-                                                    <p class="rating">
-                                                        <span>select your rating : </span>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </p>
-                                                    <div class="row">
-                                                        <div class="col-xl-12">
-
-                                                            <select name="rating" id="rating_input"
-                                                                    class="form-control mt-3">
-                                                                <option value="5">5</option>
-                                                                <option value="4">4</option>
-                                                                <option value="3">3</option>
-                                                                <option value="2">2</option>
-                                                                <option value="1">1</option>
-                                                            </select>
-                                                            <input type="hidden" name="product_id"
-                                                                   value="{{$product->id}}">
-                                                        </div>
-                                                        <div class="col-xl-12">
-                                                            <textarea rows="3" name="review"
-                                                                      placeholder="Write your review"></textarea>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <button class="common_btn" type="submit">submit
-                                                                review
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                <div class="alert alert-warning mt-4 shadow-sm">Please login first to
+                                                    add review.
+                                                </div>
                                             </div>
-                                        </div>
+
+                                        @endauth
                                     </div>
                                 </div>
                             </div>
@@ -527,8 +549,27 @@
                 }
                 v_updateTotalPrice();
             })
-        })
 
+
+            $(document).on('click', '#reviews-pagination .pagination a', function (e) {
+                e.preventDefault();
+
+                var url = $(this).attr('href');
+                fetchReviews(url);
+                window.history.pushState("", "", url);
+            });
+
+
+        })
+        function fetchReviews(url) {
+            $.ajax({
+                url : url
+            }).done(function (data) {
+                $('.articles').html(data);
+            }).fail(function () {
+                alert('Articles could not be loaded.');
+            });
+        }
 
         //Update the total price base on selected options
         function v_updateTotalPrice() {

@@ -18,6 +18,7 @@ use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\PrivacyPolicy;
 use App\Models\Product;
+use App\Models\ProductRating;
 use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\Slider;
@@ -214,13 +215,20 @@ class FrontendController extends Controller
     }
 
 
-    public function showProduct(string $slug): View
+    public function showProduct(Request $request , string $slug)
     {
         $product = Product::with(['gallery', 'productSizes', 'productOptions', 'category'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
 
         $relatedProducts = Product::with('category')->where('category_id', $product->category_id)->where('id', '!=', $product->id)->take(8)->latest()->get();
 
-        return view('frontend.pages.product-view', ['product' => $product, 'relatedProducts' => $relatedProducts]);
+        $reviews = ProductRating::where(['product_id' => $product->id, 'status' => 1])->paginate(10);
+
+        if ($request->ajax()) {
+            return view('frontend.pages.ajax.load', ['reviews'=>$reviews])->render();
+
+        }
+
+        return view('frontend.pages.product-view', ['product' => $product, 'relatedProducts' => $relatedProducts, 'reviews'=>$reviews]);
     }
 
 
@@ -362,6 +370,23 @@ class FrontendController extends Controller
             throw ValidationException::withMessages(['Please Buy The Product Before Submit a Review!']);
         }
 
+        //every user can write a review only once
+        $alreadyReviewed = ProductRating::where(['user_id' => $user->id, 'product_id' => $request->product_id])->exists();
+        if($alreadyReviewed){
+            throw ValidationException::withMessages(['You already reviewed this product']);
+        }
+
+        $review = new ProductRating();
+        $review->user_id = $user->id;
+        $review->product_id = $request->product_id;
+        $review->rating = $request->rating;
+        $review->review = $request->review;
+        $review->status = 0;
+        $review->save();
+
+        toastr()->success('Review added successfully and waiting to approve');
+
+        return redirect()->back();
     }
 }
 
