@@ -83,6 +83,9 @@ Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsl
 /** Custom Page Routes */
 Route::get('/page/{slug}', CustomPageController::class); //invokable controller
 
+/** Product page Route*/
+Route::get('/products', [FrontendController::class, 'products'])->name('products.index');
+
 /** Blogs Routes */
 Route::get('/blogs', [FrontendController::class, 'blog'])->name('blogs');
 Route::get('/blogs/{slug}', [FrontendController::class, 'blogDetails'])->name('blogs.details');

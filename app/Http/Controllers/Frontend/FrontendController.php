@@ -214,7 +214,6 @@ class FrontendController extends Controller
         return SectionTitle::whereIn('key', $keys)->get()->pluck('value', 'key');
     }
 
-
     public function showProduct(Request $request , string $slug)
     {
         $product = Product::with(['gallery', 'productSizes', 'productOptions', 'category'])
@@ -241,7 +240,6 @@ class FrontendController extends Controller
 
         return view('frontend.pages.product-view', ['product' => $product, 'relatedProducts' => $relatedProducts, 'reviews'=>$reviews]);
     }
-
 
     public function loadProductModal(string $productId)
     {
@@ -398,6 +396,18 @@ class FrontendController extends Controller
         toastr()->success('Review added successfully and waiting to approve');
 
         return redirect()->back();
+    }
+
+    function products() : View {
+        $products = Product::where(['status' => 1])
+            ->orderBy('id', 'DESC')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->paginate(12);
+
+        $categories = Category::where('status', 1)->get();
+
+        return view('frontend.pages.products', compact('products', 'categories'));
     }
 }
 

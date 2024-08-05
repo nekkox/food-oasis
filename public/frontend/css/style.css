@@ -1446,6 +1446,8 @@ button {
 }
 
 .fp__menu_item {
+
+    min-height: 440px;
     margin-top: 25px;
     position: relative;
     border-radius: 10px;
