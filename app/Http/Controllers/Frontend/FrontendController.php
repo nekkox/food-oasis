@@ -398,13 +398,28 @@ class FrontendController extends Controller
         return redirect()->back();
     }
 
-    function products() : View {
-        $products = Product::where(['status' => 1])
+    function products(Request $request) : View {
+/*        $products = Product::where(['status' => 1])
             ->orderBy('id', 'DESC')
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
-            ->paginate(12);
+            ->paginate(12);*/
+        $products = Product::where(['status' => 1])->orderBy('id', 'DESC');
 
+        if($request->has('search') && $request->filled('search')) {
+            $products->where(function($query) use ($request) {
+                $query->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('long_description', 'like', '%'.$request->search.'%');
+            });
+        }
+
+        if($request->has('category') && $request->filled('category')) {
+            $products->whereHas('category', function($query) use ($request){
+                $query->where('slug', $request->category);
+            });
+        }
+
+        $products = $products->withAvg('reviews', 'rating')->withCount('reviews')->paginate(12);
         $categories = Category::where('status', 1)->get();
 
         return view('frontend.pages.products', compact('products', 'categories'));
