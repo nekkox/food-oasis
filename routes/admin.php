@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductOptionController;
+use App\Http\Controllers\Admin\ProductReviewController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReservationController;
@@ -74,6 +75,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /*Product Option Routes*/
     Route::resources(['product-option' => ProductOptionController::class]);
+
+    /** Product Reviews Routes */
+    Route::get('product-reviews', [ProductReviewController::class, 'index'])->name('product-reviews.index');
 
     /*Coupon Routes*/
     Route::resources(['coupon' => CouponController::class]);
