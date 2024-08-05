@@ -6937,3 +6937,8 @@ CHECKOUT PAGE START
     font-size: 16px;
     font-weight: 300;
 }
+
+.custom-tooltip {
+    --bs-tooltip-bg: red;
+    --bs-tooltip-color: var(--bs-white);
+}

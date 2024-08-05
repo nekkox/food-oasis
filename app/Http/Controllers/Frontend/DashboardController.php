@@ -8,6 +8,7 @@ use App\Http\Requests\Frontend\AddressUpdateRequest;
 use App\Models\Address;
 use App\Models\DeliveryArea;
 use App\Models\Order;
+use App\Models\ProductRating;
 use App\Models\Reservation;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -15,19 +16,27 @@ use Illuminate\Validation\ValidationException;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(Request $request)
     {
         $deliveryAreas = DeliveryArea::where('status', 1)->get();
         $userAddresses = Address::where('user_id', auth()->user()->id)->get();
         $orders = Order::where('user_id', auth()->user()->id)->get();
         $reservations = Reservation::where('user_id', auth()->user()->id)->get();
 
+        $reviews = ProductRating::where('user_id', auth()->user()->id)->paginate(10);
+
+        if ($request->ajax()) {
+            return view('frontend.pages.ajax.user-review', ['reviews'=>$reviews])->render();
+
+        }
+
         return view('frontend.dashboard.index',
             [
                 'deliveryAreas' => $deliveryAreas,
                 'userAddresses' => $userAddresses,
                 'orders' => $orders,
-                'reservations' => $reservations
+                'reservations' => $reservations,
+                'reviews'=>$reviews
             ]);
     }
 
