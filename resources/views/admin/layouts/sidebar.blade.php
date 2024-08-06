@@ -100,10 +100,10 @@
                     <li><a class="nav-link" href="{{ route('admin.payment-setting.index') }}">Payment Gateways</a></li>
                 </ul>
             </li>
-
+            @if (auth()->user()->id === 1)
             <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i>
                     <span>Messages</span></a></li>
-
+            @endif
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Blog</span></a>
