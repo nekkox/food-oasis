@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\AdminManagementDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminManagementController extends Controller
@@ -22,7 +23,7 @@ class AdminManagementController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.admin-management.create');
     }
 
     /**
@@ -30,7 +31,25 @@ class AdminManagementController extends Controller
      */
     public function store(Request $request)
     {
+
         //
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'role' => ['required', 'in:admin'],
+            'password' => ['required', 'confirmed', 'min:5']
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        //toastr()->success('Created Successfully');
+
+        return to_route('admin.admin-management.index')->with('created', true);
     }
 
     /**
