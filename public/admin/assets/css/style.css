@@ -2809,3 +2809,8 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 /*# sourceMappingURL=style.css.map */
+@media screen and (min-width: 768px) {
+    .custom-mr{
+        margin-right: 3px;
+    }
+}

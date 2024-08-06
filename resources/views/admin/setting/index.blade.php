@@ -27,6 +27,10 @@
                                 <a class="nav-link" id="contact-tab4" data-toggle="tab" href="#mail-setting" role="tab"
                                    aria-controls="contact" aria-selected="false">Mail</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="logo-tab4" data-toggle="tab" href="#logo-setting" role="tab"
+                                   aria-controls="logo" aria-selected="false">Logo</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-12 col-sm-12 col-md-10">
@@ -35,6 +39,7 @@
                            @include('admin.setting.sections.general-setting')
                             @include('admin.setting.sections.pusher-setting')
                             @include('admin.setting.sections.mail-setting')
+                            @include('admin.setting.sections.logo-setting')
                         </div>
                     </div>
                 </div>
