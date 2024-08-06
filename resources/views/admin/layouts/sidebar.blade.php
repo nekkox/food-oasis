@@ -66,6 +66,9 @@
 
             <li><a class="nav-link" href="{{route('admin.slider.index')}}"><i class="far fa-square"></i>
                     <span>Slider</span></a></li>
+            <li><a class="nav-link" href="{{route('admin.admin-management.index')}}"><i class="far fa-square"></i>
+                    <span>Admin Management</span></a></li>
+
 
 
             <li class="dropdown">
