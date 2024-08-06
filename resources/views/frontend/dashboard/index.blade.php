@@ -62,10 +62,11 @@
                                             class="fas fa-bags-shopping"></i></span> Reservations
                                 </button>
 
-                                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
-                                        data-bs-target="#v-pills-profile" type="button" role="tab"
-                                        aria-controls="v-pills-profile" aria-selected="false"><span><i
-                                            class="fas fa-bags-shopping"></i></span> Order
+                                <button class="nav-link" id="v-pills-order-tab" data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-order" type="button" role="tab"
+                                        aria-controls="v-pills-order aria-selected=" false
+                                "><span><i
+                                        class="fas fa-bags-shopping"></i></span> Order
                                 </button>
 
                                 <button class="nav-link fp_chat_message" id="v-pills-settings-tab" data-bs-toggle="pill"
@@ -77,27 +78,26 @@
                                     @endphp
 
 
-                                        <b class="unseen-message-count">{{$unseenMessages}}</b>
-
+                                    <b class="unseen-message-count">{{$unseenMessages}}</b>
 
 
                                 </button>
 
-                                <button class="nav-link" id="v-pills-messages-tab2" data-bs-toggle="pill"
-                                        data-bs-target="#v-pills-messages2" type="button" role="tab"
-                                        aria-controls="v-pills-messages2" aria-selected="false"><span><i
+                                <button class="nav-link" id="v-pills-wishlist-tab" data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-wishlist" type="button" role="tab"
+                                        aria-controls="v-pills-wishlist" aria-selected="false"><span><i
                                             class="far fa-heart"></i></span> wishlist
                                 </button>
 
-                                <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                                        data-bs-target="#v-pills-messages" type="button" role="tab"
-                                        aria-controls="v-pills-messages" aria-selected="false"><span><i
+                                <button class="nav-link" id="v-pills-reviews-tab" data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-reviews" type="button" role="tab"
+                                        aria-controls="v-pills-reviews" aria-selected="false"><span><i
                                             class="fas fa-star"></i></span> Reviews
                                 </button>
 
-                                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
-                                        data-bs-target="#v-pills-settings" type="button" role="tab"
-                                        aria-controls="v-pills-settings" aria-selected="false"><span><i
+                                <button class="nav-link" id="v-pills-password-tab" data-bs-toggle="pill"
+                                        data-bs-target="#v-pills-password" type="button" role="tab"
+                                        aria-controls="v-pills-password" aria-selected="false"><span><i
                                             class="fas fa-user-lock"></i></span> Change Password
                                 </button>
 
@@ -134,7 +134,7 @@
 
                                 @include('frontend.dashboard.sections.review-section')
 
-                                @include('frontend.dashboard.change-password')
+                                @include('frontend.dashboard.sections.change-password')
 
                             </div>
                         </div>

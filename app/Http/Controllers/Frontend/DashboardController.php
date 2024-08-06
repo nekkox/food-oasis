@@ -10,6 +10,7 @@ use App\Models\DeliveryArea;
 use App\Models\Order;
 use App\Models\ProductRating;
 use App\Models\Reservation;
+use App\Models\Wishlist;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -24,6 +25,7 @@ class DashboardController extends Controller
         $reservations = Reservation::where('user_id', auth()->user()->id)->get();
 
         $reviews = ProductRating::where('user_id', auth()->user()->id)->paginate(10);
+        $wishlist = Wishlist::where('user_id', auth()->user()->id)->latest()->get();
 
         if ($request->ajax()) {
             return view('frontend.pages.ajax.user-review', ['reviews'=>$reviews])->render();
@@ -36,7 +38,8 @@ class DashboardController extends Controller
                 'userAddresses' => $userAddresses,
                 'orders' => $orders,
                 'reservations' => $reservations,
-                'reviews'=>$reviews
+                'reviews'=>$reviews,
+                'wishlist'=>$wishlist
             ]);
     }
 

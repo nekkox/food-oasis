@@ -1,5 +1,5 @@
-<div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-     aria-labelledby="v-pills-profile-tab">
+<div class="tab-pane fade" id="v-pills-order" role="tabpanel"
+     aria-labelledby="v-pills-order-tab">
     <div class="fp_dashboard_body">
         <h3>order list</h3>
         <div class="fp_dashboard_order">
