@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
+use App\Http\Controllers\Admin\ClearDatabaseController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\CouponController;
@@ -206,6 +207,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Admin management Routes */
     Route::resource('admin-management', AdminManagementController::class);
+
+    /** Clear Database Routes */
+    Route::get('/clear-database', [ClearDatabaseController::class, 'index'])->name('clear-database.index');
+    Route::post('/clear-database', [ClearDatabaseController::class, 'clearDB'])->name('clear-database.destroy');
 });
 
 /*
