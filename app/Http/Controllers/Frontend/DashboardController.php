@@ -26,6 +26,13 @@ class DashboardController extends Controller
 
         $reviews = ProductRating::where('user_id', auth()->user()->id)->paginate(10);
         $wishlist = Wishlist::where('user_id', auth()->user()->id)->latest()->get();
+        $userOrders = [
+            'totalOrders' => Order::where('user_id', auth()->user()->id)->count(),
+            'completed' => Order::where('user_id', auth()->user()->id)->where('order_status', 'delivered')->count(),
+            'canceled' => Order::where('user_id', auth()->user()->id)->where('order_status', 'declined')->count()
+
+
+        ];
 
         if ($request->ajax()) {
             return view('frontend.pages.ajax.user-review', ['reviews'=>$reviews])->render();
@@ -39,7 +46,8 @@ class DashboardController extends Controller
                 'orders' => $orders,
                 'reservations' => $reservations,
                 'reviews'=>$reviews,
-                'wishlist'=>$wishlist
+                'wishlist'=>$wishlist,
+                'userOrders'=>$userOrders
             ]);
     }
 
