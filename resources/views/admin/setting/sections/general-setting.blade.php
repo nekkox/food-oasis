@@ -10,6 +10,21 @@
                     <input type="text" class="form-control" name="site_name" id="site_name"
                            value="{{config('settings.site_name')}}">
                 </div>
+
+
+                <div class="row ">
+                    <div class="col-md-6 form-group">
+                        <label for="site_name">Email</label>
+                        <input type="text" class="form-control" name="site_email" id="site_email"
+                               value="{{config('settings.site_email')}}">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="site_name">Phone</label>
+                        <input type="text" class="form-control" name="site_phone" id="site_phone"
+                               value="{{config('settings.site_phone')}}">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="site_default_currency">Default Currency</label>
                     <select name="site_default_currency" id="site_default_currency"

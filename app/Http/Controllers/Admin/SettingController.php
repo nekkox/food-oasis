@@ -29,6 +29,8 @@ class SettingController extends Controller
             'site_default_currency' => ['required', 'max:4'],
             'site_currency_icon' => ['required', 'max:4'],
             'site_currency_icon_position' => ['required', 'max:255'],
+            'site_email' => ['nullable', 'email'],
+            'site_phone' => ['nullable', 'regex:/^\d{3}-\d{3}-\d{4}$/'],
         ]);
 
 

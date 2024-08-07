@@ -4,13 +4,13 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{asset('frontend/images/counter_bg.jpg')}});">
+    <section class="fp__breadcrumb" style="background: url({{asset(config('settings.breadcrumb'))}});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
                     <h1>Our Latest Food Blogs</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{route('home')}}">home</a></li>
                         <li><a href="#">blogs</a></li>
                     </ul>
                 </div>
