@@ -31,6 +31,11 @@
                                 <a class="nav-link" id="logo-tab4" data-toggle="tab" href="#logo-setting" role="tab"
                                    aria-controls="logo" aria-selected="false">Logo</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="home-tab4" data-toggle="tab" href="#appearance-setting" role="tab"
+                                   aria-controls="home" aria-selected="true">Appearance Settings</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-12 col-sm-12 col-md-10">
@@ -40,6 +45,7 @@
                             @include('admin.setting.sections.pusher-setting')
                             @include('admin.setting.sections.mail-setting')
                             @include('admin.setting.sections.logo-setting')
+                            @include('admin.setting.sections.appearance-setting')
                         </div>
                     </div>
                 </div>

@@ -93,8 +93,7 @@ class SettingController extends Controller
         ]);
 
 
-
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
             Setting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value]
@@ -108,7 +107,8 @@ class SettingController extends Controller
         return redirect()->back()->with('updated', true);
     }
 
-    function UpdateLogoSetting(Request $request) : RedirectResponse {
+    function UpdateLogoSetting(Request $request): RedirectResponse
+    {
         $validatedData = $request->validate([
             'logo' => ['nullable', 'image', 'max:1000'],
             'footer_logo' => ['nullable', 'image', 'max:1000'],
@@ -116,11 +116,11 @@ class SettingController extends Controller
             'breadcrumb' => ['nullable', 'image', 'max:1000'],
         ]);
 
-        foreach($validatedData as $key => $value){
+        foreach ($validatedData as $key => $value) {
             $imagePatch = $this->uploadImage($request, $key);
-            if(!empty($imagePatch)){
+            if (!empty($imagePatch)) {
 
-                $oldPath = config('settings.'.$key);
+                $oldPath = config('settings.' . $key);
                 $this->removeImage($oldPath);
 
                 Setting::updateOrCreate(
@@ -128,6 +128,29 @@ class SettingController extends Controller
                     ['value' => $imagePatch]
                 );
             }
+        }
+
+        $settingsService = app(SettingsService::class);
+        $settingsService->clearCachedSettings();
+        Cache::forget('mail_settings');
+
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
+    }
+
+
+    public function UpdateAppearanceSetting(Request $request): RedirectResponse
+    {
+        $validatedData = $request->validate([
+            'site_color' => ['required']
+        ]);
+
+        foreach ($validatedData as $key => $value) {
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
         }
 
         $settingsService = app(SettingsService::class);
