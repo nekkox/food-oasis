@@ -94,7 +94,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::put('/mail-setting', [SettingController::class, 'UpdateMailSetting'])->name('mail-setting.update');
     Route::put('/logo-setting', [SettingController::class, 'UpdateLogoSetting'])->name('logo-setting.update');
     Route::put('/appearance-setting', [SettingController::class, 'UpdateAppearanceSetting'])->name('appearance-setting.update');
-
+    Route::put('/seo-setting', [SettingController::class, 'UpdateSeoSetting'])->name('seo-setting.update');
 
     /** Delivery Area Routes */
     Route::resource('delivery-area', DeliveryAreaController::class);
