@@ -28,6 +28,9 @@ class BlogUpdateRequest extends FormRequest
             'title' => ['required', 'max:255', 'unique:blogs,title,'. $id],
             'category' => ['required'],
             'description' => ['required'],
+            'quot_description' => ['nullable'],
+            'quot_author' => ['nullable', 'max:255'],
+            'quot_details' => ['nullable', 'max:255'],
             'seo_title' => ['max:255'],
             'seo_description' => ['max:255'],
             'status' => ['required', 'boolean']

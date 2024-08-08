@@ -190,8 +190,8 @@ class FrontendController extends Controller
         $previousBlog = Blog::select('id', 'title', 'slug', 'image')->where('id', '<', $blog->id)->orderBy('id', 'DESC')->first();
 
         $comments = $blog->comments()->where('status', 1)->orderBy('id', 'DESC')->paginate(20);
-
-        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories, 'nextBlog' => $nextBlog, 'previousBlog' => $previousBlog, 'comments' => $comments]);
+        $gallery = $blog->gallery;
+        return view('frontend.pages.blog-details', ['blog' => $blog, 'latestBlogs' => $latestBlogs, 'categories' => $categories, 'nextBlog' => $nextBlog, 'previousBlog' => $previousBlog, 'comments' => $comments, 'gallery'=>$gallery]);
     }
 
     public function getSectionTitles(): Collection

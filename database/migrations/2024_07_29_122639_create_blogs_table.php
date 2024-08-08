@@ -19,9 +19,16 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description');
+            $table->text('quot_description')->nullable();
+            $table->string('quot_author')->nullable();
+            $table->string('quot_details')->nullable();
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();
             $table->boolean('status');
+
+
+
+
             $table->timestamps();
         });
     }

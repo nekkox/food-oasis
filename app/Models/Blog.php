@@ -26,4 +26,9 @@ class Blog extends Model
         return $this->hasMany(BlogComment::class, 'blog_id', 'id');
     }
 
+    public function gallery(): HasMany
+    {
+       return $this->hasMany(BlogImages::class);
+    }
+
 }

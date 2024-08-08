@@ -28,7 +28,8 @@ class BlogCreateRequest extends FormRequest
             'description' => ['required'],
             'seo_title' => ['max:255'],
             'seo_description' => ['max:255'],
-            'status' => ['required', 'boolean']
+            'status' => ['required', 'boolean'],
+            'additional_images.*' => ['image:jpeg,png,jpg,gif']
         ];
     }
 }

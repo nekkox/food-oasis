@@ -4,7 +4,8 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{asset(config('settings.breadcrumb'))}});">
+    <section class="fp__breadcrumb" style="background:
+    url({{asset('uploads/default_images/blog/blog_bg_1.jpg')}});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -36,7 +37,8 @@
                         <div class="fp__blog_details_text wow fadeInUp" data-wow-duration="1s">
                             <ul class="details_bloger d-flex flex-wrap">
                                 <li><i class="far fa-user"></i> By {{ $blog->user->name }}</li>
-                                <li><a href="#comments"><i class="far fa-comment-alt-lines"></i> {{ count($comments) }} Comments</a></li>
+                                <li><a href="#comments"><i class="far fa-comment-alt-lines"></i> {{ count($comments) }}
+                                        Comments</a></li>
 
                                 <li>
                                     <i class="far fa-calendar-alt"></i> {{ date('d m Y', strtotime($blog->created_at)) }}
@@ -45,6 +47,52 @@
                             <h2>{!! $blog->title !!}</h2>
 
                             {!! $blog->description !!}
+
+                            @if($blog->quot_description)
+                                <div class="fp__blog_quot_text">
+                                <span class="left_icon">
+                                    <img src="{{asset('frontend/images/quot.png')}}" alt="quot" class="img-fluid w-100">
+                                </span>
+                                    <p>{{ $blog->quot_description }}
+                                        <span><img src="{{asset('frontend/images/quot.png')}}" alt="quot"
+                                                   class="img-fluid w-100"></span>
+                                    </p>
+                                    <h4>{{ $blog->quot_author }} <span>{{ $blog->quot_details }}</span></h4>
+                                </div>
+                            @endif
+
+
+                            <div class="fp__blog_det_slider">
+                                <div class="row blog_det_slider">
+
+                                    @foreach($gallery as $image)
+                                        <div class="col-xl-6">
+                                            <div class="fp__blog_det_slider_item">
+                                                <img src="{{asset($image->image_path)}}" alt="blog details"
+                                                     class="img-fluid w-100">
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+
+                                </div>
+                            </div>
+
+                            <h3>Creative approach to every project</h3>
+                            <p>Sure there isn't anything embarrassing hidden in the middle of text. All the Lorem our
+                                asIpsum gen erators on the Internet tend to repeat predefined chunks as the as
+                                necessliary, making this the first
+                                true generator on the Internet. It uses a dictionary of over 200 our asliatin words,
+                                combined with a
+                                handful of model sentence structures</p>
+
+                            <ul class="blog_details_list">
+                                <li>It is a long established fact that a reader will be</li>
+                                <li>There are many variations of passages</li>
+                                <li>All the Lorem Ipsum generators</li>
+                                <li>Asearch for 'lorem ipsum' will uncover many</li>
+                            </ul>
+
 
                             <div class="blog_tags_share d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="tags d-flex flex-wrap align-items-center">
@@ -73,7 +121,8 @@
                         @if($previousBlog)
                             <li class="previous-blog">
                                 <a href="{{ route('blogs.details', $previousBlog->slug) }}">
-                                    <img src="{{ asset($previousBlog->image) }}" alt="button img" class="img-fluid w-100">
+                                    <img src="{{ asset($previousBlog->image) }}" alt="button img"
+                                         class="img-fluid w-100">
                                     <p>{{ truncate($previousBlog->title,40) }}
                                         <span><i class="far fa-long-arrow-left"></i> Previous</span>
                                     </p>
@@ -103,7 +152,8 @@
                             <div class="fp__single_comment m-0 border-0">
                                 <img src="{{ asset($comment->author->avatar) }}" alt="review" class="img-fluid">
                                 <div class="fp__single_comm_text">
-                                    <h3>{{ $comment->author->name }}  <span>{{ date('d M Y', strtotime($comment->created_at)) }} </span></h3>
+                                    <h3>{{ $comment->author->name }}
+                                        <span>{{ date('d M Y', strtotime($comment->created_at)) }} </span></h3>
                                     <p>{{ $comment->comment }}</p>
                                     <a href="#">Reply <i class="fas fa-reply-all"></i></a>
                                 </div>
@@ -135,7 +185,7 @@
                                     <label>comment *</label>
                                     <div class="fp__contact_form_input textarea">
                                         <span><i class="fal fa-user-alt"></i></span>
-                                        <textarea rows="5" placeholder="Your Comment"  name="comment"></textarea>
+                                        <textarea rows="5" placeholder="Your Comment" name="comment"></textarea>
                                     </div>
                                     <button type="submit" class="common_btn mt_20">Submit comment</button>
                                 </div>
@@ -147,7 +197,7 @@
                     <div id="sticky_sidebar">
                         <div class="fp__blog_search blog_sidebar m-0 wow fadeInUp" data-wow-duration="1s">
                             <h3>Search</h3>
-                            <form  action="{{ route('blogs') }}">
+                            <form action="{{ route('blogs') }}">
                                 <input type="text" placeholder="Search" name="search">
                                 <button type="submit"><i class="fas fa-search"></i></button>
                             </form>
@@ -175,7 +225,9 @@
                             <h3>Categories</h3>
                             <ul>
                                 @foreach ($categories as $category)
-                                    <li><a href="{{ route('blogs', ['category' => $category->slug]) }}">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
+                                    <li>
+                                        <a href="{{ route('blogs', ['category' => $category->slug]) }}">{{ $category->name }}
+                                            <span>{{ $category->blogs_count }}</span></a></li>
                                 @endforeach
                             </ul>
                         </div>
