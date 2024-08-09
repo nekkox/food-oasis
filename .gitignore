@@ -8,6 +8,7 @@
 .env
 .env.backup
 .env.production
+.env.example
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -22,3 +23,14 @@ yarn-error.log
 /resources/views/frontend-template
 /public/vendor/flasher
 /public/uploads
+*.log
+*.env.local
+*.env.*.local
+coverage/
+*.DS_Store
+.idea/
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+/bootstrap/cache
